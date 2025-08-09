@@ -8,14 +8,12 @@
 </head>
 <body>
 
-  <!-- Navbar -->
   <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand fw-bold" href="#">ITE311</a>
+      <a class="navbar-brand fw-bold" href="#">Home</a>
     </div>
   </nav>
 
-  <!-- Main Content -->
   <div class="container text-center mt-5">
     <?= $content ?>
   </div>
