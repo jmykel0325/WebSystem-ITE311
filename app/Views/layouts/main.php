@@ -7,7 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<?php $isLoggedIn = session('isLoggedIn') ?? false; ?>
+<?php $isLoggedIn = session('isLoggedIn') ?? false; $role = session('role') ?? null; ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
@@ -20,6 +20,17 @@
         <li class="nav-item"><a class="nav-link <?= url_is('contact')?'active':'' ?>" href="<?= site_url('contact') ?>">Contact</a></li>
         <?php if ($isLoggedIn): ?>
           <li class="nav-item"><a class="nav-link <?= url_is('dashboard')?'active':'' ?>" href="<?= site_url('dashboard') ?>">Dashboard</a></li>
+
+          <?php if ($role === 'admin'): ?>
+            <li class="nav-item"><a class="nav-link" href="#">Users</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Courses</a></li>
+          <?php elseif ($role === 'teacher'): ?>
+            <li class="nav-item"><a class="nav-link" href="#">My Courses</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Quizzes</a></li>
+          <?php elseif ($role === 'student'): ?>
+            <li class="nav-item"><a class="nav-link" href="#">My Enrollments</a></li>
+          <?php endif; ?>
+
           <li class="nav-item"><a class="nav-link" href="<?= site_url('logout') ?>">Logout</a></li>
         <?php else: ?>
           <li class="nav-item"><a class="nav-link <?= url_is('register')?'active':'' ?>" href="<?= site_url('register') ?>">Register</a></li>

@@ -81,7 +81,7 @@ class Auth extends BaseController
                 'user_id'    => $user['id'],
                 'name'       => $user['name'],
                 'email'      => $user['email'],
-                'role'       => $user['role'],
+                'role'       => $user['role'] ?? 'student',
                 'isLoggedIn' => true,
             ]);
 
@@ -96,16 +96,55 @@ class Auth extends BaseController
         return view('auth/login', $data);
     }
 
+    private function requireLogin(): bool
+    {
+        if (! session()->get('isLoggedIn')) {
+            session()->set('redirect_url', current_url());
+            return false;
+        }
+        return true;
+    }
+
     public function dashboard()
     {
         log_message('debug','Dashboard accessed, isLoggedIn: {s}', ['s'=>session()->get('isLoggedIn') ? 'true' : 'false']);
-        if (! session()->get('isLoggedIn')) {
-            session()->set('redirect_url', current_url());
+        if (! $this->requireLogin()) {
             log_message('debug','Dashboard guard: not logged in, back to login');
             return redirect()->to(site_url('login'))->with('error','Please log in first.');
         }
-        log_message('debug','Dashboard rendering for user: {n}', ['n'=>session()->get('name')]);
-        $data = ['title' => 'Dashboard'];
+
+        $role = session('role') ?? 'student';
+        $db   = \Config\Database::connect();
+
+        $data = ['title' => 'Dashboard', 'role' => $role];
+
+        $count = function(string $table) use ($db): int {
+            try {
+                if (method_exists($db, 'tableExists') && ! $db->tableExists($table)) return 0;
+                return (int) $db->table($table)->countAllResults();
+            } catch (\Throwable $e) {
+                return 0;
+            }
+        };
+
+        if ($role === 'admin') {
+            $data['stats'] = [
+                'users'   => $count('users'),
+                'courses' => $count('courses'),
+                'lessons' => $count('lessons'),
+            ];
+        } elseif ($role === 'teacher') {
+            $data['stats'] = [
+                'my_courses' => $count('courses'),
+                'quizzes'    => $count('quizzes'),
+            ];
+        } else {
+            $data['stats'] = [
+                'enrolled' => $count('enrollments'),
+                'quizzes'  => $count('quizzes'),
+            ];
+        }
+
         return view('auth/dashboard', $data);
     }
 
