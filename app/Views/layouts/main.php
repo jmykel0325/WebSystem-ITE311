@@ -22,13 +22,15 @@
           <li class="nav-item"><a class="nav-link <?= url_is('dashboard')?'active':'' ?>" href="<?= site_url('dashboard') ?>">Dashboard</a></li>
 
           <?php if ($role === 'admin'): ?>
+            <li class="nav-item"><a class="nav-link <?= url_is('admin/dashboard')?'active':'' ?>" href="<?= site_url('admin/dashboard') ?>">Admin</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Users</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Courses</a></li>
           <?php elseif ($role === 'teacher'): ?>
-            <li class="nav-item"><a class="nav-link" href="#">My Courses</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Quizzes</a></li>
+            <li class="nav-item"><a class="nav-link <?= url_is('teacher/courses')?'active':'' ?>" href="<?= site_url('teacher/courses') ?>">My Courses</a></li>
+            <li class="nav-item"><a class="nav-link <?= url_is('teacher/quizzes')?'active':'' ?>" href="<?= site_url('teacher/quizzes') ?>">Quizzes</a></li>
           <?php elseif ($role === 'student'): ?>
-            <li class="nav-item"><a class="nav-link" href="#">My Enrollments</a></li>
+            <li class="nav-item"><a class="nav-link <?= url_is('student/enrollments')?'active':'' ?>" href="<?= site_url('student/enrollments') ?>">My Enrollments</a></li>
+            <li class="nav-item"><a class="nav-link <?= url_is('student/grades')?'active':'' ?>" href="<?= site_url('student/grades') ?>">Grades</a></li>
           <?php endif; ?>
 
           <li class="nav-item"><a class="nav-link" href="<?= site_url('logout') ?>">Logout</a></li>

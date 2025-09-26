@@ -22,7 +22,8 @@
       <div class="card h-100">
         <div class="card-header">Admin Actions</div>
         <div class="card-body d-grid gap-2">
-          <a class="btn btn-primary" href="#">Manage Users</a>
+          <a class="btn btn-primary" href="<?= site_url('admin/dashboard') ?>">Admin Dashboard</a>
+          <a class="btn btn-outline-secondary" href="#">Manage Users</a>
           <a class="btn btn-outline-secondary" href="#">Manage Courses</a>
           <a class="btn btn-outline-secondary" href="#">Site Settings</a>
         </div>
@@ -45,8 +46,8 @@
       <div class="card h-100">
         <div class="card-header">Teacher Shortcuts</div>
         <div class="card-body d-grid gap-2">
-          <a class="btn btn-primary" href="#">Create Course</a>
-          <a class="btn btn-outline-secondary" href="#">Create Quiz</a>
+          <a class="btn btn-primary" href="<?= site_url('teacher/courses') ?>">My Courses</a>
+          <a class="btn btn-outline-secondary" href="<?= site_url('teacher/quizzes') ?>">My Quizzes</a>
           <a class="btn btn-outline-secondary" href="#">Grade Submissions</a>
         </div>
       </div>
@@ -68,8 +69,8 @@
       <div class="card h-100">
         <div class="card-header">Student Shortcuts</div>
         <div class="card-body d-grid gap-2">
-          <a class="btn btn-primary" href="#">Browse Courses</a>
-          <a class="btn btn-outline-secondary" href="#">View Grades</a>
+          <a class="btn btn-primary" href="<?= site_url('student/enrollments') ?>">My Enrollments</a>
+          <a class="btn btn-outline-secondary" href="<?= site_url('student/grades') ?>">View Grades</a>
           <a class="btn btn-outline-secondary" href="#">Upcoming Deadlines</a>
         </div>
       </div>
