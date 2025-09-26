@@ -1,0 +1,20 @@
+ERROR - 2025-09-26 12:05:02 --> Register validation failed: 	<div class="errors" role="alert">
+		<ul>
+					<li>The name field is required.</li>
+					<li>The password_confirm field does not match the password field.</li>
+				</ul>
+	</div>
+
+ERROR - 2025-09-26 12:05:15 --> Register validation failed: 	<div class="errors" role="alert">
+		<ul>
+					<li>The name field is required.</li>
+					<li>The email field must contain a unique value.</li>
+				</ul>
+	</div>
+
+ERROR - 2025-09-26 12:05:29 --> Register validation failed: 	<div class="errors" role="alert">
+		<ul>
+					<li>The name field must be at least 3 characters in length.</li>
+				</ul>
+	</div>
+

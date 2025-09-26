@@ -34,6 +34,7 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'blockIndexPhp' => \App\Filters\BlockIndexPhpFilter::class,
     ];
 
     /**
@@ -75,6 +76,7 @@ class Filters extends BaseFilters
             // 'honeypot',
             'csrf',
             // 'invalidchars',
+            'blockIndexPhp',
         ],
         'after' => [
             // 'honeypot',
