@@ -1,54 +1,116 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title><?= esc($title ?? 'ITE311') ?></title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <title><?= esc($title ?? 'ITE311 LMS') ?></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Bootstrap 5.3 + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- Theme -->
+  <link href="<?= base_url('assets/css/theme.css') ?>" rel="stylesheet">
+  <?= csrf_meta() ?>
 </head>
 <body>
-<?php $isLoggedIn = session('isLoggedIn') ?? false; $role = session('role') ?? null; ?>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" href="<?= site_url('/') ?>">ITE311</a>
-    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
-    <div id="nav" class="collapse navbar-collapse">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link <?= url_is('/')?'active':'' ?>" href="<?= site_url('/') ?>">Home</a></li>
-        <li class="nav-item"><a class="nav-link <?= url_is('about')?'active':'' ?>" href="<?= site_url('about') ?>">About</a></li>
-        <li class="nav-item"><a class="nav-link <?= url_is('contact')?'active':'' ?>" href="<?= site_url('contact') ?>">Contact</a></li>
-        <?php if ($isLoggedIn): ?>
-          <li class="nav-item"><a class="nav-link <?= url_is('dashboard')?'active':'' ?>" href="<?= site_url('dashboard') ?>">Dashboard</a></li>
+  <!-- Modern Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-modern sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="<?= site_url('/') ?>">
+        <i class="bi bi-mortarboard"></i> ITE311
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="topNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link <?= url_is('/') ? 'active' : '' ?>" href="<?= site_url('/') ?>">Home</a></li>
+          <li class="nav-item"><a class="nav-link <?= url_is('about') ? 'active' : '' ?>" href="<?= site_url('about') ?>">About</a></li>
+          <li class="nav-item"><a class="nav-link <?= url_is('contact') ? 'active' : '' ?>" href="<?= site_url('contact') ?>">Contact</a></li>
 
-          <?php if ($role === 'admin'): ?>
-            <li class="nav-item"><a class="nav-link <?= url_is('admin/dashboard')?'active':'' ?>" href="<?= site_url('admin/dashboard') ?>">Admin</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Users</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Courses</a></li>
-          <?php elseif ($role === 'teacher'): ?>
-            <li class="nav-item"><a class="nav-link <?= url_is('teacher/courses')?'active':'' ?>" href="<?= site_url('teacher/courses') ?>">My Courses</a></li>
-            <li class="nav-item"><a class="nav-link <?= url_is('teacher/quizzes')?'active':'' ?>" href="<?= site_url('teacher/quizzes') ?>">Quizzes</a></li>
-          <?php elseif ($role === 'student'): ?>
-            <li class="nav-item"><a class="nav-link <?= url_is('student/enrollments')?'active':'' ?>" href="<?= site_url('student/enrollments') ?>">My Enrollments</a></li>
-            <li class="nav-item"><a class="nav-link <?= url_is('student/grades')?'active':'' ?>" href="<?= site_url('student/grades') ?>">Grades</a></li>
+          <?php if (session('isLoggedIn')): ?>
+            <li class="nav-item"><a class="nav-link <?= url_is('dashboard') ? 'active' : '' ?>" href="<?= site_url('dashboard') ?>">Dashboard</a></li>
+
+            <?php if (session('role') === 'student'): ?>
+              <li class="nav-item"><a class="nav-link <?= url_is('student/enrollments') ? 'active' : '' ?>" href="<?= site_url('student/enrollments') ?>">My Enrollments</a></li>
+            <?php endif; ?>
+
+            <?php if (session('role') === 'teacher'): ?>
+              <li class="nav-item"><a class="nav-link <?= url_is('teacher/courses*') ? 'active' : '' ?>" href="<?= site_url('teacher/courses') ?>">My Courses</a></li>
+            <?php endif; ?>
+
+            <?php if (session('role') === 'admin'): ?>
+              <li class="nav-item"><a class="nav-link <?= url_is('admin/*') ? 'active' : '' ?>" href="<?= site_url('admin') ?>">Admin</a></li>
+            <?php endif; ?>
           <?php endif; ?>
+        </ul>
 
-          <li class="nav-item"><a class="nav-link" href="<?= site_url('logout') ?>">Logout</a></li>
-        <?php else: ?>
-          <li class="nav-item"><a class="nav-link <?= url_is('register')?'active':'' ?>" href="<?= site_url('register') ?>">Register</a></li>
-          <li class="nav-item"><a class="nav-link <?= url_is('login')?'active':'' ?>" href="<?= site_url('login') ?>">Login</a></li>
-        <?php endif; ?>
-      </ul>
+        <ul class="navbar-nav">
+          <?php if (session('isLoggedIn')): ?>
+            <li class="nav-item">
+              <span class="nav-link">Hi, <strong><?= esc(session('name')) ?></strong></span>
+            </li>
+                <li class="nav-item">
+                  <a class="logout-btn" href="<?= site_url('logout') ?>" title="Logout">
+                    <i class="bi bi-power"></i>
+                    <span>Logout</span>
+                  </a>
+                </li>
+          <?php else: ?>
+            <li class="nav-item">
+              <a class="btn btn-primary btn-sm" href="<?= site_url('login') ?>">
+                <i class="bi bi-box-arrow-in-right"></i> Login
+              </a>
+            </li>
+          <?php endif; ?>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page header slot (optional) -->
+  <?php if (isset($header)): ?>
+    <header class="py-4 bg-white border-bottom">
+      <div class="container">
+        <?= $header ?>
+      </div>
+    </header>
+  <?php endif; ?>
+
+  <!-- Main content -->
+  <main class="py-4">
+    <div class="container">
+      <?= $this->renderSection('content') ?>
+    </div>
+  </main>
+
+  <!-- Toast container -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+    <div id="appToast" class="toast toast-modern align-items-center text-bg-primary border-0" role="alert"
+         aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body" id="appToastBody">Action completed.</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
     </div>
   </div>
-</nav>
 
-<main class="container py-4">
-  <?php if(session('success')): ?><div class="alert alert-success"><?= session('success') ?></div><?php endif; ?>
-  <?php if(session('error')):   ?><div class="alert alert-danger"><?= session('error')   ?></div><?php endif; ?>
-  <?= $this->renderSection('content') ?>
-</main>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script>
+    // Fallback jQuery if CDN fails
+    if (typeof jQuery === 'undefined') {
+      document.write('<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"><\/script>');
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function showToast(message, type = 'primary') {
+      const toast = document.getElementById('appToast');
+      toast.className = 'toast toast-modern align-items-center text-bg-'+type+' border-0';
+      document.getElementById('appToastBody').innerText = message;
+      new bootstrap.Toast(toast, { delay: 2500 }).show();
+    }
+  </script>
 </body>
 </html>

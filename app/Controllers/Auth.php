@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
+use App\Models\EnrollmentModel;
 
 class Auth extends BaseController
 {
@@ -139,10 +140,22 @@ class Auth extends BaseController
                 'quizzes'    => $count('quizzes'),
             ];
         } else {
+            // For students, get actual enrolled courses and count
+            $userId = (int) session('user_id');
+            $enrollmentModel = new EnrollmentModel();
+            
+            try {
+                $enrolledCourses = $enrollmentModel->getUserEnrollments($userId);
+            } catch (\Exception $e) {
+                log_message('error', 'Error fetching enrolled courses: ' . $e->getMessage());
+                $enrolledCourses = [];
+            }
+            
             $data['stats'] = [
-                'enrolled' => $count('enrollments'),
+                'enrolled' => count($enrolledCourses),
                 'quizzes'  => $count('quizzes'),
             ];
+            $data['enrolledCourses'] = $enrolledCourses;
         }
 
         return view('auth/dashboard', $data);

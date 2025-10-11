@@ -17,20 +17,23 @@ $routes->get('dashboard', 'Auth::dashboard');
 $routes->get('logout',    'Auth::logout');
 $routes->get('debug',     'Auth::debug');
 
+// AJAX enroll endpoint
+$routes->post('course/enroll', 'Course::enroll');
+$routes->post('course/unenroll', 'Course::unenroll');
+
 // Admin
-$routes->group('admin', ['filter' => 'role:admin'], static function($routes) {
+$routes->group('admin', ['filter' => 'auth'], static function($routes) {
     $routes->get('dashboard', 'Admin\\Dashboard::index');
 });
 
 // Teacher
-$routes->group('teacher', ['filter' => 'role:teacher'], static function($routes) {
+$routes->group('teacher', ['filter' => 'auth'], static function($routes) {
     $routes->get('courses', 'Teacher\\Courses::index');
     $routes->get('quizzes', 'Teacher\\Quizzes::index');
 });
 
-// Student
-$routes->group('student', ['filter' => 'role:student'], static function($routes) {
-    $routes->get('enrollments', 'Student\\Enrollments::index');
-    $routes->post('enrollments/enroll', 'Student\\Enrollments::enroll');
+// Student pages
+$routes->group('student', ['filter' => 'auth'], static function($routes) {
+    $routes->get('enrollments', 'Student\Enrollments::index');
     $routes->get('grades', 'Student\\Grades::index');
 });
