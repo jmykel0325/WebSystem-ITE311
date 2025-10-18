@@ -30,7 +30,6 @@
           <li class="nav-item"><a class="nav-link <?= url_is('contact') ? 'active' : '' ?>" href="<?= site_url('contact') ?>">Contact</a></li>
 
           <?php if (session('isLoggedIn')): ?>
-            <li class="nav-item"><a class="nav-link <?= url_is('dashboard') ? 'active' : '' ?>" href="<?= site_url('dashboard') ?>">Dashboard</a></li>
             <li class="nav-item"><a class="nav-link <?= url_is('announcements') ? 'active' : '' ?>" href="<?= site_url('announcements') ?>">Announcements</a></li>
 
             <?php if (session('role') === 'student'): ?>
@@ -42,7 +41,7 @@
             <?php endif; ?>
 
             <?php if (session('role') === 'admin'): ?>
-              <li class="nav-item"><a class="nav-link <?= url_is('admin/*') ? 'active' : '' ?>" href="<?= site_url('admin') ?>">Admin</a></li>
+              <li class="nav-item"><a class="nav-link <?= url_is('admin/*') ? 'active' : '' ?>" href="<?= site_url('admin') ?>">Dashboard</a></li>
             <?php endif; ?>
           <?php endif; ?>
         </ul>

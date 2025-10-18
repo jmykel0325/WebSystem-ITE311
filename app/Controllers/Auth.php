@@ -94,9 +94,11 @@ class Auth extends BaseController
             } else {
                 $role = $user['role'] ?? 'student';
                 if ($role === 'admin') {
-                    $to = site_url('admin/dashboard');
+                    // Admins land on the Admin area root
+                    $to = site_url('admin');
                 } elseif ($role === 'teacher') {
-                    $to = site_url('teacher/dashboard');
+                    // Use shared /dashboard which renders the teacher view
+                    $to = site_url('dashboard');
                 } else {
                     // default students
                     $to = site_url('announcements');
@@ -127,52 +129,14 @@ class Auth extends BaseController
             log_message('debug','Dashboard guard: not logged in, back to login');
             return redirect()->to(site_url('login'))->with('error','Please log in first.');
         }
-
         $role = session('role') ?? 'student';
-        $db   = \Config\Database::connect();
-
-        $data = ['title' => 'Dashboard', 'role' => $role];
-
-        $count = function(string $table) use ($db): int {
-            try {
-                if (method_exists($db, 'tableExists') && ! $db->tableExists($table)) return 0;
-                return (int) $db->table($table)->countAllResults();
-            } catch (\Throwable $e) {
-                return 0;
-            }
-        };
-
         if ($role === 'admin') {
-            $data['stats'] = [
-                'users'   => $count('users'),
-                'courses' => $count('courses'),
-                'lessons' => $count('lessons'),
-            ];
-        } elseif ($role === 'teacher') {
-            $data['stats'] = [
-                'my_courses' => $count('courses'),
-                'quizzes'    => $count('quizzes'),
-            ];
-        } else {
-            // For students, get actual enrolled courses and count
-            $userId = (int) session('user_id');
-            $enrollmentModel = new EnrollmentModel();
-            
-            try {
-                $enrolledCourses = $enrollmentModel->getUserEnrollments($userId);
-            } catch (\Exception $e) {
-                log_message('error', 'Error fetching enrolled courses: ' . $e->getMessage());
-                $enrolledCourses = [];
-            }
-            
-            $data['stats'] = [
-                'enrolled' => count($enrolledCourses),
-                'quizzes'  => $count('quizzes'),
-            ];
-            $data['enrolledCourses'] = $enrolledCourses;
+            return redirect()->to(site_url('admin'));
         }
-
-        return view('auth/dashboard', $data);
+        if ($role === 'teacher') {
+            return redirect()->to(site_url('teacher/dashboard'));
+        }
+        return redirect()->to(site_url('announcements'));
     }
 
     public function logout()

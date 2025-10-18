@@ -47,29 +47,7 @@
     </div>
   </div>
   
-  <div class="row g-4 mt-3">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header bg-white">
-          <strong>Admin Actions</strong>
-        </div>
-        <div class="card-body d-grid gap-2">
-          <a class="btn btn-primary" href="<?= site_url('admin/dashboard') ?>">
-            <i class="bi bi-speedometer2"></i> Admin Dashboard
-          </a>
-          <a class="btn btn-outline-secondary" href="#">
-            <i class="bi bi-people"></i> Manage Users
-          </a>
-          <a class="btn btn-outline-secondary" href="#">
-            <i class="bi bi-collection"></i> Manage Courses
-          </a>
-          <a class="btn btn-outline-secondary" href="#">
-            <i class="bi bi-gear"></i> Site Settings
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+  
 
 <?php elseif ($role === 'teacher'): ?>
   <div class="row g-4">
