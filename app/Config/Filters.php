@@ -37,6 +37,7 @@ class Filters extends BaseFilters
         'blockIndexPhp' => \App\Filters\BlockIndexPhpFilter::class,
         'auth'          => \App\Filters\AuthFilter::class,
         'role'          => \App\Filters\RoleFilter::class,
+        'roleauth'      => \App\Filters\RoleAuth::class,
     ];
 
     /**

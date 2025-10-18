@@ -18,16 +18,20 @@ $routes->get('dashboard', 'Auth::dashboard');
 $routes->get('logout',    'Auth::logout');
 $routes->get('debug',     'Auth::debug');
 
+// Role dashboards (authorization enforced by RoleAuth on groups)
+$routes->get('teacher/dashboard', 'Teacher::dashboard');
+$routes->get('admin/dashboard',   'Admin::dashboard');
+
 // AJAX enroll endpoint
 $routes->post('course/enroll', 'Course::enroll');
 $routes->post('course/unenroll', 'Course::unenroll');
 
-// Admin
-$routes->group('admin', ['filter' => 'role:admin'], static function($routes) {
+// Admin (protected by RoleAuth)
+$routes->group('admin', ['filter' => 'roleauth'], static function($routes) {
     // Default admin landing (support both '' and '/')
     $routes->get('', 'Admin\\Dashboard::index');
     $routes->get('/', 'Admin\\Dashboard::index');
-    $routes->get('dashboard', 'Admin\\Dashboard::index');
+    // Note: '/admin/dashboard' is defined above with filter and simple controller
     
     // Announcements management
     $routes->get('announcements', 'Admin\\Announcements::index');
@@ -38,10 +42,11 @@ $routes->group('admin', ['filter' => 'role:admin'], static function($routes) {
     $routes->get('announcements/delete/(:num)', 'Admin\\Announcements::delete/$1');
 });
 
-// Teacher
-$routes->group('teacher', ['filter' => 'auth'], static function($routes) {
+// Teacher (protected by RoleAuth)
+$routes->group('teacher', ['filter' => 'roleauth'], static function($routes) {
     $routes->get('courses', 'Teacher\\Courses::index');
     $routes->get('quizzes', 'Teacher\\Quizzes::index');
+    $routes->get('announcements', 'Teacher\\Announcements::index');
 });
 
 // Student pages

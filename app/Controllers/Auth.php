@@ -86,10 +86,24 @@ class Auth extends BaseController
                 'isLoggedIn' => true,
             ]);
 
-            $to = session('redirect_url') ?? site_url('dashboard');
-            session()->remove('redirect_url');
-            log_message('debug','Login success for email {e}, redirecting to {r}', ['e'=>$email,'r'=>$to]);
+            // Determine redirect target based on role, unless a redirect_url was preset
+            $preset = session('redirect_url');
+            if ($preset) {
+                session()->remove('redirect_url');
+                $to = $preset;
+            } else {
+                $role = $user['role'] ?? 'student';
+                if ($role === 'admin') {
+                    $to = site_url('admin/dashboard');
+                } elseif ($role === 'teacher') {
+                    $to = site_url('teacher/dashboard');
+                } else {
+                    // default students
+                    $to = site_url('announcements');
+                }
+            }
 
+            log_message('debug','Login success for email {e}, redirecting to {r}', ['e'=>$email,'r'=>$to]);
             return redirect()->to($to)->with('success','Welcome, '.$user['name'].'!');
         }
 
