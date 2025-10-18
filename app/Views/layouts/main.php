@@ -31,6 +31,7 @@
 
           <?php if (session('isLoggedIn')): ?>
             <li class="nav-item"><a class="nav-link <?= url_is('dashboard') ? 'active' : '' ?>" href="<?= site_url('dashboard') ?>">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link <?= url_is('announcements') ? 'active' : '' ?>" href="<?= site_url('announcements') ?>">Announcements</a></li>
 
             <?php if (session('role') === 'student'): ?>
               <li class="nav-item"><a class="nav-link <?= url_is('student/enrollments') ? 'active' : '' ?>" href="<?= site_url('student/enrollments') ?>">My Enrollments</a></li>

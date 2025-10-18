@@ -6,6 +6,7 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/',        'Home::index');
 $routes->get('about',    'Home::about');
 $routes->get('contact',  'Home::contact');
+$routes->get('announcements', 'Announcement::index', ['filter' => 'auth']);
 
 $routes->get('register',  'Auth::register');
 $routes->post('register', 'Auth::register');
@@ -22,8 +23,19 @@ $routes->post('course/enroll', 'Course::enroll');
 $routes->post('course/unenroll', 'Course::unenroll');
 
 // Admin
-$routes->group('admin', ['filter' => 'auth'], static function($routes) {
+$routes->group('admin', ['filter' => 'role:admin'], static function($routes) {
+    // Default admin landing (support both '' and '/')
+    $routes->get('', 'Admin\\Dashboard::index');
+    $routes->get('/', 'Admin\\Dashboard::index');
     $routes->get('dashboard', 'Admin\\Dashboard::index');
+    
+    // Announcements management
+    $routes->get('announcements', 'Admin\\Announcements::index');
+    $routes->get('announcements/create', 'Admin\\Announcements::create');
+    $routes->post('announcements/store', 'Admin\\Announcements::store');
+    $routes->get('announcements/edit/(:num)', 'Admin\\Announcements::edit/$1');
+    $routes->post('announcements/update/(:num)', 'Admin\\Announcements::update/$1');
+    $routes->get('announcements/delete/(:num)', 'Admin\\Announcements::delete/$1');
 });
 
 // Teacher

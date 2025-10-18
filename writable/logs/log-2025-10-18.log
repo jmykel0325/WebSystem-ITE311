@@ -1,0 +1,255 @@
+CRITICAL - 2025-10-18 05:26:52 --> ErrorException: Undefined variable $announcement
+[Method: GET, Route: admin/announcements/create]
+in APPPATH\Views\admin\announcement_form.php on line 10.
+ 1 APPPATH\Views\admin\announcement_form.php(10): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $announcement', 'C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php', 10)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/announcement_form', [], true)
+ 5 APPPATH\Controllers\Admin\Announcements.php(31): view('admin/announcement_form', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Announcements->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Announcements))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-10-18 05:27:17 --> ErrorException: Undefined variable $announcement
+[Method: GET, Route: admin/announcements/create]
+in APPPATH\Views\admin\announcement_form.php on line 10.
+ 1 APPPATH\Views\admin\announcement_form.php(10): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $announcement', 'C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php', 10)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/announcement_form', [], true)
+ 5 APPPATH\Controllers\Admin\Announcements.php(31): view('admin/announcement_form', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Announcements->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Announcements))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-10-18 05:30:14 --> ErrorException: Undefined variable $announcement
+[Method: GET, Route: admin/announcements/create]
+in APPPATH\Views\admin\announcement_form.php on line 10.
+ 1 APPPATH\Views\admin\announcement_form.php(10): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $announcement', 'C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php', 10)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/announcement_form', [], true)
+ 5 APPPATH\Controllers\Admin\Announcements.php(31): view('admin/announcement_form', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Announcements->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Announcements))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-10-18 05:30:20 --> ErrorException: Undefined variable $announcement
+[Method: GET, Route: admin/announcements/create]
+in APPPATH\Views\admin\announcement_form.php on line 10.
+ 1 APPPATH\Views\admin\announcement_form.php(10): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $announcement', 'C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php', 10)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/announcement_form', [], true)
+ 5 APPPATH\Controllers\Admin\Announcements.php(31): view('admin/announcement_form', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Announcements->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Announcements))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-10-18 05:34:58 --> ErrorException: Undefined variable $announcement
+[Method: GET, Route: admin/announcements/create]
+in APPPATH\Views\admin\announcement_form.php on line 10.
+ 1 APPPATH\Views\admin\announcement_form.php(10): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $announcement', 'C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php', 10)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/announcement_form', [], true)
+ 5 APPPATH\Controllers\Admin\Announcements.php(31): view('admin/announcement_form', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Announcements->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Announcements))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-10-18 05:35:04 --> ErrorException: Undefined variable $announcement
+[Method: GET, Route: admin/announcements/create]
+in APPPATH\Views\admin\announcement_form.php on line 10.
+ 1 APPPATH\Views\admin\announcement_form.php(10): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $announcement', 'C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php', 10)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/announcement_form', [], true)
+ 5 APPPATH\Controllers\Admin\Announcements.php(31): view('admin/announcement_form', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Announcements->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Announcements))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-10-18 05:37:35 --> ErrorException: Undefined variable $announcement
+[Method: GET, Route: admin/announcements/create]
+in APPPATH\Views\admin\announcement_form.php on line 10.
+ 1 APPPATH\Views\admin\announcement_form.php(10): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $announcement', 'C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php', 10)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/announcement_form', [], true)
+ 5 APPPATH\Controllers\Admin\Announcements.php(31): view('admin/announcement_form', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Announcements->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Announcements))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-10-18 05:37:35 --> ErrorException: Undefined variable $announcement
+[Method: GET, Route: admin/announcements/create]
+in APPPATH\Views\admin\announcement_form.php on line 10.
+ 1 APPPATH\Views\admin\announcement_form.php(10): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $announcement', 'C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php', 10)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/announcement_form', [], true)
+ 5 APPPATH\Controllers\Admin\Announcements.php(31): view('admin/announcement_form', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Announcements->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Announcements))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-10-18 05:37:36 --> ErrorException: Undefined variable $announcement
+[Method: GET, Route: admin/announcements/create]
+in APPPATH\Views\admin\announcement_form.php on line 10.
+ 1 APPPATH\Views\admin\announcement_form.php(10): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $announcement', 'C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php', 10)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/announcement_form', [], true)
+ 5 APPPATH\Controllers\Admin\Announcements.php(31): view('admin/announcement_form', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Announcements->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Announcements))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-10-18 05:37:37 --> ErrorException: Undefined variable $announcement
+[Method: GET, Route: admin/announcements/create]
+in APPPATH\Views\admin\announcement_form.php on line 10.
+ 1 APPPATH\Views\admin\announcement_form.php(10): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $announcement', 'C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php', 10)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/announcement_form', [], true)
+ 5 APPPATH\Controllers\Admin\Announcements.php(31): view('admin/announcement_form', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Announcements->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Announcements))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-10-18 05:37:38 --> ErrorException: Undefined variable $announcement
+[Method: GET, Route: admin/announcements/create]
+in APPPATH\Views\admin\announcement_form.php on line 10.
+ 1 APPPATH\Views\admin\announcement_form.php(10): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $announcement', 'C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php', 10)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/announcement_form', [], true)
+ 5 APPPATH\Controllers\Admin\Announcements.php(31): view('admin/announcement_form', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Announcements->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Announcements))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-10-18 05:37:39 --> ErrorException: Undefined variable $announcement
+[Method: GET, Route: admin/announcements/create]
+in APPPATH\Views\admin\announcement_form.php on line 10.
+ 1 APPPATH\Views\admin\announcement_form.php(10): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $announcement', 'C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php', 10)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/announcement_form', [], true)
+ 5 APPPATH\Controllers\Admin\Announcements.php(31): view('admin/announcement_form', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Announcements->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Announcements))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-10-18 05:37:40 --> ErrorException: Undefined variable $announcement
+[Method: GET, Route: admin/announcements/create]
+in APPPATH\Views\admin\announcement_form.php on line 10.
+ 1 APPPATH\Views\admin\announcement_form.php(10): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $announcement', 'C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php', 10)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/announcement_form', [], true)
+ 5 APPPATH\Controllers\Admin\Announcements.php(31): view('admin/announcement_form', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Announcements->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Announcements))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-10-18 05:37:41 --> ErrorException: Undefined variable $announcement
+[Method: GET, Route: admin/announcements/create]
+in APPPATH\Views\admin\announcement_form.php on line 10.
+ 1 APPPATH\Views\admin\announcement_form.php(10): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $announcement', 'C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php', 10)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/announcement_form', [], true)
+ 5 APPPATH\Controllers\Admin\Announcements.php(31): view('admin/announcement_form', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Announcements->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Announcements))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-10-18 05:37:42 --> ErrorException: Undefined variable $announcement
+[Method: GET, Route: admin/announcements/create]
+in APPPATH\Views\admin\announcement_form.php on line 10.
+ 1 APPPATH\Views\admin\announcement_form.php(10): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $announcement', 'C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php', 10)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/announcement_form', [], true)
+ 5 APPPATH\Controllers\Admin\Announcements.php(31): view('admin/announcement_form', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Announcements->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Announcements))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-10-18 05:38:43 --> ErrorException: Undefined variable $announcement
+[Method: GET, Route: admin/announcements/create]
+in APPPATH\Views\admin\announcement_form.php on line 10.
+ 1 APPPATH\Views\admin\announcement_form.php(10): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $announcement', 'C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php', 10)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/announcement_form', [], true)
+ 5 APPPATH\Controllers\Admin\Announcements.php(31): view('admin/announcement_form', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Announcements->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Announcements))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-10-18 05:38:44 --> ErrorException: Undefined variable $announcement
+[Method: GET, Route: admin/announcements/create]
+in APPPATH\Views\admin\announcement_form.php on line 10.
+ 1 APPPATH\Views\admin\announcement_form.php(10): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $announcement', 'C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php', 10)
+ 2 SYSTEMPATH\View\View.php(226): include('C:\\xampp\\htdocs\\ITE311-CASTILLO\\app\\Views\\admin\\announcement_form.php')
+ 3 SYSTEMPATH\View\View.php(229): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1167): CodeIgniter\View\View->render('admin/announcement_form', [], true)
+ 5 APPPATH\Controllers\Admin\Announcements.php(31): view('admin/announcement_form', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Announcements->create()
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Announcements))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
