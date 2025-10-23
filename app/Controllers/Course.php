@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Models\CourseModel;
 use App\Models\EnrollmentModel;
+use App\Models\NotificationModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class Course extends BaseController
@@ -26,7 +27,7 @@ class Course extends BaseController
         }
 
         $courses = new CourseModel();
-        $course  = $courses->select('id, title, description')->find($courseId);
+        $course  = $courses->select('id, title, description, course_number')->find($courseId);
         if (! $course) {
             return $this->response->setStatusCode(ResponseInterface::HTTP_NOT_FOUND)
                 ->setJSON(['status' => 'error', 'ok' => false, 'message' => 'Course not found.']);
@@ -41,7 +42,7 @@ class Course extends BaseController
                 'ok'      => true,
                 'already' => true,
                 'message' => 'Already enrolled.',
-                'course'  => ['id' => $course['id'], 'title' => $course['title'], 'summary' => $course['description'] ?? ''],
+                'course'  => ['id' => $course['id'], 'title' => $course['title'], 'summary' => $course['description'] ?? '', 'course_number' => $course['course_number'] ?? ''],
                 'csrf'    => ['name' => csrf_token(), 'hash' => csrf_hash()],
             ]);
         }
@@ -56,11 +57,18 @@ class Course extends BaseController
             return $this->response->setJSON(['status' => 'error', 'ok' => false, 'message' => 'Could not enroll. Please try again.']);
         }
 
+        // Create notification for the student
+        $notificationModel = new NotificationModel();
+        $notificationModel->createNotification(
+            $userId,
+            'You have been enrolled in ' . $course['title']
+        );
+
         return $this->response->setJSON([
             'status'  => 'ok',
             'ok'      => true,
             'message' => 'Enrollment successful.',
-            'course'  => ['id' => $course['id'], 'title' => $course['title'], 'summary' => $course['description'] ?? ''],
+            'course'  => ['id' => $course['id'], 'title' => $course['title'], 'summary' => $course['description'] ?? '', 'course_number' => $course['course_number'] ?? ''],
             'csrf'    => ['name' => csrf_token(), 'hash' => csrf_hash()],
         ]);
     }
@@ -84,7 +92,7 @@ class Course extends BaseController
         }
 
         $courses = new CourseModel();
-        $course  = $courses->select('id, title, description')->find($courseId);
+        $course  = $courses->select('id, title, description, course_number')->find($courseId);
         if (! $course) {
             return $this->response->setStatusCode(ResponseInterface::HTTP_NOT_FOUND)
                 ->setJSON(['status' => 'error', 'ok' => false, 'message' => 'Course not found.']);
@@ -113,7 +121,7 @@ class Course extends BaseController
             'status'  => 'ok',
             'ok'      => true,
             'message' => 'Successfully unenrolled from course.',
-            'course'  => ['id' => $course['id'], 'title' => $course['title'], 'summary' => $course['description'] ?? ''],
+            'course'  => ['id' => $course['id'], 'title' => $course['title'], 'summary' => $course['description'] ?? '', 'course_number' => $course['course_number'] ?? ''],
             'csrf'    => ['name' => csrf_token(), 'hash' => csrf_hash()],
         ]);
     }

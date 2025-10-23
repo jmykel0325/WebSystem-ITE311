@@ -89,13 +89,13 @@ class Courses extends BaseController
 
         // Validation rules
         $validationRules = [
-            'course_code' => [
-                'rules' => 'required|min_length[2]|max_length[50]|is_unique[courses.course_code]',
+            'course_number' => [
+                'rules' => 'required|min_length[2]|max_length[50]|is_unique[courses.course_number]',
                 'errors' => [
-                    'required' => 'Course code is required',
-                    'min_length' => 'Course code must be at least 2 characters',
-                    'max_length' => 'Course code cannot exceed 50 characters',
-                    'is_unique' => 'This course code is already in use. Please choose a different one.'
+                    'required' => 'Course number is required',
+                    'min_length' => 'Course number must be at least 2 characters',
+                    'max_length' => 'Course number cannot exceed 50 characters',
+                    'is_unique' => 'This course number is already in use. Please choose a different one.'
                 ]
             ],
             'title' => [
@@ -129,7 +129,7 @@ class Courses extends BaseController
 
         // Prepare data
         $data = [
-            'course_code' => strtoupper(trim($this->request->getPost('course_code'))),
+            'course_number' => strtoupper(trim($this->request->getPost('course_number'))),
             'title' => $this->request->getPost('title'),
             'description' => $this->request->getPost('description'),
             'teacher_id' => $this->request->getPost('teacher_id'),
@@ -196,13 +196,13 @@ class Courses extends BaseController
 
         // Validation rules
         $validationRules = [
-            'course_code' => [
-                'rules' => 'required|min_length[2]|max_length[50]|is_unique[courses.course_code,id,' . $id . ']',
+            'course_number' => [
+                'rules' => 'required|min_length[2]|max_length[50]|is_unique[courses.course_number,id,' . $id . ']',
                 'errors' => [
-                    'required' => 'Course code is required',
-                    'min_length' => 'Course code must be at least 2 characters',
-                    'max_length' => 'Course code cannot exceed 50 characters',
-                    'is_unique' => 'This course code is already in use. Please choose a different one.'
+                    'required' => 'Course number is required',
+                    'min_length' => 'Course number must be at least 2 characters',
+                    'max_length' => 'Course number cannot exceed 50 characters',
+                    'is_unique' => 'This course number is already in use. Please choose a different one.'
                 ]
             ],
             'title' => [
@@ -236,7 +236,7 @@ class Courses extends BaseController
 
         // Prepare data
         $data = [
-            'course_code' => strtoupper(trim($this->request->getPost('course_code'))),
+            'course_number' => strtoupper(trim($this->request->getPost('course_number'))),
             'title' => $this->request->getPost('title'),
             'description' => $this->request->getPost('description'),
             'teacher_id' => $this->request->getPost('teacher_id'),

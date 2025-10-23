@@ -1,1 +1,0 @@
-__ci_last_regenerate|i:1760769189;csrf_test_name|s:32:"c1393a3375ef04cea0bf9b5373d61c78";_ci_previous_url|s:35:"http://localhost:8080/announcements";user_id|s:2:"11";name|s:11:"Student One";email|s:19:"student@example.com";role|s:7:"student";isLoggedIn|b:1;error|s:39:"Access Denied: Insufficient Permissions";__ci_vars|a:1:{s:5:"error";s:3:"old";}

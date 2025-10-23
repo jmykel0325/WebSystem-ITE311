@@ -23,6 +23,7 @@ CI_ENVIRONMENT = development
 logger.threshold = 4
 app.baseURL = 'http://localhost:8080/'
 app.indexPage = ''
+app.timezone = 'Asia/Manila'
 
 #--------------------------------------------------------------------
 # APP

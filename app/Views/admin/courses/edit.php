@@ -36,20 +36,20 @@
                 <?= form_open('admin/courses/update/' . $course['id'], ['class' => 'needs-validation', 'novalidate' => '']) ?>
                     
                     <div class="mb-3">
-                        <label for="course_code" class="form-label fw-bold">
+                        <label for="course_number" class="form-label fw-bold">
                             <i class="bi bi-hash me-2"></i>
-                            Course Code <span class="text-danger">*</span>
+                            Course Number <span class="text-danger">*</span>
                         </label>
                         <input type="text" 
                                class="form-control" 
-                               id="course_code" 
-                               name="course_code" 
-                               value="<?= old('course_code', $course['course_code'] ?? '') ?>"
+                               id="course_number" 
+                               name="course_number" 
+                               value="<?= old('course_number', $course['course_number'] ?? '') ?>"
                                required
                                placeholder="e.g., CS101, IT201, MATH301"
                                maxlength="50">
                         <div class="form-text">
-                            Enter a unique course code (e.g., CS101, IT201) - This helps students identify the course
+                            Enter a unique course number (e.g., CS101, IT201) - This helps students identify the course
                         </div>
                     </div>
 

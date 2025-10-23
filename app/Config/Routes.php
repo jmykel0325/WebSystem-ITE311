@@ -73,3 +73,8 @@ $routes->get('/materials/download/(:num)', 'Materials::download/$1');
 
 // Additional route for listing materials by course
 $routes->get('materials/list/(:num)', 'Materials::listByCourse/$1');
+
+// Notification routes
+$routes->get('/notifications', 'Notifications::get');
+$routes->post('/notifications/mark_read/(:num)', 'Notifications::mark_as_read/$1');
+$routes->delete('/notifications/delete/(:num)', 'Notifications::delete/$1');

@@ -15,6 +15,14 @@ ini_set('display_errors', '1');
 
 /*
  |--------------------------------------------------------------------------
+ | TIMEZONE
+ |--------------------------------------------------------------------------
+ | Set the default timezone for the application
+ */
+date_default_timezone_set('Asia/Manila');
+
+/*
+ |--------------------------------------------------------------------------
  | DEBUG BACKTRACES
  |--------------------------------------------------------------------------
  | If true, this constant will tell the error screens to display debug

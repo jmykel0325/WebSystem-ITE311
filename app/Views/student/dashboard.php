@@ -99,7 +99,7 @@
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-start mb-2">
                                             <span class="badge bg-primary">
-                                                <?= !empty($course['course_code']) ? esc($course['course_code']) : 'N/A' ?>
+                                                <?= !empty($course['course_number']) ? esc($course['course_number']) : 'N/A' ?>
                                             </span>
                                             <small class="text-muted">
                                                 <i class="bi bi-calendar-check"></i>

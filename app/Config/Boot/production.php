@@ -16,6 +16,14 @@ ini_set('display_errors', '0');
 
 /*
  |--------------------------------------------------------------------------
+ | TIMEZONE
+ |--------------------------------------------------------------------------
+ | Set the default timezone for the application
+ */
+date_default_timezone_set('Asia/Manila');
+
+/*
+ |--------------------------------------------------------------------------
  | DEBUG MODE
  |--------------------------------------------------------------------------
  | Debug mode is an experimental flag that can allow changes throughout

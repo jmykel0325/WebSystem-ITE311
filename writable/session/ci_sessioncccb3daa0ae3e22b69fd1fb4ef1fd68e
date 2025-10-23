@@ -1,1 +1,0 @@
-__ci_last_regenerate|i:1761239465;csrf_test_name|s:32:"75a7e757eda60a323f75d63792540162";_ci_previous_url|s:35:"http://localhost:8080/admin/courses";user_id|s:1:"9";name|s:9:"Admin One";email|s:17:"admin@example.com";role|s:5:"admin";isLoggedIn|b:1;success|s:28:"Course updated successfully!";__ci_vars|a:1:{s:7:"success";s:3:"old";}

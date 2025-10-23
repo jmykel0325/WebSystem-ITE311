@@ -8,7 +8,7 @@ class CourseModel extends Model
     protected $table = 'courses';
     protected $primaryKey = 'id';
     protected $returnType = 'array';
-    protected $allowedFields = ['course_code', 'teacher_id', 'title', 'description', 'created_at', 'updated_at'];
+    protected $allowedFields = ['course_number', 'teacher_id', 'title', 'description', 'created_at', 'updated_at'];
     protected $useTimestamps = true;
 
     /**

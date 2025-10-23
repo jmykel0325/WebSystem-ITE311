@@ -50,7 +50,7 @@
                         <table class="table table-hover align-middle">
                             <thead class="table-light">
                                 <tr>
-                                    <th>Course Code</th>
+                                    <th>Course Number</th>
                                     <th>Course Title</th>
                                     <th>Teacher</th>
                                     <th class="text-center">Materials</th>
@@ -64,7 +64,7 @@
                                     <tr>
                                         <td>
                                             <strong class="badge bg-primary">
-                                                <?= !empty($course['course_code']) ? esc($course['course_code']) : 'N/A' ?>
+                                                <?= !empty($course['course_number']) ? esc($course['course_number']) : 'N/A' ?>
                                             </strong>
                                         </td>
                                         <td>

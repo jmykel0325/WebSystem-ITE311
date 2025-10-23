@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\MaterialModel;
 use App\Models\CourseModel;
 use App\Models\EnrollmentModel;
+use App\Models\NotificationModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class Materials extends BaseController
@@ -139,6 +140,33 @@ class Materials extends BaseController
                 log_message('info', 'Insert result: ' . ($insertResult ? 'SUCCESS' : 'FAILED'));
                 
                 if ($insertResult) {
+                    // Get course information
+                    $course = null;
+                    if ($this->courseModel) {
+                        $course = $this->courseModel->find($course_id);
+                    }
+                    $courseName = $course ? $course['title'] : 'your enrolled course';
+                    
+                    // Notify all enrolled students
+                    $enrollmentModel = new EnrollmentModel();
+                    $enrolledStudents = $enrollmentModel->where('course_id', $course_id)->findAll();
+                    
+                    if (!empty($enrolledStudents)) {
+                        $notificationModel = new NotificationModel();
+                        $fileName = $file->getClientName();
+                        $materialsLink = site_url('student/materials');
+                        
+                        foreach ($enrolledStudents as $enrollment) {
+                            $notificationModel->createNotification(
+                                $enrollment['user_id'],
+                                "New material uploaded in {$courseName}: {$fileName}",
+                                $materialsLink
+                            );
+                        }
+                        
+                        log_message('info', 'Notifications sent to ' . count($enrolledStudents) . ' students');
+                    }
+                    
                     return redirect()->back()->with('success', 'Material uploaded successfully!');
                 } else {
                     // Delete uploaded file if database insert fails

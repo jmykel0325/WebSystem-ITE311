@@ -1,5 +1,9 @@
 <?php
 
+// SET TIMEZONE FIRST - BEFORE ANYTHING ELSE
+date_default_timezone_set('Asia/Manila');
+ini_set('date.timezone', 'Asia/Manila');
+
 use CodeIgniter\Boot;
 use Config\Paths;
 
@@ -22,6 +26,13 @@ if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {
 
     exit(1);
 }
+
+/*
+ *---------------------------------------------------------------
+ * SET TIMEZONE
+ *---------------------------------------------------------------
+ */
+date_default_timezone_set('Asia/Manila');
 
 /*
  *---------------------------------------------------------------

@@ -26,6 +26,14 @@ class RbacUserSeeder extends Seeder
                 'updated_at' => $now,
             ],
             [
+                'name'       => 'Teacher Two',
+                'email'      => 'teacher2@example.com',
+                'password'   => password_hash('secret1234', PASSWORD_DEFAULT),
+                'role'       => 'teacher',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
                 'name'       => 'Student One',
                 'email'      => 'student@example.com',
                 'password'   => password_hash('secret1234', PASSWORD_DEFAULT),

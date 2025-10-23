@@ -62,7 +62,12 @@
               <div class="col-12">
                 <div class="p-3 border rounded-3 d-flex justify-content-between align-items-center" data-course-id="<?= (int)$c['id'] ?>">
                   <div>
-                    <div class="fw-semibold"><?= esc($c['title']) ?></div>
+                    <div class="fw-semibold">
+                      <?= esc($c['title']) ?> 
+                      <?php if (!empty($c['course_number'])): ?>
+                        <span class="badge bg-secondary"><?= esc($c['course_number']) ?></span>
+                      <?php endif; ?>
+                    </div>
                     <small class="text-muted"><?= esc($c['description'] ?? '') ?></small>
                   </div>
                   <button type="button" class="btn btn-primary btn-sm btn-enroll" data-course-id="<?= (int)$c['id'] ?>">
@@ -218,10 +223,12 @@
             // Create a fresh available card using response data
             const title = (res.course && res.course.title) ? res.course.title : $enrolledCol.find('.fw-semibold').text();
             const desc  = (res.course && (res.course.summary || res.course.description)) ? (res.course.summary || res.course.description) : $enrolledCol.find('small.text-muted').text();
+            const courseNumber = (res.course && res.course.course_number) ? res.course.course_number : '';
+            const courseBadge = courseNumber ? ' <span class="badge bg-secondary">' + $('<div>').text(courseNumber).html() + '</span>' : '';
             const availableHtml = '<div class="col-12">\n'
               + '  <div class="p-3 border rounded-3 d-flex justify-content-between align-items-center" data-course-id="' + courseId + '">\n'
               + '    <div>\n'
-              + '      <div class="fw-semibold">' + $('<div>').text(title).html() + '</div>\n'
+              + '      <div class="fw-semibold">' + $('<div>').text(title).html() + courseBadge + '</div>\n'
               + '      <small class="text-muted">' + $('<div>').text(desc || '').html() + '</small>\n'
               + '    </div>\n'
               + '    <button type="button" class="btn btn-primary btn-sm btn-enroll" data-course-id="' + courseId + '">\n'
