@@ -117,7 +117,7 @@
             <div class="card-body">
                 <div class="row g-3">
                     <div class="col-md-6 col-lg-3">
-                        <a href="#" class="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center">
+                        <a href="<?= site_url('admin/users') ?>" class="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center">
                             <i class="bi bi-people me-2"></i>
                             Manage Users
                         </a>

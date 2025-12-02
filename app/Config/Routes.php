@@ -34,6 +34,9 @@ $routes->group('admin', ['filter' => 'roleauth'], static function($routes) {
     $routes->get('/', 'Admin\\Dashboard::index');
     // Note: '/admin/dashboard' is defined above with filter and simple controller
     
+    // Users management
+    $routes->get('users', 'Admin\\Users::index');
+    
     // Announcements management
     $routes->get('announcements', 'Admin\\Announcements::index');
     $routes->get('announcements/create', 'Admin\\Announcements::create');
