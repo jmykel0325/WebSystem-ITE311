@@ -4,7 +4,17 @@
   <h1 class="h4 mb-3">Create Quiz</h1>
 
   <?php if (session()->getFlashdata('error')): ?>
-    <div class="alert alert-danger"><?= esc(session()->getFlashdata('error')) ?></div>
+    <?php $errors = session('errors') ?? []; ?>
+    <div class="alert alert-danger">
+      <?= esc(session()->getFlashdata('error')) ?>
+      <?php if (!empty($errors)): ?>
+        <ul class="mb-0 small">
+          <?php foreach ($errors as $msg): ?>
+            <li><?= esc($msg) ?></li>
+          <?php endforeach; ?>
+        </ul>
+      <?php endif; ?>
+    </div>
   <?php endif; ?>
   <?php if (session()->getFlashdata('success')): ?>
     <div class="alert alert-success"><?= esc(session()->getFlashdata('success')) ?></div>
@@ -48,9 +58,12 @@
         </select>
         <div class="form-text">Lessons below will be filtered by the selected subject.</div>
       <?php endif; ?>
-    </div>
 
-    <?php $errors = session('errors') ?? []; ?>
+      <?php if (!empty($errors['course_id'] ?? null)): ?>
+        <div class="text-danger small"><?= esc($errors['course_id']) ?></div>
+      <?php endif; ?>
+    </div>
+ 
 
     <div class="mb-3">
       <label for="title" class="form-label">Quiz Title</label>
@@ -63,9 +76,11 @@
         if ($titleValue === '' && !empty($existingQuizzes)) {
             $titleValue = $existingQuizzes[0]['title'] ?? '';
         }
+
+        $titleLocked = !empty($prefill['title'] ?? '') || !empty($existingQuizzes);
       ?>
 
-      <?php if (!empty($prefill['title'] ?? '') || !empty($existingQuizzes)): ?>
+      <?php if ($titleLocked): ?>
         <!-- Lock quiz title while adding more questions to the same quiz -->
         <div class="form-control-plaintext fw-semibold">
           <?= esc($titleValue) ?>
@@ -76,7 +91,7 @@
         <input type="text" name="title" id="title" class="form-control" value="<?= esc($titleValue) ?>">
       <?php endif; ?>
 
-      <?php if (!empty($errors['title'])): ?>
+      <?php if (!empty($errors['title']) && ! $titleLocked): ?>
         <div class="text-danger small"><?= esc($errors['title']) ?></div>
       <?php endif; ?>
     </div>

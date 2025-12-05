@@ -79,6 +79,7 @@ $routes->group('teacher', ['namespace' => 'App\\Controllers\\Teacher', 'filter' 
     $routes->post('quizzes/update/(:num)','Quizzes::update/$1');
     $routes->get('quizzes/delete/(:num)', 'Quizzes::delete/$1');
     $routes->get('quizzes/manage/(:num)', 'Quizzes::manage/$1');
+    $routes->get('quizzes/scores/(:num)', 'Quizzes::scores/$1');
     $routes->get('announcements', 'Announcements::index');
 
     // Enrollment management (teacher approves/unenrolls students)

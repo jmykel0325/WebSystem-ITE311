@@ -33,9 +33,12 @@
         <td><?= esc($q['title']) ?></td>
         <td><?= (int)($q['question_count'] ?? 0) ?></td>
         <td>
-          <a href="<?= site_url('teacher/quizzes/manage/' . (int)$q['any_id']) ?>" class="btn btn-sm btn-outline-secondary">Manage Questions</a>
-          <a href="<?= site_url('teacher/quizzes/edit/' . (int)$q['any_id']) ?>" class="btn btn-sm btn-outline-primary">Edit</a>
-          <a href="<?= site_url('teacher/quizzes/delete/' . (int)$q['any_id']) ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this quiz?');">Delete</a>
+          <div class="btn-group btn-group-sm" role="group">
+            <a href="<?= site_url('teacher/quizzes/manage/' . (int)$q['any_id']) ?>" class="btn btn-outline-secondary">Questions</a>
+            <a href="<?= site_url('teacher/quizzes/scores/' . (int)$q['any_id']) ?>" class="btn btn-outline-success">Scores</a>
+            <a href="<?= site_url('teacher/quizzes/edit/' . (int)$q['any_id']) ?>" class="btn btn-outline-primary">Edit</a>
+            <a href="<?= site_url('teacher/quizzes/delete/' . (int)$q['any_id']) ?>" class="btn btn-outline-danger" onclick="return confirm('Delete this quiz?');">Delete</a>
+          </div>
         </td>
       </tr>
     <?php endforeach; endif; ?>

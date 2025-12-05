@@ -3,17 +3,21 @@ namespace App\Controllers\Teacher;
 
 use App\Controllers\BaseController;
 use App\Models\QuizModel;
+use App\Models\GradeModel;
+use App\Models\SubmissionModel;
 use CodeIgniter\Database\BaseConnection;
 
 class Quizzes extends BaseController
 {
     protected QuizModel $quizModel;
     protected BaseConnection $db;
+    protected GradeModel $gradeModel;
 
     public function __construct()
     {
         $this->quizModel = new QuizModel();
         $this->db        = \Config\Database::connect();
+        $this->gradeModel = new GradeModel();
     }
 
     protected function ensureTeacher()
@@ -77,7 +81,21 @@ class Quizzes extends BaseController
             ->get()
             ->getResultArray();
 
+        // Prefill may come either from flashdata (after saving a question)
+        // or from query parameters when adding a new question from manage page.
         $prefill = session()->getFlashdata('quiz_prefill') ?? [];
+
+        $getCourseId = (int) ($this->request->getGet('course_id') ?? 0);
+        $getTitle    = trim((string) ($this->request->getGet('title') ?? ''));
+
+        if (empty($prefill)) {
+            if ($getCourseId > 0) {
+                $prefill['course_id'] = $getCourseId;
+            }
+            if ($getTitle !== '') {
+                $prefill['title'] = $getTitle;
+            }
+        }
 
         // Determine active course for listing existing questions
         $activeCourseId = old('course_id');
@@ -118,7 +136,7 @@ class Quizzes extends BaseController
 
         $rules = [
             'course_id'      => 'required|integer',
-            'title'          => 'required|min_length[3]',
+            'title'          => 'permit_empty|min_length[3]',
             'question'       => 'required|min_length[5]',
             'option_a'       => 'required|min_length[1]',
             'option_b'       => 'required|min_length[1]',
@@ -129,15 +147,11 @@ class Quizzes extends BaseController
 
         $addAnother = $this->request->getPost('add_another');
 
-        // When adding another question for the same quiz and the title input is empty,
-        // do not require title in validation (we will reuse the previous quiz title).
-        $rawTitle = trim((string) $this->request->getPost('title'));
-        if ($addAnother === '1' && $rawTitle === '') {
-            unset($rules['title']);
-        }
-
         if (! $this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+            return redirect()->back()
+                ->withInput()
+                ->with('errors', $this->validator->getErrors())
+                ->with('error', 'Please check the fields below and correct any highlighted errors.');
         }
 
         $courseId = (int) $this->request->getPost('course_id');
@@ -273,9 +287,13 @@ class Quizzes extends BaseController
         $quizId    = (int) $id;
 
         $rules = [
-            'lesson_id' => 'required|integer',
-            'question'  => 'required|min_length[5]',
-            'answer'    => 'required|min_length[1]',
+            'lesson_id'      => 'required|integer',
+            'question'       => 'required|min_length[5]',
+            'option_a'       => 'required|min_length[1]',
+            'option_b'       => 'required|min_length[1]',
+            'option_c'       => 'required|min_length[1]',
+            'option_d'       => 'required|min_length[1]',
+            'correct_option' => 'required|in_list[A,B,C,D]',
         ];
 
         if (! $this->validate($rules)) {
@@ -283,7 +301,7 @@ class Quizzes extends BaseController
         }
 
         $existing = $this->db->table('quizzes q')
-            ->select('q.id')
+            ->select('q.id, q.lesson_id, q.title')
             ->join('lessons l', 'l.id = q.lesson_id')
             ->join('courses c', 'c.id = l.course_id')
             ->where('q.id', $quizId)
@@ -309,13 +327,35 @@ class Quizzes extends BaseController
             return redirect()->back()->withInput()->with('error', 'Invalid lesson selected.');
         }
 
+        $options = [
+            'A' => trim((string) $this->request->getPost('option_a')),
+            'B' => trim((string) $this->request->getPost('option_b')),
+            'C' => trim((string) $this->request->getPost('option_c')),
+            'D' => trim((string) $this->request->getPost('option_d')),
+        ];
+        $correct = $this->request->getPost('correct_option');
+
+        $newTitle = trim((string) $this->request->getPost('title'));
+
         $data = [
             'lesson_id' => $lessonId,
+            'title'     => $newTitle,
             'question'  => (string) $this->request->getPost('question'),
-            'answer'    => (string) $this->request->getPost('answer'),
+            'answer'    => json_encode(['options' => $options, 'correct' => $correct]),
         ];
 
         $this->quizModel->update($quizId, $data);
+
+        // If title changed, apply it to all questions in this quiz group
+        $originalTitle   = (string) ($existing['title'] ?? '');
+        $originalLesson  = (int) ($existing['lesson_id'] ?? 0);
+
+        if ($originalLesson > 0 && $originalTitle !== '' && $newTitle !== '' && $newTitle !== $originalTitle) {
+            $this->db->table('quizzes')
+                ->where('lesson_id', $originalLesson)
+                ->where('title', $originalTitle)
+                ->update(['title' => $newTitle]);
+        }
 
         return redirect()->to('/teacher/quizzes')->with('success', 'Quiz updated successfully.');
     }
@@ -381,6 +421,81 @@ class Quizzes extends BaseController
             'title'     => 'Manage Questions',
             'quizMeta'  => $quizMeta,
             'questions' => $questions,
+        ]);
+    }
+
+    public function scores($id)
+    {
+        if ($redirect = $this->ensureTeacher()) {
+            return $redirect;
+        }
+
+        $teacherId = (int) session('user_id');
+        $quizId    = (int) $id;
+
+        // Confirm quiz belongs to this teacher and get metadata, including lesson_id
+        $quizMeta = $this->db->table('quizzes q')
+            ->select('q.id AS quiz_id, q.lesson_id, q.title, l.title AS lesson_title, c.id AS course_id, c.title AS course_title, c.teacher_id')
+            ->join('lessons l', 'l.id = q.lesson_id')
+            ->join('courses c', 'c.id = l.course_id')
+            ->where('q.id', $quizId)
+            ->get()
+            ->getRowArray();
+
+        if (! $quizMeta || (int) $quizMeta['teacher_id'] !== $teacherId) {
+            return redirect()->to('/teacher/quizzes')->with('error', 'Quiz not found.');
+        }
+
+        // Get all question IDs that belong to this quiz group (same lesson + title)
+        $questions = $this->db->table('quizzes')
+            ->select('id')
+            ->where('lesson_id', $quizMeta['lesson_id'])
+            ->where('title', $quizMeta['title'])
+            ->orderBy('id', 'ASC')
+            ->get()
+            ->getResultArray();
+
+        if (empty($questions)) {
+            return view('teacher/quizzes/scores', [
+                'title'  => 'Quiz Scores',
+                'quiz'   => $quizMeta,
+                'scores' => [],
+            ]);
+        }
+
+        $questionIds = array_column($questions, 'id');
+
+        // Aggregate scores from submissions table so it matches student result logic
+        $submissionModel = new SubmissionModel();
+        $builder = $submissionModel->builder();
+
+        $results = $builder
+            ->select('s.user_id, u.name AS student_name, u.email AS student_email, AVG(s.score) AS avg_score, MAX(s.submitted_at) AS last_submitted_at')
+            ->from('submissions s')
+            ->join('users u', 'u.id = s.user_id')
+            ->whereIn('s.quiz_id', $questionIds)
+            ->groupBy('s.user_id, u.name, u.email')
+            ->orderBy('avg_score', 'DESC')
+            ->orderBy('last_submitted_at', 'DESC')
+            ->get()
+            ->getResultArray();
+
+        // Normalize to integer percentage for the view
+        $scores = [];
+        foreach ($results as $row) {
+            $scores[] = [
+                'student_id'    => $row['user_id'],
+                'student_name'  => $row['student_name'],
+                'student_email' => $row['student_email'],
+                'score'         => isset($row['avg_score']) ? (int) round($row['avg_score']) : 0,
+                'created_at'    => $row['last_submitted_at'],
+            ];
+        }
+
+        return view('teacher/quizzes/scores', [
+            'title'  => 'Quiz Scores',
+            'quiz'   => $quizMeta,
+            'scores' => $scores,
         ]);
     }
 }

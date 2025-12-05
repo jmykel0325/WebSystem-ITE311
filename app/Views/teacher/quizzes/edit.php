@@ -7,6 +7,8 @@
     <div class="alert alert-danger"><?= esc(session()->getFlashdata('error')) ?></div>
   <?php endif; ?>
 
+  <?php $errors = session('errors') ?? []; ?>
+
   <form method="post" action="<?= site_url('teacher/quizzes/update/' . (int)$quiz['id']) ?>">
     <?= csrf_field() ?>
 
@@ -53,6 +55,16 @@
       <?php endif; ?>
     </div>
 
+    <?php
+      $payload   = json_decode($quiz['answer'] ?? '', true) ?: [];
+      $options   = $payload['options'] ?? [];
+      $optA      = $options['A'] ?? '';
+      $optB      = $options['B'] ?? '';
+      $optC      = $options['C'] ?? '';
+      $optD      = $options['D'] ?? '';
+      $correct   = $payload['correct'] ?? '';
+    ?>
+
     <div class="mb-3">
       <label for="question" class="form-label">Question</label>
       <textarea name="question" id="question" rows="4" class="form-control"><?= old('question', $quiz['question']) ?></textarea>
@@ -62,10 +74,40 @@
     </div>
 
     <div class="mb-3">
-      <label for="answer" class="form-label">Correct Answer</label>
-      <textarea name="answer" id="answer" rows="2" class="form-control"><?= old('answer', $quiz['answer']) ?></textarea>
-      <?php if (!empty($errors['answer'])): ?>
-        <div class="text-danger small"><?= esc($errors['answer']) ?></div>
+      <label class="form-label">Options</label>
+      <div class="mb-2">
+        <label class="form-label">Option A</label>
+        <input type="text" name="option_a" class="form-control" value="<?= esc(old('option_a', $optA)) ?>">
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Option B</label>
+        <input type="text" name="option_b" class="form-control" value="<?= esc(old('option_b', $optB)) ?>">
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Option C</label>
+        <input type="text" name="option_c" class="form-control" value="<?= esc(old('option_c', $optC)) ?>">
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Option D</label>
+        <input type="text" name="option_d" class="form-control" value="<?= esc(old('option_d', $optD)) ?>">
+      </div>
+      <?php if (!empty($errors['option_a'])): ?><div class="text-danger small"><?= esc($errors['option_a']) ?></div><?php endif; ?>
+      <?php if (!empty($errors['option_b'])): ?><div class="text-danger small"><?= esc($errors['option_b']) ?></div><?php endif; ?>
+      <?php if (!empty($errors['option_c'])): ?><div class="text-danger small"><?= esc($errors['option_c']) ?></div><?php endif; ?>
+      <?php if (!empty($errors['option_d'])): ?><div class="text-danger small"><?= esc($errors['option_d']) ?></div><?php endif; ?>
+    </div>
+
+    <div class="mb-3">
+      <label for="correct_option" class="form-label">Correct Option</label>
+      <select name="correct_option" id="correct_option" class="form-select">
+        <option value="">Select correct option</option>
+        <?php $selectedCorrect = old('correct_option', $correct); ?>
+        <?php foreach (['A','B','C','D'] as $opt): ?>
+          <option value="<?= $opt ?>" <?= $selectedCorrect === $opt ? 'selected' : '' ?>><?= $opt ?></option>
+        <?php endforeach; ?>
+      </select>
+      <?php if (!empty($errors['correct_option'])): ?>
+        <div class="text-danger small"><?= esc($errors['correct_option']) ?></div>
       <?php endif; ?>
     </div>
 
