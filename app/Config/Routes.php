@@ -64,6 +64,8 @@ $routes->group('admin', ['filter' => 'roleauth'], static function($routes) {
 // Teacher (protected by RoleAuth)
 $routes->group('teacher', ['namespace' => 'App\\Controllers\\Teacher', 'filter' => 'roleauth'], static function($routes) {
     $routes->get('courses', 'Courses::index');
+    $routes->get('courses/show/(:num)', '\App\\Controllers\\Teacher::showCourse/$1');
+    $routes->get('courses/students/(:num)', 'Courses::students/$1');
     // Quiz management
     $routes->get('quizzes',               'Quizzes::index');
     $routes->get('quizzes/create',        'Quizzes::create');

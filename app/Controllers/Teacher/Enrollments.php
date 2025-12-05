@@ -43,10 +43,26 @@ class Enrollments extends BaseController
             ->get()
             ->getResultArray();
 
+        // Build distinct list of courses that have approved students for filter
+        $approvedCourses = [];
+        foreach ($approved as $row) {
+            $cid = (int)($row['course_id'] ?? 0);
+            if ($cid && !isset($approvedCourses[$cid])) {
+                $approvedCourses[$cid] = [
+                    'id'    => $cid,
+                    'title' => $row['course_title'] ?? 'Unknown course',
+                ];
+            }
+        }
+
+        // Reindex for view
+        $approvedCourses = array_values($approvedCourses);
+
         return view('teacher/enrollments/index', [
-            'title'    => 'Manage Enrollments',
-            'pending'  => $pending,
-            'approved' => $approved,
+            'title'           => 'Manage Enrollments',
+            'pending'         => $pending,
+            'approved'        => $approved,
+            'approvedCourses' => $approvedCourses,
         ]);
     }
 

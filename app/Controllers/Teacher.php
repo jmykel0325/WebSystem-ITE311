@@ -50,4 +50,45 @@ class Teacher extends BaseController
             'courses' => $courses
         ]);
     }
+
+    public function showCourse($id)
+    {
+        if (!session()->get('isLoggedIn') || session()->get('role') !== 'teacher') {
+            return redirect()->to('/login')->with('error', 'Access denied');
+        }
+
+        $teacherId = session()->get('user_id');
+        $db = \Config\Database::connect();
+
+        $course = $db->table('courses')
+                     ->where('id', (int)$id)
+                     ->where('teacher_id', $teacherId)
+                     ->get()
+                     ->getRowArray();
+
+        if (!$course) {
+            return redirect()->to('teacher/dashboard')->with('error', 'Course not found');
+        }
+
+        $materials = $db->table('materials')
+                        ->where('course_id', (int)$id)
+                        ->orderBy('created_at', 'DESC')
+                        ->get()
+                        ->getResultArray();
+
+        $materialCount = count($materials);
+
+        $studentCount = $db->table('enrollments')
+                           ->where('course_id', (int)$id)
+                           ->where('status', 'approved')
+                           ->countAllResults();
+
+        return view('teacher/courses/show', [
+            'title'        => 'Course Dashboard',
+            'course'       => $course,
+            'materials'    => $materials,
+            'materialCount'=> $materialCount,
+            'studentCount' => $studentCount,
+        ]);
+    }
 }

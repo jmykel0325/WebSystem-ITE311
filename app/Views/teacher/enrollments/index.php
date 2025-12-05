@@ -60,8 +60,19 @@
 
   <div class="col-lg-6">
     <div class="card h-100">
-      <div class="card-header bg-white">
+      <div class="card-header bg-white d-flex justify-content-between align-items-center">
         <strong>Approved Students</strong>
+        <?php if (!empty($approvedCourses)): ?>
+          <div class="d-flex align-items-center gap-2">
+            <label for="courseFilter" class="small text-muted mb-0">Course:</label>
+            <select id="courseFilter" class="form-select form-select-sm" style="min-width: 160px;">
+              <option value="">All</option>
+              <?php foreach ($approvedCourses as $course): ?>
+                <option value="<?= (int)$course['id'] ?>"><?= esc($course['title']) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+        <?php endif; ?>
       </div>
       <div class="card-body">
         <?php if (!empty($approved)): ?>
@@ -75,9 +86,9 @@
                   <th class="text-end">Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="approvedTableBody">
                 <?php foreach ($approved as $row): ?>
-                  <tr>
+                  <tr data-course-id="<?= (int)($row['course_id'] ?? 0) ?>">
                     <td><?= esc($row['student_name'] ?? 'Unknown') ?></td>
                     <td><?= esc($row['course_title'] ?? 'Unknown course') ?></td>
                     <td>
@@ -107,4 +118,27 @@
   </div>
 </div>
 
+<?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var filter = document.getElementById('courseFilter');
+  var tbody  = document.getElementById('approvedTableBody');
+  if (!filter || !tbody) return;
+
+  filter.addEventListener('change', function () {
+    var value = this.value;
+    var rows  = tbody.querySelectorAll('tr');
+    rows.forEach(function (row) {
+      var cid = row.getAttribute('data-course-id') || '';
+      if (!value || value === cid) {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  });
+});
+</script>
 <?= $this->endSection() ?>
