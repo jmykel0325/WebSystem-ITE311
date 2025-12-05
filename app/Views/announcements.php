@@ -33,7 +33,8 @@
                             <div class="card-body">
                                 <h5 class="card-title">
                                     <a href="#"
-                                       class="text-primary text-decoration-none"
+                                       class="text-decoration-none fw-semibold"
+                                       style="color: var(--brand-primary);"
                                        data-bs-toggle="modal"
                                        data-bs-target="#announcementModal-<?= (int)$announcement['id'] ?>">
                                         <?= esc($announcement['title']) ?>

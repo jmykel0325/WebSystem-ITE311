@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-12">
         <div class="card shadow-sm">
-            <div class="card-header bg-success text-white">
+            <div class="card-header bg-primary text-white">
                 <h4 class="mb-0">
                     <i class="bi bi-folder2-open me-2"></i>
                     My Course Materials
@@ -12,12 +12,12 @@
             </div>
             <div class="card-body">
                 <!-- Welcome Message -->
-                <div class="alert alert-info mb-4">
-                    <h5 class="alert-heading">
+                <div class="mb-4 p-3 rounded-3" style="background-color:#ff9361; color:#0e0e0e;">
+                    <h5 class="alert-heading mb-1">
                         <i class="bi bi-info-circle me-2"></i>
                         Learning Resources
                     </h5>
-                    <p class="mb-0">Access all learning materials from your enrolled courses</p>
+                    <p class="mb-0" style="opacity:.9;">Access all learning materials from your enrolled courses</p>
                 </div>
 
                 <!-- Materials List -->

@@ -2,88 +2,66 @@
 <?= $this->section('content') ?>
 
 <div class="row">
-    <div class="col-12">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+  <div class="col-12">
+    <!-- Welcome banner -->
+    <div class="rounded-4 p-4 mb-4" style="background: linear-gradient(135deg, #fe4f02, #f19361); color:#ffffff;">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+        <div>
+          <h1 class="h4 mb-1">Teacher Dashboard</h1>
+          <p class="mb-0" style="opacity:.9;">Welcome back, <?= esc(session('name')) ?>! Manage your courses and students here.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-6">
+        <!-- My Courses - Carrot -->
+        <div class="card border-0 rounded-4 h-100" style="background-color:#e67e22; color:#ffffff;">
+          <div class="card-body d-flex align-items-center justify-content-between">
             <div>
-                <h1 class="h3 mb-0">
-                    <i class="bi bi-person-badge me-2"></i>
-                    Teacher Dashboard
-                </h1>
-                <p class="text-muted mb-0">Welcome back, <?= esc(session('name')) ?>!</p>
+              <div class="small text-uppercase opacity-75">My Courses</div>
+              <div class="fs-3 fw-bold"><?= esc($stats['my_courses'] ?? 0) ?></div>
             </div>
+            <div class="fs-1 opacity-75"><i class="bi bi-book-half"></i></div>
+          </div>
         </div>
+      </div>
+      <div class="col-md-6">
+        <!-- My Quizzes - Belize Hole -->
+        <div class="card border-0 rounded-4 h-100" style="background-color:#2980b9; color:#ffffff;">
+          <div class="card-body d-flex align-items-center justify-content-between">
+            <div>
+              <div class="small text-uppercase opacity-75">My Quizzes</div>
+              <div class="fs-3 fw-bold"><?= esc($stats['quizzes'] ?? 0) ?></div>
+            </div>
+            <div class="fs-1 opacity-75"><i class="bi bi-clipboard-check"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        <!-- Statistics Cards -->
-        <div class="row g-3 mb-4">
-            <div class="col-md-6">
-                <div class="card text-bg-primary">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1">
-                                <div class="fs-6">My Courses</div>
-                                <div class="fs-3 fw-bold"><?= esc($stats['my_courses'] ?? 0) ?></div>
-                            </div>
-                            <div class="fs-1 opacity-75">
-                                <i class="bi bi-book-half"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card text-bg-success">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1">
-                                <div class="fs-6">My Quizzes</div>
-                                <div class="fs-3 fw-bold"><?= esc($stats['quizzes'] ?? 0) ?></div>
-                            </div>
-                            <div class="fs-1 opacity-75">
-                                <i class="bi bi-clipboard-check"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Quick Actions -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5 class="card-title mb-0">
-                    <i class="bi bi-lightning me-2"></i>
-                    Quick Actions
-                </h5>
-            </div>
-            <div class="card-body">
-                <div class="row g-3">
-                    <div class="col-md-3">
-                        <a href="<?= site_url('teacher/courses') ?>" class="btn btn-primary w-100">
-                            <i class="bi bi-book-half me-2"></i>
-                            My Courses
-                        </a>
-                    </div>
-                    <div class="col-md-3">
-                        <a href="<?= site_url('teacher/quizzes') ?>" class="btn btn-outline-secondary w-100">
-                            <i class="bi bi-clipboard-check me-2"></i>
-                            My Quizzes
-                        </a>
-                    </div>
-                    <div class="col-md-3">
-                        <a href="<?= site_url('teacher/enrollments') ?>" class="btn btn-outline-secondary w-100">
-                            <i class="bi bi-people-check me-2"></i>
-                            Manage Enrollments
-                        </a>
-                    </div>
-                    <div class="col-md-3">
-                        <a href="<?= site_url('teacher/announcements') ?>" class="btn btn-outline-secondary w-100">
-                            <i class="bi bi-megaphone me-2"></i>
-                            Announcements
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- Quick Actions -->
+    <div class="mb-4">
+      <div class="d-flex align-items-center mb-2">
+        <i class="bi bi-lightning me-2 text-success"></i>
+        <span class="fw-semibold">Quick Actions</span>
+      </div>
+      <div class="d-flex flex-wrap gap-2">
+        <a href="<?= site_url('teacher/courses') ?>" class="btn btn-primary d-flex align-items-center">
+          <i class="bi bi-book-half me-2"></i> My Courses
+        </a>
+        <a href="<?= site_url('teacher/quizzes') ?>" class="btn btn-outline-secondary d-flex align-items-center">
+          <i class="bi bi-clipboard-check me-2"></i> My Quizzes
+        </a>
+        <a href="<?= site_url('teacher/enrollments') ?>" class="btn btn-outline-secondary d-flex align-items-center">
+          <i class="bi bi-people-check me-2"></i> Manage Enrollments
+        </a>
+        <a href="<?= site_url('teacher/announcements') ?>" class="btn btn-outline-secondary d-flex align-items-center">
+          <i class="bi bi-megaphone me-2"></i> Announcements
+        </a>
+      </div>
+    </div>
 
         <!-- My Courses -->
         <?php if (!empty($courses)): ?>

@@ -8,6 +8,11 @@ $routes->get('about',    'Home::about');
 $routes->get('contact',  'Home::contact');
 $routes->get('announcements', 'Announcement::index', ['filter' => 'auth']);
 
+// Public courses listing and search
+$routes->get('courses', 'Course::index');
+$routes->match(['get', 'post'], 'courses/search', 'Course::search');
+$routes->get('courses/show/(:num)', 'Course::show/$1');
+
 $routes->get('register',  'Auth::register');
 $routes->post('register', 'Auth::register');
 

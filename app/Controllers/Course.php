@@ -8,6 +8,65 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class Course extends BaseController
 {
+    public function index()
+    {
+        $coursesModel = new CourseModel();
+
+        $data = [
+            'courses'    => $coursesModel->orderBy('title', 'ASC')->findAll(),
+            'searchTerm' => null,
+        ];
+
+        return view('courses/index', $data);
+    }
+
+    public function show(int $id)
+    {
+        $coursesModel = new CourseModel();
+
+        $course = $coursesModel->find($id);
+
+        if (! $course) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Course not found');
+        }
+
+        return view('courses/show', [
+            'course' => $course,
+        ]);
+    }
+
+    public function search()
+    {
+        $coursesModel = new CourseModel();
+
+        // Accept both GET and POST parameters, common names: q or search
+        $term = trim((string) ($this->request->getVar('q') ?? $this->request->getVar('search') ?? ''));
+
+        $builder = $coursesModel;
+
+        if ($term !== '') {
+            // Only search within the course title and require it to START WITH the term
+            // Using 'after' side means pattern 'term%'
+            $builder = $builder->like('title', $term, 'after');
+        }
+
+        $results = $builder->orderBy('title', 'ASC')->findAll();
+
+        if ($this->request->isAJAX()) {
+            return $this->response->setJSON([
+                'ok'      => true,
+                'term'    => $term,
+                'count'   => count($results),
+                'courses' => $results,
+            ]);
+        }
+
+        return view('courses/index', [
+            'courses'    => $results,
+            'searchTerm' => $term,
+        ]);
+    }
+
     public function enroll()
     {
         if (! session('isLoggedIn')) {
