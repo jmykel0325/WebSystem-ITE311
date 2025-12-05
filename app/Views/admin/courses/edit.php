@@ -86,6 +86,67 @@
                     </div>
 
                     <div class="mb-4">
+                        <label for="semester" class="form-label fw-bold">
+                            <i class="bi bi-calendar-event me-2"></i>
+                            Semester <span class="text-danger">*</span>
+                        </label>
+                        <select class="form-select" id="semester" name="semester" required>
+                            <option value="">-- Select Semester --</option>
+                            <option value="first" <?= old('semester', $course['semester'] ?? '') === 'first' ? 'selected' : '' ?>>First Semester</option>
+                            <option value="second" <?= old('semester', $course['semester'] ?? '') === 'second' ? 'selected' : '' ?>>Second Semester</option>
+                        </select>
+                        <div class="form-text">
+                            Choose whether this course is for the first or second semester
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="start_date" class="form-label fw-bold">
+                            <i class="bi bi-calendar-date me-2"></i>
+                            Start Date
+                        </label>
+                        <input type="date"
+                               class="form-control"
+                               id="start_date"
+                               name="start_date"
+                               value="<?= old('start_date', $course['start_date'] ?? '') ?>">
+                        <div class="form-text">
+                            Optional: When the course starts.
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="end_date" class="form-label fw-bold">
+                            <i class="bi bi-calendar-check me-2"></i>
+                            End Date
+                        </label>
+                        <input type="date"
+                               class="form-control"
+                               id="end_date"
+                               name="end_date"
+                               value="<?= old('end_date', $course['end_date'] ?? '') ?>">
+                        <div class="form-text">
+                            Optional: When the course ends. Set the duration of the course here if necessary.
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="days_pattern" class="form-label fw-bold">
+                            <i class="bi bi-calendar-week me-2"></i>
+                            Class Days (pattern)
+                        </label>
+                        <input type="text"
+                               class="form-control"
+                               id="days_pattern"
+                               name="days_pattern"
+                               value="<?= old('days_pattern', $course['days_pattern'] ?? '') ?>"
+                               placeholder="e.g., MWF, TTh, MTWTHF">
+                        <div class="form-text">
+                            Optional: Short code for class days (e.g., <strong>M</strong>, <strong>TTh</strong>, <strong>MWF</strong>).
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
                         <label for="teacher_id" class="form-label fw-bold">
                             <i class="bi bi-person-badge me-2"></i>
                             Assign Teacher <span class="text-danger">*</span>

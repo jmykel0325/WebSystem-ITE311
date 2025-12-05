@@ -57,19 +57,25 @@
             </div>
             <div class="card-body">
                 <div class="row g-3">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <a href="<?= site_url('teacher/courses') ?>" class="btn btn-primary w-100">
                             <i class="bi bi-book-half me-2"></i>
                             My Courses
                         </a>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <a href="<?= site_url('teacher/quizzes') ?>" class="btn btn-outline-secondary w-100">
                             <i class="bi bi-clipboard-check me-2"></i>
                             My Quizzes
                         </a>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <a href="<?= site_url('teacher/enrollments') ?>" class="btn btn-outline-secondary w-100">
+                            <i class="bi bi-people-check me-2"></i>
+                            Manage Enrollments
+                        </a>
+                    </div>
+                    <div class="col-md-3">
                         <a href="<?= site_url('teacher/announcements') ?>" class="btn btn-outline-secondary w-100">
                             <i class="bi bi-megaphone me-2"></i>
                             Announcements

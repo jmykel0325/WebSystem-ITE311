@@ -1,9 +1,6 @@
 <?= $this->extend('layouts/main') ?>
 <?= $this->section('content') ?>
 <h1 class="h4 mb-3">My Courses</h1>
-<div class="mb-3">
-  <a href="#" class="btn btn-primary disabled">Create Course</a>
-</div>
 <table class="table table-striped">
   <thead>
     <tr>

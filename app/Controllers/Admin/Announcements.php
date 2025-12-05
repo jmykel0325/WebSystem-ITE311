@@ -4,6 +4,8 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\AnnouncementModel;
+use App\Models\UserModel;
+use App\Models\NotificationModel;
 
 class Announcements extends BaseController
 {
@@ -47,6 +49,33 @@ class Announcements extends BaseController
             'content' => $this->request->getPost('content'),
             'is_active' => $this->request->getPost('is_active') ? 1 : 0,
         ]);
+
+        // Notify all non-admin users about the new announcement
+        try {
+            $title = (string) $this->request->getPost('title');
+            $link = site_url('announcements');
+
+            $userModel = new UserModel();
+            $notificationModel = new NotificationModel();
+
+            // Target students and teachers
+            $recipients = $userModel
+                ->select('id, role')
+                ->whereIn('role', ['student', 'teacher'])
+                ->findAll();
+
+            if (!empty($recipients)) {
+                foreach ($recipients as $user) {
+                    $notificationModel->createNotification(
+                        (int) $user['id'],
+                        'New announcement: ' . $title,
+                        $link
+                    );
+                }
+            }
+        } catch (\Throwable $e) {
+            log_message('error', 'Failed to create announcement notifications: {msg}', ['msg' => $e->getMessage()]);
+        }
 
         return redirect()->to('admin/announcements')->with('success', 'Announcement created successfully!');
     }

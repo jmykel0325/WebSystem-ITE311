@@ -72,6 +72,9 @@ class Auth extends BaseController
                 log_message('debug','Login no user for email {e}', ['e'=>$email]);
                 return redirect()->back()->withInput()->with('error','No account found for that email.');
             }
+            if (($user['role'] ?? '') === 'deleted') {
+                return redirect()->back()->withInput()->with('error','This account has been deleted. Please contact the administrator.');
+            }
             if (! password_verify($pass, $user['password'])) {
                 log_message('debug','Login bad password for email {e}', ['e'=>$email]);
                 return redirect()->back()->withInput()->with('error','Invalid email or password.');

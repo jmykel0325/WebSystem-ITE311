@@ -1,0 +1,296 @@
+ERROR - 2025-12-06 00:31:39 --> mysqli_sql_exception: Unknown column 'semester' in 'field list' in C:\xampp\htdocs\ITE311-CASTILLO\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\ITE311-CASTILLO\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `courses...', 0)
+#1 C:\xampp\htdocs\ITE311-CASTILLO\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `courses...')
+#2 C:\xampp\htdocs\ITE311-CASTILLO\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `courses...')
+#3 C:\xampp\htdocs\ITE311-CASTILLO\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `courses...', Array, false)
+#4 C:\xampp\htdocs\ITE311-CASTILLO\system\Model.php(461): CodeIgniter\Database\BaseBuilder->update()
+#5 C:\xampp\htdocs\ITE311-CASTILLO\system\BaseModel.php(1025): CodeIgniter\Model->doUpdate(Array, Array)
+#6 C:\xampp\htdocs\ITE311-CASTILLO\system\Model.php(860): CodeIgniter\BaseModel->update(Array, Array)
+#7 C:\xampp\htdocs\ITE311-CASTILLO\app\Controllers\Admin\Courses.php(257): CodeIgniter\Model->update('8', Array)
+#8 C:\xampp\htdocs\ITE311-CASTILLO\system\CodeIgniter.php(933): App\Controllers\Admin\Courses->update('8')
+#9 C:\xampp\htdocs\ITE311-CASTILLO\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Courses))
+#10 C:\xampp\htdocs\ITE311-CASTILLO\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\ITE311-CASTILLO\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\ITE311-CASTILLO\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\ITE311-CASTILLO\public\index.php(70): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 C:\xampp\htdocs\ITE311-CASTILLO\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#15 {main}
+CRITICAL - 2025-12-06 00:31:39 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'semester' in 'field list'
+[Method: POST, Route: admin/courses/update/8]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `courses` SET `course_number` = :course_number:, `semester` = :semester:, `title` = :title:, `description` = :description:, `teacher_id` = :teacher_id:, `updated_at` = :updated_at:
+WHERE `courses`.`id` IN :courses.id:', [...], false)
+ 2 SYSTEMPATH\Model.php(461): CodeIgniter\Database\BaseBuilder->update()
+ 3 SYSTEMPATH\BaseModel.php(1025): CodeIgniter\Model->doUpdate([...], [...])
+ 4 SYSTEMPATH\Model.php(860): CodeIgniter\BaseModel->update([...], [...])
+ 5 APPPATH\Controllers\Admin\Courses.php(257): CodeIgniter\Model->update('8', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Courses->update('8')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Courses))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(70): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-12-06 00:31:39 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'semester' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 00:31:39\'
+WHERE `courses`.`id` IN (\'8\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 00:31:39\'
+WHERE `courses`.`id` IN (\'8\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `courses` SET `course_number` = :course_number:, `semester` = :semester:, `title` = :title:, `description` = :description:, `teacher_id` = :teacher_id:, `updated_at` = :updated_at:
+WHERE `courses`.`id` IN :courses.id:', [...], false)
+ 4 SYSTEMPATH\Model.php(461): CodeIgniter\Database\BaseBuilder->update()
+ 5 SYSTEMPATH\BaseModel.php(1025): CodeIgniter\Model->doUpdate([...], [...])
+ 6 SYSTEMPATH\Model.php(860): CodeIgniter\BaseModel->update([...], [...])
+ 7 APPPATH\Controllers\Admin\Courses.php(257): CodeIgniter\Model->update('8', [...])
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Courses->update('8')
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Courses))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(70): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-12-06 00:31:39 --> [Caused by] mysqli_sql_exception: Unknown column 'semester' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 00:31:39\'
+WHERE `courses`.`id` IN (\'8\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 00:31:39\'
+WHERE `courses`.`id` IN (\'8\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 00:31:39\'
+WHERE `courses`.`id` IN (\'8\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `courses` SET `course_number` = :course_number:, `semester` = :semester:, `title` = :title:, `description` = :description:, `teacher_id` = :teacher_id:, `updated_at` = :updated_at:
+WHERE `courses`.`id` IN :courses.id:', [...], false)
+ 5 SYSTEMPATH\Model.php(461): CodeIgniter\Database\BaseBuilder->update()
+ 6 SYSTEMPATH\BaseModel.php(1025): CodeIgniter\Model->doUpdate([...], [...])
+ 7 SYSTEMPATH\Model.php(860): CodeIgniter\BaseModel->update([...], [...])
+ 8 APPPATH\Controllers\Admin\Courses.php(257): CodeIgniter\Model->update('8', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Courses->update('8')
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Courses))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(70): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+ERROR - 2025-12-06 00:32:24 --> mysqli_sql_exception: Unknown column 'semester' in 'field list' in C:\xampp\htdocs\ITE311-CASTILLO\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\ITE311-CASTILLO\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `courses...', 0)
+#1 C:\xampp\htdocs\ITE311-CASTILLO\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `courses...')
+#2 C:\xampp\htdocs\ITE311-CASTILLO\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `courses...')
+#3 C:\xampp\htdocs\ITE311-CASTILLO\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `courses...', Array, false)
+#4 C:\xampp\htdocs\ITE311-CASTILLO\system\Model.php(461): CodeIgniter\Database\BaseBuilder->update()
+#5 C:\xampp\htdocs\ITE311-CASTILLO\system\BaseModel.php(1025): CodeIgniter\Model->doUpdate(Array, Array)
+#6 C:\xampp\htdocs\ITE311-CASTILLO\system\Model.php(860): CodeIgniter\BaseModel->update(Array, Array)
+#7 C:\xampp\htdocs\ITE311-CASTILLO\app\Controllers\Admin\Courses.php(257): CodeIgniter\Model->update('8', Array)
+#8 C:\xampp\htdocs\ITE311-CASTILLO\system\CodeIgniter.php(933): App\Controllers\Admin\Courses->update('8')
+#9 C:\xampp\htdocs\ITE311-CASTILLO\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Courses))
+#10 C:\xampp\htdocs\ITE311-CASTILLO\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\ITE311-CASTILLO\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\ITE311-CASTILLO\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\ITE311-CASTILLO\public\index.php(70): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 C:\xampp\htdocs\ITE311-CASTILLO\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#15 {main}
+CRITICAL - 2025-12-06 00:32:24 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'semester' in 'field list'
+[Method: POST, Route: admin/courses/update/8]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `courses` SET `course_number` = :course_number:, `semester` = :semester:, `title` = :title:, `description` = :description:, `teacher_id` = :teacher_id:, `updated_at` = :updated_at:
+WHERE `courses`.`id` IN :courses.id:', [...], false)
+ 2 SYSTEMPATH\Model.php(461): CodeIgniter\Database\BaseBuilder->update()
+ 3 SYSTEMPATH\BaseModel.php(1025): CodeIgniter\Model->doUpdate([...], [...])
+ 4 SYSTEMPATH\Model.php(860): CodeIgniter\BaseModel->update([...], [...])
+ 5 APPPATH\Controllers\Admin\Courses.php(257): CodeIgniter\Model->update('8', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Courses->update('8')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Courses))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(70): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-12-06 00:32:24 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'semester' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 00:32:24\'
+WHERE `courses`.`id` IN (\'8\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 00:32:24\'
+WHERE `courses`.`id` IN (\'8\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `courses` SET `course_number` = :course_number:, `semester` = :semester:, `title` = :title:, `description` = :description:, `teacher_id` = :teacher_id:, `updated_at` = :updated_at:
+WHERE `courses`.`id` IN :courses.id:', [...], false)
+ 4 SYSTEMPATH\Model.php(461): CodeIgniter\Database\BaseBuilder->update()
+ 5 SYSTEMPATH\BaseModel.php(1025): CodeIgniter\Model->doUpdate([...], [...])
+ 6 SYSTEMPATH\Model.php(860): CodeIgniter\BaseModel->update([...], [...])
+ 7 APPPATH\Controllers\Admin\Courses.php(257): CodeIgniter\Model->update('8', [...])
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Courses->update('8')
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Courses))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(70): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-12-06 00:32:24 --> [Caused by] mysqli_sql_exception: Unknown column 'semester' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 00:32:24\'
+WHERE `courses`.`id` IN (\'8\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 00:32:24\'
+WHERE `courses`.`id` IN (\'8\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 00:32:24\'
+WHERE `courses`.`id` IN (\'8\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `courses` SET `course_number` = :course_number:, `semester` = :semester:, `title` = :title:, `description` = :description:, `teacher_id` = :teacher_id:, `updated_at` = :updated_at:
+WHERE `courses`.`id` IN :courses.id:', [...], false)
+ 5 SYSTEMPATH\Model.php(461): CodeIgniter\Database\BaseBuilder->update()
+ 6 SYSTEMPATH\BaseModel.php(1025): CodeIgniter\Model->doUpdate([...], [...])
+ 7 SYSTEMPATH\Model.php(860): CodeIgniter\BaseModel->update([...], [...])
+ 8 APPPATH\Controllers\Admin\Courses.php(257): CodeIgniter\Model->update('8', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Courses->update('8')
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Courses))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(70): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+ERROR - 2025-12-06 01:28:00 --> mysqli_sql_exception: Unknown column 'start_date' in 'field list' in C:\xampp\htdocs\ITE311-CASTILLO\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\ITE311-CASTILLO\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `courses...', 0)
+#1 C:\xampp\htdocs\ITE311-CASTILLO\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `courses...')
+#2 C:\xampp\htdocs\ITE311-CASTILLO\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `courses...')
+#3 C:\xampp\htdocs\ITE311-CASTILLO\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `courses...', Array, false)
+#4 C:\xampp\htdocs\ITE311-CASTILLO\system\Model.php(461): CodeIgniter\Database\BaseBuilder->update()
+#5 C:\xampp\htdocs\ITE311-CASTILLO\system\BaseModel.php(1025): CodeIgniter\Model->doUpdate(Array, Array)
+#6 C:\xampp\htdocs\ITE311-CASTILLO\system\Model.php(860): CodeIgniter\BaseModel->update(Array, Array)
+#7 C:\xampp\htdocs\ITE311-CASTILLO\app\Controllers\Admin\Courses.php(294): CodeIgniter\Model->update('8', Array)
+#8 C:\xampp\htdocs\ITE311-CASTILLO\system\CodeIgniter.php(933): App\Controllers\Admin\Courses->update('8')
+#9 C:\xampp\htdocs\ITE311-CASTILLO\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Courses))
+#10 C:\xampp\htdocs\ITE311-CASTILLO\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\ITE311-CASTILLO\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\ITE311-CASTILLO\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\ITE311-CASTILLO\public\index.php(70): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 C:\xampp\htdocs\ITE311-CASTILLO\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#15 {main}
+CRITICAL - 2025-12-06 01:28:00 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'start_date' in 'field list'
+[Method: POST, Route: admin/courses/update/8]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `courses` SET `course_number` = :course_number:, `semester` = :semester:, `start_date` = :start_date:, `end_date` = :end_date:, `title` = :title:, `description` = :description:, `teacher_id` = :teacher_id:, `updated_at` = :updated_at:
+WHERE `courses`.`id` IN :courses.id:', [...], false)
+ 2 SYSTEMPATH\Model.php(461): CodeIgniter\Database\BaseBuilder->update()
+ 3 SYSTEMPATH\BaseModel.php(1025): CodeIgniter\Model->doUpdate([...], [...])
+ 4 SYSTEMPATH\Model.php(860): CodeIgniter\BaseModel->update([...], [...])
+ 5 APPPATH\Controllers\Admin\Courses.php(294): CodeIgniter\Model->update('8', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Courses->update('8')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Courses))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(70): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-12-06 01:28:00 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'start_date' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `start_date` = \'2025-12-06\', `end_date` = \'2025-12-07\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 01:28:00\'
+WHERE `courses`.`id` IN (\'8\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `start_date` = \'2025-12-06\', `end_date` = \'2025-12-07\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 01:28:00\'
+WHERE `courses`.`id` IN (\'8\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `courses` SET `course_number` = :course_number:, `semester` = :semester:, `start_date` = :start_date:, `end_date` = :end_date:, `title` = :title:, `description` = :description:, `teacher_id` = :teacher_id:, `updated_at` = :updated_at:
+WHERE `courses`.`id` IN :courses.id:', [...], false)
+ 4 SYSTEMPATH\Model.php(461): CodeIgniter\Database\BaseBuilder->update()
+ 5 SYSTEMPATH\BaseModel.php(1025): CodeIgniter\Model->doUpdate([...], [...])
+ 6 SYSTEMPATH\Model.php(860): CodeIgniter\BaseModel->update([...], [...])
+ 7 APPPATH\Controllers\Admin\Courses.php(294): CodeIgniter\Model->update('8', [...])
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Courses->update('8')
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Courses))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(70): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-12-06 01:28:00 --> [Caused by] mysqli_sql_exception: Unknown column 'start_date' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `start_date` = \'2025-12-06\', `end_date` = \'2025-12-07\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 01:28:00\'
+WHERE `courses`.`id` IN (\'8\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `start_date` = \'2025-12-06\', `end_date` = \'2025-12-07\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 01:28:00\'
+WHERE `courses`.`id` IN (\'8\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `start_date` = \'2025-12-06\', `end_date` = \'2025-12-07\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 01:28:00\'
+WHERE `courses`.`id` IN (\'8\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `courses` SET `course_number` = :course_number:, `semester` = :semester:, `start_date` = :start_date:, `end_date` = :end_date:, `title` = :title:, `description` = :description:, `teacher_id` = :teacher_id:, `updated_at` = :updated_at:
+WHERE `courses`.`id` IN :courses.id:', [...], false)
+ 5 SYSTEMPATH\Model.php(461): CodeIgniter\Database\BaseBuilder->update()
+ 6 SYSTEMPATH\BaseModel.php(1025): CodeIgniter\Model->doUpdate([...], [...])
+ 7 SYSTEMPATH\Model.php(860): CodeIgniter\BaseModel->update([...], [...])
+ 8 APPPATH\Controllers\Admin\Courses.php(294): CodeIgniter\Model->update('8', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Courses->update('8')
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Courses))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(70): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+ERROR - 2025-12-06 01:29:27 --> mysqli_sql_exception: Unknown column 'start_date' in 'field list' in C:\xampp\htdocs\ITE311-CASTILLO\system\Database\MySQLi\Connection.php:327
+Stack trace:
+#0 C:\xampp\htdocs\ITE311-CASTILLO\system\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `courses...', 0)
+#1 C:\xampp\htdocs\ITE311-CASTILLO\system\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `courses...')
+#2 C:\xampp\htdocs\ITE311-CASTILLO\system\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `courses...')
+#3 C:\xampp\htdocs\ITE311-CASTILLO\system\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `courses...', Array, false)
+#4 C:\xampp\htdocs\ITE311-CASTILLO\system\Model.php(461): CodeIgniter\Database\BaseBuilder->update()
+#5 C:\xampp\htdocs\ITE311-CASTILLO\system\BaseModel.php(1025): CodeIgniter\Model->doUpdate(Array, Array)
+#6 C:\xampp\htdocs\ITE311-CASTILLO\system\Model.php(860): CodeIgniter\BaseModel->update(Array, Array)
+#7 C:\xampp\htdocs\ITE311-CASTILLO\app\Controllers\Admin\Courses.php(294): CodeIgniter\Model->update('8', Array)
+#8 C:\xampp\htdocs\ITE311-CASTILLO\system\CodeIgniter.php(933): App\Controllers\Admin\Courses->update('8')
+#9 C:\xampp\htdocs\ITE311-CASTILLO\system\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Courses))
+#10 C:\xampp\htdocs\ITE311-CASTILLO\system\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#11 C:\xampp\htdocs\ITE311-CASTILLO\system\Boot.php(363): CodeIgniter\CodeIgniter->run()
+#12 C:\xampp\htdocs\ITE311-CASTILLO\system\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#13 C:\xampp\htdocs\ITE311-CASTILLO\public\index.php(70): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#14 C:\xampp\htdocs\ITE311-CASTILLO\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#15 {main}
+CRITICAL - 2025-12-06 01:29:27 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'start_date' in 'field list'
+[Method: POST, Route: admin/courses/update/8]
+in SYSTEMPATH\Database\BaseConnection.php on line 684.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `courses` SET `course_number` = :course_number:, `semester` = :semester:, `start_date` = :start_date:, `end_date` = :end_date:, `title` = :title:, `description` = :description:, `teacher_id` = :teacher_id:, `updated_at` = :updated_at:
+WHERE `courses`.`id` IN :courses.id:', [...], false)
+ 2 SYSTEMPATH\Model.php(461): CodeIgniter\Database\BaseBuilder->update()
+ 3 SYSTEMPATH\BaseModel.php(1025): CodeIgniter\Model->doUpdate([...], [...])
+ 4 SYSTEMPATH\Model.php(860): CodeIgniter\BaseModel->update([...], [...])
+ 5 APPPATH\Controllers\Admin\Courses.php(294): CodeIgniter\Model->update('8', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Courses->update('8')
+ 7 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Courses))
+ 8 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(70): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-12-06 01:29:27 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'start_date' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 332.
+ 1 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `start_date` = \'2025-12-06\', `end_date` = \'2025-12-07\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 01:29:27\'
+WHERE `courses`.`id` IN (\'8\')')
+ 2 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `start_date` = \'2025-12-06\', `end_date` = \'2025-12-07\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 01:29:27\'
+WHERE `courses`.`id` IN (\'8\')')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `courses` SET `course_number` = :course_number:, `semester` = :semester:, `start_date` = :start_date:, `end_date` = :end_date:, `title` = :title:, `description` = :description:, `teacher_id` = :teacher_id:, `updated_at` = :updated_at:
+WHERE `courses`.`id` IN :courses.id:', [...], false)
+ 4 SYSTEMPATH\Model.php(461): CodeIgniter\Database\BaseBuilder->update()
+ 5 SYSTEMPATH\BaseModel.php(1025): CodeIgniter\Model->doUpdate([...], [...])
+ 6 SYSTEMPATH\Model.php(860): CodeIgniter\BaseModel->update([...], [...])
+ 7 APPPATH\Controllers\Admin\Courses.php(294): CodeIgniter\Model->update('8', [...])
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Courses->update('8')
+ 9 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Courses))
+10 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(70): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')
+CRITICAL - 2025-12-06 01:29:27 --> [Caused by] mysqli_sql_exception: Unknown column 'start_date' in 'field list'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 327.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(327): mysqli->query('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `start_date` = \'2025-12-06\', `end_date` = \'2025-12-07\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 01:29:27\'
+WHERE `courses`.`id` IN (\'8\')', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(729): CodeIgniter\Database\MySQLi\Connection->execute('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `start_date` = \'2025-12-06\', `end_date` = \'2025-12-07\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 01:29:27\'
+WHERE `courses`.`id` IN (\'8\')')
+ 3 SYSTEMPATH\Database\BaseConnection.php(646): CodeIgniter\Database\BaseConnection->simpleQuery('UPDATE `courses` SET `course_number` = \'MAMA101\', `semester` = \'first\', `start_date` = \'2025-12-06\', `end_date` = \'2025-12-07\', `title` = \'ALMOST IS NEVER ENOUGH\', `description` = \'LAVARN\', `teacher_id` = \'33\', `updated_at` = \'2025-12-06 01:29:27\'
+WHERE `courses`.`id` IN (\'8\')')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(2521): CodeIgniter\Database\BaseConnection->query('UPDATE `courses` SET `course_number` = :course_number:, `semester` = :semester:, `start_date` = :start_date:, `end_date` = :end_date:, `title` = :title:, `description` = :description:, `teacher_id` = :teacher_id:, `updated_at` = :updated_at:
+WHERE `courses`.`id` IN :courses.id:', [...], false)
+ 5 SYSTEMPATH\Model.php(461): CodeIgniter\Database\BaseBuilder->update()
+ 6 SYSTEMPATH\BaseModel.php(1025): CodeIgniter\Model->doUpdate([...], [...])
+ 7 SYSTEMPATH\Model.php(860): CodeIgniter\BaseModel->update([...], [...])
+ 8 APPPATH\Controllers\Admin\Courses.php(294): CodeIgniter\Model->update('8', [...])
+ 9 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Admin\Courses->update('8')
+10 SYSTEMPATH\CodeIgniter.php(507): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Admin\Courses))
+11 SYSTEMPATH\CodeIgniter.php(354): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 SYSTEMPATH\Boot.php(363): CodeIgniter\CodeIgniter->run()
+13 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+14 FCPATH\index.php(70): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+15 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\ITE311-CASTILLO\\public\\index.php')

@@ -25,9 +25,14 @@ class Student extends BaseController
         $userId = session()->get('user_id');
         $db = \Config\Database::connect();
 
-        // Get enrolled courses count
+        // Cutoff date for active enrollments (4 months)
+        $cutoff = date('Y-m-d H:i:s', strtotime('-4 months'));
+
+        // Get enrolled courses count (only last 1 year)
         $enrolled = $db->table('enrollments')
                       ->where('user_id', $userId)
+                      ->where('status', 'approved')
+                      ->where('enrollment_date >=', $cutoff)
                       ->countAllResults();
 
         // Get quizzes count from enrolled courses (quizzes are linked through lessons)
@@ -36,14 +41,18 @@ class Student extends BaseController
                      ->join('courses', 'courses.id = lessons.course_id')
                      ->join('enrollments', 'enrollments.course_id = courses.id')
                      ->where('enrollments.user_id', $userId)
+                     ->where('enrollments.status', 'approved')
+                     ->where('enrollments.enrollment_date >=', $cutoff)
                      ->countAllResults();
 
-        // Get enrolled courses with details
+        // Get enrolled courses with details (only last 1 year)
         $enrolledCourses = $db->table('courses')
                              ->select('courses.*, enrollments.enrollment_date, users.name as teacher_name')
                              ->join('enrollments', 'enrollments.course_id = courses.id')
                              ->join('users', 'users.id = courses.teacher_id', 'left')
                              ->where('enrollments.user_id', $userId)
+                             ->where('enrollments.status', 'approved')
+                             ->where('enrollments.enrollment_date >=', $cutoff)
                              ->orderBy('enrollments.enrollment_date', 'DESC')
                              ->get()
                              ->getResultArray();

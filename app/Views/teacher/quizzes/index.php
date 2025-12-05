@@ -1,29 +1,45 @@
 <?= $this->extend('layouts/main') ?>
 <?= $this->section('content') ?>
-<h1 class="h4 mb-3">My Quizzes</h1>
-<div class="mb-3">
-  <a href="#" class="btn btn-primary disabled">Create Quiz</a>
-</div>
-<table class="table table-striped">
+<div class="container py-4">
+  <?php if (session()->getFlashdata('success')): ?>
+    <div class="alert alert-success"><?= esc(session()->getFlashdata('success')) ?></div>
+  <?php endif; ?>
+  <?php if (session()->getFlashdata('error')): ?>
+    <div class="alert alert-danger"><?= esc(session()->getFlashdata('error')) ?></div>
+  <?php endif; ?>
+
+  <h1 class="h4 mb-3">My Quizzes</h1>
+  <div class="mb-3">
+    <a href="<?= site_url('teacher/quizzes/create') ?>" class="btn btn-primary">Create Quiz</a>
+  </div>
+
+  <table class="table table-striped align-middle">
   <thead>
     <tr>
-      <th>ID</th>
+      <th>#</th>
       <th>Course</th>
-      <th>Lesson</th>
-      <th>Question</th>
+      <th>Quiz Title</th>
+      <th>Questions</th>
+      <th style="width: 160px;">Actions</th>
     </tr>
   </thead>
   <tbody>
     <?php if (empty($quizzes)): ?>
-      <tr><td colspan="4" class="text-muted">No quizzes yet.</td></tr>
-    <?php else: foreach ($quizzes as $q): ?>
+      <tr><td colspan="5" class="text-muted">No quizzes yet.</td></tr>
+    <?php else: $i = 1; foreach ($quizzes as $q): ?>
       <tr>
-        <td><?= esc($q['id']) ?></td>
+        <td><?= $i++ ?></td>
         <td><?= esc($q['course_title']) ?></td>
-        <td><?= esc($q['lesson_title']) ?></td>
-        <td><?= esc($q['question']) ?></td>
+        <td><?= esc($q['title']) ?></td>
+        <td><?= (int)($q['question_count'] ?? 0) ?></td>
+        <td>
+          <a href="<?= site_url('teacher/quizzes/manage/' . (int)$q['any_id']) ?>" class="btn btn-sm btn-outline-secondary">Manage Questions</a>
+          <a href="<?= site_url('teacher/quizzes/edit/' . (int)$q['any_id']) ?>" class="btn btn-sm btn-outline-primary">Edit</a>
+          <a href="<?= site_url('teacher/quizzes/delete/' . (int)$q['any_id']) ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this quiz?');">Delete</a>
+        </td>
       </tr>
     <?php endforeach; endif; ?>
   </tbody>
-</table>
+  </table>
+</div>
 <?= $this->endSection() ?>

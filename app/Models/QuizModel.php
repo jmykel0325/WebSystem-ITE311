@@ -8,7 +8,7 @@ class QuizModel extends Model
     protected $table = 'quizzes';
     protected $primaryKey = 'id';
     protected $returnType = 'array';
-    // Existing schema differs; limit to readable fields
-    protected $allowedFields = ['lesson_id','question','answer','created_at','updated_at'];
+    // Allow lesson link plus title, question, answer
+    protected $allowedFields = ['lesson_id','title','question','answer','created_at','updated_at'];
     protected $useTimestamps = true;
 }

@@ -57,19 +57,25 @@
             </div>
             <div class="card-body">
                 <div class="row g-3">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <a href="<?= site_url('student/enrollments') ?>" class="btn btn-primary w-100">
                             <i class="bi bi-plus-circle me-2"></i>
                             My Enrollments
                         </a>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <a href="<?= site_url('student/materials') ?>" class="btn btn-outline-secondary w-100">
                             <i class="bi bi-folder2-open me-2"></i>
                             My Materials
                         </a>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <a href="<?= site_url('student/quizzes') ?>" class="btn btn-outline-success w-100">
+                            <i class="bi bi-clipboard-check me-2"></i>
+                            My Quizzes
+                        </a>
+                    </div>
+                    <div class="col-md-3">
                         <a href="<?= site_url('student/grades') ?>" class="btn btn-outline-secondary w-100">
                             <i class="bi bi-graph-up me-2"></i>
                             View Grades
@@ -101,9 +107,16 @@
                                             <span class="badge bg-primary">
                                                 <?= !empty($course['course_number']) ? esc($course['course_number']) : 'N/A' ?>
                                             </span>
-                                            <small class="text-muted">
-                                                <i class="bi bi-calendar-check"></i>
-                                                <?= date('M d, Y', strtotime($course['enrollment_date'])) ?>
+                                            <small class="text-muted text-end">
+                                                <?php $enrolledAt = strtotime($course['enrollment_date']); ?>
+                                                <div>
+                                                    <i class="bi bi-calendar-check"></i>
+                                                    Enrolled: <?= esc(date('M d, Y', $enrolledAt)) ?>
+                                                </div>
+                                                <div>
+                                                    <i class="bi bi-hourglass-split"></i>
+                                                    Expires: <?= esc(date('M d, Y', strtotime('+4 months', $enrolledAt))) ?>
+                                                </div>
                                             </small>
                                         </div>
                                         <h6 class="card-title"><?= esc($course['title']) ?></h6>

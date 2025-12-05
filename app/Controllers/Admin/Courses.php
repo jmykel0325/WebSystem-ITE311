@@ -25,31 +25,44 @@ class Courses extends BaseController
             return redirect()->to('/login')->with('error', 'Access denied');
         }
 
+        // Optional semester filter (all/first/second)
+        $selectedSemester = $this->request->getGet('semester');
+
         // Get all courses with teacher information
         $db = \Config\Database::connect();
-        $courses = $db->table('courses')
-                     ->select('courses.*, users.name as teacher_name, users.email as teacher_email')
-                     ->join('users', 'users.id = courses.teacher_id', 'left')
-                     ->orderBy('courses.created_at', 'DESC')
-                     ->get()
-                     ->getResultArray();
+        $builder = $db->table('courses')
+                      ->select('courses.*, users.name as teacher_name, users.email as teacher_email')
+                      ->join('users', 'users.id = courses.teacher_id', 'left');
 
-        // Get material counts for each course
+        if (in_array($selectedSemester, ['first', 'second'], true)) {
+            $builder->where('courses.semester', $selectedSemester);
+        }
+
+        $courses = $builder->orderBy('courses.created_at', 'DESC')
+                           ->get()
+                           ->getResultArray();
+
+        // Get material and enrollment counts for each course
         foreach ($courses as &$course) {
             $materialCount = $db->table('materials')
                                ->where('course_id', $course['id'])
                                ->countAllResults();
             $course['material_count'] = $materialCount;
 
+            // Count only approved enrollments (students officially enrolled)
             $enrollmentCount = $db->table('enrollments')
-                                 ->where('course_id', $course['id'])
-                                 ->countAllResults();
-            $course['enrollment_count'] = $enrollmentCount;
+                                 ->select('COUNT(DISTINCT enrollments.id) as cnt', false)
+                                 ->where('enrollments.course_id', $course['id'])
+                                 ->where('enrollments.status', 'approved')
+                                 ->get()
+                                 ->getRow('cnt');
+            $course['enrollment_count'] = (int) $enrollmentCount;
         }
 
         return view('admin/courses/index', [
             'title' => 'Manage Courses',
-            'courses' => $courses
+            'courses' => $courses,
+            'selectedSemester' => $selectedSemester,
         ]);
     }
 
@@ -98,12 +111,38 @@ class Courses extends BaseController
                     'is_unique' => 'This course number is already in use. Please choose a different one.'
                 ]
             ],
-            'title' => [
-                'rules' => 'required|min_length[3]|max_length[255]',
+            'semester' => [
+                'rules' => 'required|in_list[first,second]',
                 'errors' => [
-                    'required' => 'Course title is required',
-                    'min_length' => 'Title must be at least 3 characters',
-                    'max_length' => 'Title cannot exceed 255 characters'
+                    'required' => 'Please select a semester',
+                    'in_list'  => 'Invalid semester selected',
+                ]
+            ],
+            'start_date' => [
+                'rules' => 'permit_empty|valid_date',
+                'errors' => [
+                    'valid_date' => 'Start date is not a valid date',
+                ]
+            ],
+            'end_date' => [
+                'rules' => 'permit_empty|valid_date',
+                'errors' => [
+                    'valid_date' => 'End date is not a valid date',
+                ]
+            ],
+            'days_pattern' => [
+                'rules' => 'permit_empty|max_length[20]',
+                'errors' => [
+                    'max_length' => 'Schedule pattern cannot exceed 20 characters',
+                ]
+            ],
+            'title' => [
+                'rules' => 'required|min_length[3]|max_length[255]|regex_match[/^[A-Za-z0-9 ]+$/]',
+                'errors' => [
+                    'required'    => 'Course title is required',
+                    'min_length'  => 'Title must be at least 3 characters',
+                    'max_length'  => 'Title cannot exceed 255 characters',
+                    'regex_match' => 'Course title may only contain letters, numbers, and spaces (no special characters).',
                 ]
             ],
             'description' => [
@@ -130,6 +169,10 @@ class Courses extends BaseController
         // Prepare data
         $data = [
             'course_number' => strtoupper(trim($this->request->getPost('course_number'))),
+            'semester' => $this->request->getPost('semester'),
+            'start_date' => $this->request->getPost('start_date') ?: null,
+            'end_date' => $this->request->getPost('end_date') ?: null,
+            'days_pattern' => strtoupper(trim($this->request->getPost('days_pattern') ?? '')) ?: null,
             'title' => $this->request->getPost('title'),
             'description' => $this->request->getPost('description'),
             'teacher_id' => $this->request->getPost('teacher_id'),
@@ -225,6 +268,24 @@ class Courses extends BaseController
                     'required' => 'Please select a teacher',
                     'numeric' => 'Invalid teacher selection'
                 ]
+            ],
+            'start_date' => [
+                'rules' => 'permit_empty|valid_date',
+                'errors' => [
+                    'valid_date' => 'Start date is not a valid date',
+                ]
+            ],
+            'end_date' => [
+                'rules' => 'permit_empty|valid_date',
+                'errors' => [
+                    'valid_date' => 'End date is not a valid date',
+                ]
+            ],
+            'days_pattern' => [
+                'rules' => 'permit_empty|max_length[20]',
+                'errors' => [
+                    'max_length' => 'Schedule pattern cannot exceed 20 characters',
+                ]
             ]
         ];
 
@@ -237,6 +298,10 @@ class Courses extends BaseController
         // Prepare data
         $data = [
             'course_number' => strtoupper(trim($this->request->getPost('course_number'))),
+            'semester' => $this->request->getPost('semester'),
+            'start_date' => $this->request->getPost('start_date') ?: null,
+            'end_date' => $this->request->getPost('end_date') ?: null,
+            'days_pattern' => strtoupper(trim($this->request->getPost('days_pattern') ?? '')) ?: null,
             'title' => $this->request->getPost('title'),
             'description' => $this->request->getPost('description'),
             'teacher_id' => $this->request->getPost('teacher_id'),
@@ -251,6 +316,60 @@ class Courses extends BaseController
                            ->withInput()
                            ->with('error', 'Failed to update course. Please try again.');
         }
+    }
+
+    /**
+     * Return JSON list of students enrolled in a course
+     */
+    public function enrolledStudents($id)
+    {
+        // Allow admin or teacher to view
+        if (!session()->get('isLoggedIn') || !in_array(session()->get('role'), ['admin', 'teacher'], true)) {
+            return $this->response->setStatusCode(403)->setJSON([
+                'ok'    => false,
+                'error' => 'Access denied',
+            ]);
+        }
+
+        $db = \Config\Database::connect();
+
+        // List only approved enrollments for this course (LEFT JOIN users)
+        $students = $db->table('enrollments')
+                       ->select('enrollments.id as enrollment_id, users.name, users.email, enrollments.enrollment_date, enrollments.status')
+                       ->join('users', 'users.id = enrollments.user_id', 'left')
+                       ->where('enrollments.course_id', (int)$id)
+                       ->where('enrollments.status', 'approved')
+                       ->orderBy('users.name', 'ASC')
+                       ->get()
+                       ->getResultArray();
+
+        return $this->response->setJSON([
+            'ok'       => true,
+            'students' => $students,
+        ]);
+    }
+
+    /**
+     * Unenroll a single student (by enrollment ID).
+     */
+    public function unenrollStudent($enrollmentId)
+    {
+        if (!session()->get('isLoggedIn') || !in_array(session()->get('role'), ['admin', 'teacher'], true)) {
+            return $this->response->setStatusCode(403)->setJSON([
+                'ok'    => false,
+                'error' => 'Access denied',
+            ]);
+        }
+
+        $db = \Config\Database::connect();
+
+        $deleted = $db->table('enrollments')
+                      ->where('id', (int)$enrollmentId)
+                      ->delete();
+
+        return $this->response->setJSON([
+            'ok' => (bool) $deleted,
+        ]);
     }
 
     /**

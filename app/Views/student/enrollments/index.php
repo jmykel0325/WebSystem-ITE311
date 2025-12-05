@@ -4,71 +4,141 @@
 
 <div class="d-flex justify-content-between align-items-end mb-3">
   <div>
-    <div class="kicker">Student</div>
-    <h1 class="page-title mb-0">My Enrollments</h1>
+    <div class="text-uppercase small text-muted fw-semibold">Student</div>
+    <h1 class="h4 mb-0">My Enrollments</h1>
   </div>
 </div>
 
-<div class="row g-4">
+<div class="row g-3">
   <div class="col-lg-6">
-    <div class="card h-100">
-      <div class="card-header bg-white">
-        <strong>Enrolled Courses</strong>
+    <div class="card h-100 border-0">
+      <div class="card-header bg-white border-bottom-0 pb-1">
+        <ul class="nav nav-pills" role="tablist">
+          <li class="nav-item">
+            <button class="nav-link active" id="tab-active" data-bs-toggle="tab" data-bs-target="#tab-active-pane" type="button" role="tab">
+              Recent Enrollments
+            </button>
+          </li>
+          <li class="nav-item ms-2">
+            <button class="nav-link" id="tab-expired" data-bs-toggle="tab" data-bs-target="#tab-expired-pane" type="button" role="tab">
+              Expired Courses
+            </button>
+          </li>
+        </ul>
       </div>
-      <div class="card-body">
-        <?php if (!empty($enrolled)): ?>
-          <div class="row g-3" id="enrolled-grid">
-            <?php foreach ($enrolled as $c): ?>
+      <div class="card-body tab-content pt-2 px-0 px-md-1">
+        <div class="tab-pane fade show active" id="tab-active-pane" role="tabpanel" aria-labelledby="tab-active">
+        <?php if (!empty($activeEnrolled)): ?>
+          <div class="row g-2" id="enrolled-grid">
+            <?php foreach ($activeEnrolled as $c): ?>
               <div class="col-12">
-                <div class="p-3 border rounded-3 d-flex justify-content-between align-items-center">
-                  <div>
-                    <div class="fw-semibold"><?= esc($c['title']) ?></div>
-                    <small class="text-muted"><?= esc($c['description'] ?? '') ?></small>
+                <div class="p-3 border rounded-3 bg-white d-flex justify-content-between align-items-start">
+                  <div class="me-3 flex-grow-1">
+                    <div class="fw-semibold mb-1"><?= esc($c['title']) ?></div>
+                    <small class="text-muted d-block small"><?= esc($c['description'] ?? '') ?></small>
                   </div>
-                  <div class="d-flex align-items-center gap-2">
-                    <span class="badge badge-soft">
-                      <i class="bi bi-calendar-check"></i>
-                      <?= esc(isset($c['enrollment_date']) ? date('M d, Y', strtotime($c['enrollment_date'])) : '') ?>
+                  <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-2 text-end text-sm-start">
+                    <span class="badge rounded-pill text-bg-light border">
+                      <i class="bi bi-calendar-check me-1"></i>
+                      <?php if (!empty($c['enrollment_date'])): ?>
+                        <?php $enrolledAt = strtotime($c['enrollment_date']); ?>
+                        Enrolled: <?= esc(date('M d, Y', $enrolledAt)) ?>
+                        <span class="ms-2 text-muted">
+                          · Expires: <?= esc(date('M d, Y', strtotime('+4 months', $enrolledAt))) ?>
+                        </span>
+                      <?php endif; ?>
                     </span>
-                    <button type="button" class="btn btn-outline-danger btn-sm btn-unenroll" data-course-id="<?= (int)$c['course_id'] ?>">
-                      <i class="bi bi-x-circle"></i> Unenroll
-                    </button>
+
+                    <?php if (!empty($c['teacher_name'])): ?>
+                      <button type="button" class="btn btn-outline-secondary btn-sm ms-sm-2" 
+                              title="<?= esc($c['teacher_email'] ?? '') ?>">
+                        <i class="bi bi-person-badge me-1"></i>
+                        <?= esc($c['teacher_name']) ?>
+                      </button>
+                    <?php endif; ?>
                   </div>
                 </div>
               </div>
             <?php endforeach; ?>
           </div>
         <?php else: ?>
-          <div class="empty-state">
+          <div class="text-center py-4 border rounded-3 bg-light-subtle">
             <i class="bi bi-emoji-neutral mb-2" style="font-size: 2rem;"></i>
-            <div class="fw-semibold">No enrollments yet</div>
-            <div class="text-muted">Choose a course from "Available Courses".</div>
+            <div class="fw-semibold">No active enrollments</div>
+            <div class="text-muted small">Choose a course from "Available Courses".</div>
           </div>
         <?php endif; ?>
+        </div>
+
+        <div class="tab-pane fade" id="tab-expired-pane" role="tabpanel" aria-labelledby="tab-expired">
+        <?php if (!empty($expiredEnrolled)): ?>
+          <div class="row g-2">
+            <?php foreach ($expiredEnrolled as $c): ?>
+              <div class="col-12">
+                <div class="p-3 border rounded-3 bg-light-subtle d-flex justify-content-between align-items-start">
+                  <div class="me-3 flex-grow-1">
+                    <div class="fw-semibold mb-1"><?= esc($c['title']) ?></div>
+                    <small class="text-muted d-block small"><?= esc($c['description'] ?? '') ?></small>
+                  </div>
+                  <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-2 text-end text-sm-start">
+                    <span class="badge rounded-pill text-bg-light border">
+                      <i class="bi bi-hourglass-bottom me-1"></i>
+                      <?php if (!empty($c['enrollment_date'])): ?>
+                        <?php $enrolledAt = strtotime($c['enrollment_date']); ?>
+                        <?php $expiredAt  = strtotime('+4 months', $enrolledAt); ?>
+                        Enrolled: <?= esc(date('M d, Y', $enrolledAt)) ?>
+                        <span class="ms-2 text-muted">
+                          · Expired: <?= esc(date('M d, Y', $expiredAt)) ?>
+                        </span>
+                      <?php endif; ?>
+                    </span>
+
+                    <?php if (!empty($c['teacher_name'])): ?>
+                      <button type="button" class="btn btn-outline-secondary btn-sm ms-sm-2" 
+                              title="<?= esc($c['teacher_email'] ?? '') ?>">
+                        <i class="bi bi-person-badge me-1"></i>
+                        <?= esc($c['teacher_name']) ?>
+                      </button>
+                    <?php endif; ?>
+                  </div>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        <?php else: ?>
+          <div class="text-center py-4 border rounded-3 bg-light-subtle">
+            <i class="bi bi-archive mb-2" style="font-size: 2rem;"></i>
+            <div class="fw-semibold">No expired courses</div>
+            <div class="text-muted small">Courses you finish or that expire will appear here.</div>
+          </div>
+        <?php endif; ?>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="col-lg-6">
-    <div class="card h-100">
-      <div class="card-header bg-white d-flex justify-content-between align-items-center">
+    <div class="card h-100 border-0">
+      <div class="card-header bg-white d-flex justify-content-between align-items-center border-bottom-0 pb-1">
         <strong>Available Courses</strong>
-        <span id="available-count" class="badge text-bg-light"><?= count($available ?? []) ?> courses</span>
+        <span id="available-count" class="badge rounded-pill text-bg-light">
+          <?= count($available ?? []) ?> courses
+        </span>
       </div>
-      <div class="card-body">
+      <div class="card-body pt-2 px-0 px-md-1">
         <?php if (!empty($available)): ?>
-          <div class="row g-3" id="available-grid">
+          <div class="row g-2" id="available-grid">
             <?php foreach ($available as $c): ?>
               <div class="col-12">
-                <div class="p-3 border rounded-3 d-flex justify-content-between align-items-center" data-course-id="<?= (int)$c['id'] ?>">
-                  <div>
-                    <div class="fw-semibold">
+                <div class="p-3 border rounded-3 bg-white d-flex justify-content-between align-items-start" data-course-id="<?= (int)$c['id'] ?>">
+                  <div class="me-3 flex-grow-1">
+                    <div class="fw-semibold mb-1">
                       <?= esc($c['title']) ?> 
                       <?php if (!empty($c['course_number'])): ?>
-                        <span class="badge bg-secondary"><?= esc($c['course_number']) ?></span>
+                        <span class="badge bg-secondary ms-1"><?= esc($c['course_number']) ?></span>
                       <?php endif; ?>
                     </div>
-                    <small class="text-muted"><?= esc($c['description'] ?? '') ?></small>
+                    <small class="text-muted d-block small"><?= esc($c['description'] ?? '') ?></small>
                   </div>
                   <button type="button" class="btn btn-primary btn-sm btn-enroll" data-course-id="<?= (int)$c['id'] ?>">
                     <i class="bi bi-plus-circle"></i> Enroll
@@ -78,10 +148,10 @@
             <?php endforeach; ?>
           </div>
         <?php else: ?>
-          <div class="empty-state">
+          <div class="text-center py-4 border rounded-3 bg-light-subtle">
             <i class="bi bi-inboxes mb-2" style="font-size: 2rem;"></i>
             <div class="fw-semibold">No available courses</div>
-            <div class="text-muted">Please check back later.</div>
+            <div class="text-muted small">Please check back later.</div>
           </div>
         <?php endif; ?>
       </div>
@@ -185,91 +255,7 @@
       });
     }); // End of enroll click handler
 
-    // Unenroll button click handler
-    $(document).on('click', '.btn-unenroll', function () {
-      console.log('Unenroll button clicked!'); // Debug log
-      const $btn = $(this);
-      const courseId = $btn.data('course-id');
-      console.log('Course ID:', courseId); // Debug log
-      
-      if (!courseId) {
-        console.error('No course ID found!');
-        showToast('Error: No course ID found.', 'danger');
-        return;
-      }
-      
-      // Confirm unenrollment
-      if (!confirm('Are you sure you want to unenroll from this course?')) {
-        return;
-      }
-      
-      $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Unenrolling…');
-
-      $.post(UNENROLL_URL, { [CSRF_TOKEN_NAME]: CSRF_HASH, course_id: courseId })
-        .done(function (res) {
-          console.log('Unenroll AJAX Response:', res); // Debug log
-          if ((res && res.ok === true) || (res && res.status === 'ok')) {
-            showToast(res.message || 'Successfully unenrolled.', 'success');
-
-            const $enrolledCol = $btn.closest('.col-12');
-
-            // Create available card if not present
-            if (!$('#available-grid').length) {
-              const $availableBody = $('.col-lg-6').last().find('.card-body');
-              $availableBody.find('.empty-state').remove();
-              $('<div id="available-grid" class="row g-3"></div>').appendTo($availableBody);
-            }
-
-            // Create a fresh available card using response data
-            const title = (res.course && res.course.title) ? res.course.title : $enrolledCol.find('.fw-semibold').text();
-            const desc  = (res.course && (res.course.summary || res.course.description)) ? (res.course.summary || res.course.description) : $enrolledCol.find('small.text-muted').text();
-            const courseNumber = (res.course && res.course.course_number) ? res.course.course_number : '';
-            const courseBadge = courseNumber ? ' <span class="badge bg-secondary">' + $('<div>').text(courseNumber).html() + '</span>' : '';
-            const availableHtml = '<div class="col-12">\n'
-              + '  <div class="p-3 border rounded-3 d-flex justify-content-between align-items-center" data-course-id="' + courseId + '">\n'
-              + '    <div>\n'
-              + '      <div class="fw-semibold">' + $('<div>').text(title).html() + courseBadge + '</div>\n'
-              + '      <small class="text-muted">' + $('<div>').text(desc || '').html() + '</small>\n'
-              + '    </div>\n'
-              + '    <button type="button" class="btn btn-primary btn-sm btn-enroll" data-course-id="' + courseId + '">\n'
-              + '      <i class="bi bi-plus-circle"></i> Enroll\n'
-              + '    </button>\n'
-              + '  </div>\n'
-              + '</div>';
-
-            $('#available-grid').prepend(availableHtml);
-
-            // Remove the original enrolled card
-            $enrolledCol.remove();
-
-            // Update available count
-            const newAvailable = $('#available-grid [data-course-id]').length;
-            $('#available-count').text(newAvailable + ' courses');
-
-            // Show enrolled empty state if no courses left
-            if ($('#enrolled-grid [data-course-id]').length === 0) {
-              $('#enrolled-grid').remove();
-              const emptyHtml = '<div class="empty-state">'
-                + '<i class="bi bi-emoji-neutral mb-2" style="font-size: 2rem;"></i>'
-                + '<div class="fw-semibold">No enrollments yet</div>'
-                + '<div class="text-muted">Choose a course from "Available Courses".</div>'
-                + '</div>';
-              $('.col-lg-6').first().find('.card-body').html(emptyHtml);
-            }
-
-            if (res.csrf && res.csrf.hash) CSRF_HASH = res.csrf.hash;
-
-          } else {
-            showToast((res && res.message) ? res.message : 'Unable to unenroll.', 'danger');
-            $btn.prop('disabled', false).html('<i class="bi bi-x-circle"></i> Unenroll');
-          }
-        })
-        .fail(function (xhr) {
-          console.error('Unenroll AJAX Failed:', xhr); // Debug log
-          showToast('Request failed. Please try again.', 'danger');
-          $btn.prop('disabled', false).html('<i class="bi bi-x-circle"></i> Unenroll');
-        });
-    }); // End of unenroll click handler
+    // Unenroll is now managed by teachers from their Enrollments page.
   }); // End of waitForJQuery callback
 </script>
 

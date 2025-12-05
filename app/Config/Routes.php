@@ -36,6 +36,11 @@ $routes->group('admin', ['filter' => 'roleauth'], static function($routes) {
     
     // Users management
     $routes->get('users', 'Admin\\Users::index');
+    $routes->get('users/create', 'Admin\\Users::create');
+    $routes->post('users/store', 'Admin\\Users::store');
+    $routes->get('users/edit/(:num)', 'Admin\\Users::edit/$1');
+    $routes->post('users/update/(:num)', 'Admin\\Users::update/$1');
+    $routes->get('users/delete/(:num)', 'Admin\\Users::delete/$1');
     
     // Announcements management
     $routes->get('announcements', 'Admin\\Announcements::index');
@@ -52,20 +57,38 @@ $routes->group('admin', ['filter' => 'roleauth'], static function($routes) {
     $routes->get('courses/edit/(:num)', 'Admin\\Courses::edit/$1');
     $routes->post('courses/update/(:num)', 'Admin\\Courses::update/$1');
     $routes->get('courses/delete/(:num)', 'Admin\\Courses::delete/$1');
+    $routes->get('courses/enrolled-students/(:num)', 'Admin\\Courses::enrolledStudents/$1');
+    $routes->get('courses/unenroll-student/(:num)', 'Admin\\Courses::unenrollStudent/$1');
 });
 
 // Teacher (protected by RoleAuth)
-$routes->group('teacher', ['filter' => 'roleauth'], static function($routes) {
-    $routes->get('courses', 'Teacher\\Courses::index');
-    $routes->get('quizzes', 'Teacher\\Quizzes::index');
-    $routes->get('announcements', 'Teacher\\Announcements::index');
+$routes->group('teacher', ['namespace' => 'App\\Controllers\\Teacher', 'filter' => 'roleauth'], static function($routes) {
+    $routes->get('courses', 'Courses::index');
+    // Quiz management
+    $routes->get('quizzes',               'Quizzes::index');
+    $routes->get('quizzes/create',        'Quizzes::create');
+    $routes->post('quizzes/store',        'Quizzes::store');
+    $routes->get('quizzes/edit/(:num)',   'Quizzes::edit/$1');
+    $routes->post('quizzes/update/(:num)','Quizzes::update/$1');
+    $routes->get('quizzes/delete/(:num)', 'Quizzes::delete/$1');
+    $routes->get('quizzes/manage/(:num)', 'Quizzes::manage/$1');
+    $routes->get('announcements', 'Announcements::index');
+
+    // Enrollment management (teacher approves/unenrolls students)
+    $routes->get('enrollments', 'Enrollments::index');
+    $routes->get('enrollments/approve/(:num)', 'Enrollments::approve/$1');
+    $routes->get('enrollments/unenroll/(:num)', 'Enrollments::unenroll/$1');
 });
 
 // Student pages
-$routes->group('student', ['filter' => 'auth'], static function($routes) {
-    $routes->get('enrollments', 'Student\Enrollments::index');
-    $routes->get('grades', 'Student\\Grades::index');
-    $routes->get('materials', 'Student::materials');
+$routes->group('student', ['namespace' => 'App\\Controllers\\Student', 'filter' => 'auth'], static function($routes) {
+    $routes->get('enrollments', 'Enrollments::index');
+    $routes->get('grades', 'Grades::index');
+    $routes->get('materials', '\App\\Controllers\\Student::materials');
+    // Quizzes access
+    $routes->get('quizzes',                'Quizzes::index');
+    $routes->get('quizzes/show/(:num)',    'Quizzes::show/$1');
+    $routes->post('quizzes/submit/(:num)', 'Quizzes::submit/$1');
 });
 
 // Materials routes - Following instruction format

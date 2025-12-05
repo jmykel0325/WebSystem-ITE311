@@ -32,7 +32,7 @@ class Teacher extends BaseController
         // Get teacher's courses with details
         $courses = $db->table('courses')
                      ->select('courses.*, COUNT(DISTINCT enrollments.id) as student_count, COUNT(DISTINCT materials.id) as material_count')
-                     ->join('enrollments', 'enrollments.course_id = courses.id', 'left')
+                     ->join('enrollments', 'enrollments.course_id = courses.id AND enrollments.status = "approved"', 'left')
                      ->join('materials', 'materials.course_id = courses.id', 'left')
                      ->where('courses.teacher_id', $userId)
                      ->groupBy('courses.id')

@@ -36,7 +36,13 @@ class Course extends BaseController
         $userId      = (int) (session('user_id') ?? session('id'));
         $enrollments = new EnrollmentModel();
 
-        if ($enrollments->isAlreadyEnrolled($userId, $courseId)) {
+        // Check for any existing enrollment row (approved or pending)
+        $existing = $enrollments->where('user_id', $userId)
+                                 ->where('course_id', $courseId)
+                                 ->orderBy('enrollment_date', 'DESC')
+                                 ->first();
+
+        if ($existing && ($existing['status'] ?? 'approved') === 'approved') {
             return $this->response->setJSON([
                 'status'  => 'ok',
                 'ok'      => true,
@@ -47,27 +53,35 @@ class Course extends BaseController
             ]);
         }
 
+        if ($existing && ($existing['status'] ?? '') === 'pending') {
+            return $this->response->setJSON([
+                'status'  => 'ok',
+                'ok'      => true,
+                'already' => true,
+                'pending' => true,
+                'message' => 'Enrollment request already sent. Waiting for teacher approval.',
+                'course'  => ['id' => $course['id'], 'title' => $course['title'], 'summary' => $course['description'] ?? '', 'course_number' => $course['course_number'] ?? ''],
+                'csrf'    => ['name' => csrf_token(), 'hash' => csrf_hash()],
+            ]);
+        }
+
         $ok = $enrollments->enrollUser([
             'user_id'         => $userId,
             'course_id'       => $courseId,
             'enrollment_date' => date('Y-m-d H:i:s'),
+            'status'          => 'pending',
         ]);
 
         if (! $ok) {
             return $this->response->setJSON(['status' => 'error', 'ok' => false, 'message' => 'Could not enroll. Please try again.']);
         }
 
-        // Create notification for the student
-        $notificationModel = new NotificationModel();
-        $notificationModel->createNotification(
-            $userId,
-            'You have been enrolled in ' . $course['title']
-        );
+        // Optionally, you could notify the teacher here instead of the student.
 
         return $this->response->setJSON([
             'status'  => 'ok',
             'ok'      => true,
-            'message' => 'Enrollment successful.',
+            'message' => 'Enrollment request sent. Waiting for teacher approval.',
             'course'  => ['id' => $course['id'], 'title' => $course['title'], 'summary' => $course['description'] ?? '', 'course_number' => $course['course_number'] ?? ''],
             'csrf'    => ['name' => csrf_token(), 'hash' => csrf_hash()],
         ]);

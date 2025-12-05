@@ -114,13 +114,15 @@
           <?php endif; ?>
         </ul>
 
-        <ul class="navbar-nav">
+        <ul class="navbar-nav align-items-center">
           <?php if (session('isLoggedIn')): ?>
             <!-- Notification Dropdown -->
-            <li class="nav-item dropdown">
-              <a class="nav-link position-relative dropdown-toggle" href="#" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-bell fs-5"></i>
-                <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" id="notificationBadge" style="display: none;">0</span>
+            <li class="nav-item dropdown me-2">
+              <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="position-relative d-inline-block">
+                  <i class="bi bi-bell fs-5"></i>
+                  <span class="badge bg-danger position-absolute top-0 start-100 translate-middle" id="notificationBadge" style="display: none;">0</span>
+                </span>
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown" style="min-width: 320px; max-width: 400px; max-height: 80vh;">
                 <li><h6 class="dropdown-header">Notifications</h6></li>
@@ -388,5 +390,7 @@
     });
     <?php endif; ?>
   </script>
+
+  <?= $this->renderSection('scripts') ?>
 </body>
 </html>
