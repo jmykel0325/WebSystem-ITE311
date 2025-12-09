@@ -10,7 +10,7 @@ class Courses extends BaseController
         $teacherId = session('user_id');
         $db = \Config\Database::connect();
         $courses = $db->table('courses')
-            ->select('id, title, created_at')
+            ->select('id, title, days_pattern, start_time, end_time, created_at')
             ->where('teacher_id', $teacherId)
             ->orderBy('created_at', 'DESC')
             ->get()->getResultArray();

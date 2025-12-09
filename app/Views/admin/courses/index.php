@@ -110,11 +110,19 @@
                                         </td>
                                         <td>
                                             <?php if (!empty($course['days_pattern'])): ?>
-                                                <span class="badge bg-light text-dark border">
+                                                <span class="badge bg-light text-dark border d-block mb-1">
                                                     <?= esc($course['days_pattern']) ?>
                                                 </span>
                                             <?php else: ?>
-                                                <span class="text-muted">N/A</span>
+                                                <span class="text-muted d-block mb-1">N/A</span>
+                                            <?php endif; ?>
+
+                                            <?php if (!empty($course['start_time']) || !empty($course['end_time'])): ?>
+                                                <small class="text-muted">
+                                                    <?= !empty($course['start_time']) ? date('h:i A', strtotime($course['start_time'])) : '?' ?>
+                                                    &ndash;
+                                                    <?= !empty($course['end_time']) ? date('h:i A', strtotime($course['end_time'])) : '?' ?>
+                                                </small>
                                             <?php endif; ?>
                                         </td>
                                         <td>

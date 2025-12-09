@@ -103,12 +103,11 @@ class Courses extends BaseController
         // Validation rules
         $validationRules = [
             'course_number' => [
-                'rules' => 'required|min_length[2]|max_length[50]|is_unique[courses.course_number]',
+                'rules' => 'required|min_length[2]|max_length[50]',
                 'errors' => [
                     'required' => 'Course number is required',
                     'min_length' => 'Course number must be at least 2 characters',
                     'max_length' => 'Course number cannot exceed 50 characters',
-                    'is_unique' => 'This course number is already in use. Please choose a different one.'
                 ]
             ],
             'semester' => [
@@ -116,6 +115,12 @@ class Courses extends BaseController
                 'errors' => [
                     'required' => 'Please select a semester',
                     'in_list'  => 'Invalid semester selected',
+                ]
+            ],
+            'school_year' => [
+                'rules' => 'permit_empty|max_length[20]',
+                'errors' => [
+                    'max_length' => 'School year cannot exceed 20 characters',
                 ]
             ],
             'start_date' => [
@@ -134,6 +139,18 @@ class Courses extends BaseController
                 'rules' => 'permit_empty|max_length[20]',
                 'errors' => [
                     'max_length' => 'Schedule pattern cannot exceed 20 characters',
+                ]
+            ],
+            'start_time' => [
+                'rules' => 'permit_empty|regex_match[/^\d{2}:\d{2}(:\d{2})?$/]',
+                'errors' => [
+                    'regex_match' => 'Start time must be in HH:MM or HH:MM:SS format.',
+                ]
+            ],
+            'end_time' => [
+                'rules' => 'permit_empty|regex_match[/^\d{2}:\d{2}(:\d{2})?$/]',
+                'errors' => [
+                    'regex_match' => 'End time must be in HH:MM or HH:MM:SS format.',
                 ]
             ],
             'title' => [
@@ -166,16 +183,39 @@ class Courses extends BaseController
                            ->with('errors', $this->validator->getErrors());
         }
 
+        // Normalize values
+        $normalizedCourseNumber = strtoupper(trim($this->request->getPost('course_number')));
+        $teacherId = (int) $this->request->getPost('teacher_id');
+
+        // Ensure the same teacher cannot have the same course number twice
+        $db = \Config\Database::connect();
+        $existing = $db->table('courses')
+                       ->where('course_number', $normalizedCourseNumber)
+                       ->where('teacher_id', $teacherId)
+                       ->get()
+                       ->getRowArray();
+
+        if ($existing) {
+            return redirect()->back()
+                           ->withInput()
+                           ->with('errors', [
+                               'course_number' => 'This teacher already has a course with this course number.',
+                           ]);
+        }
+
         // Prepare data
         $data = [
-            'course_number' => strtoupper(trim($this->request->getPost('course_number'))),
+            'course_number' => $normalizedCourseNumber,
             'semester' => $this->request->getPost('semester'),
+            'school_year' => trim((string) $this->request->getPost('school_year')) ?: null,
             'start_date' => $this->request->getPost('start_date') ?: null,
             'end_date' => $this->request->getPost('end_date') ?: null,
             'days_pattern' => strtoupper(trim($this->request->getPost('days_pattern') ?? '')) ?: null,
+            'start_time' => $this->request->getPost('start_time') ?: null,
+            'end_time' => $this->request->getPost('end_time') ?: null,
             'title' => $this->request->getPost('title'),
             'description' => $this->request->getPost('description'),
-            'teacher_id' => $this->request->getPost('teacher_id'),
+            'teacher_id' => $teacherId,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ];
@@ -240,12 +280,11 @@ class Courses extends BaseController
         // Validation rules
         $validationRules = [
             'course_number' => [
-                'rules' => 'required|min_length[2]|max_length[50]|is_unique[courses.course_number,id,' . $id . ']',
+                'rules' => 'required|min_length[2]|max_length[50]',
                 'errors' => [
                     'required' => 'Course number is required',
                     'min_length' => 'Course number must be at least 2 characters',
                     'max_length' => 'Course number cannot exceed 50 characters',
-                    'is_unique' => 'This course number is already in use. Please choose a different one.'
                 ]
             ],
             'title' => [
@@ -286,6 +325,18 @@ class Courses extends BaseController
                 'errors' => [
                     'max_length' => 'Schedule pattern cannot exceed 20 characters',
                 ]
+            ],
+            'start_time' => [
+                'rules' => 'permit_empty|regex_match[/^\d{2}:\d{2}(:\d{2})?$/]',
+                'errors' => [
+                    'regex_match' => 'Start time must be in HH:MM or HH:MM:SS format.',
+                ]
+            ],
+            'end_time' => [
+                'rules' => 'permit_empty|regex_match[/^\d{2}:\d{2}(:\d{2})?$/]',
+                'errors' => [
+                    'regex_match' => 'End time must be in HH:MM or HH:MM:SS format.',
+                ]
             ]
         ];
 
@@ -295,16 +346,39 @@ class Courses extends BaseController
                            ->with('errors', $this->validator->getErrors());
         }
 
+        // Normalize values
+        $normalizedCourseNumber = strtoupper(trim($this->request->getPost('course_number')));
+        $teacherId = (int) $this->request->getPost('teacher_id');
+
+        // Ensure the same teacher cannot have the same course number twice (excluding this course)
+        $db = \Config\Database::connect();
+        $existing = $db->table('courses')
+                       ->where('course_number', $normalizedCourseNumber)
+                       ->where('teacher_id', $teacherId)
+                       ->where('id !=', (int) $id)
+                       ->get()
+                       ->getRowArray();
+
+        if ($existing) {
+            return redirect()->back()
+                           ->withInput()
+                           ->with('errors', [
+                               'course_number' => 'This teacher already has a course with this course number.',
+                           ]);
+        }
+
         // Prepare data
         $data = [
-            'course_number' => strtoupper(trim($this->request->getPost('course_number'))),
+            'course_number' => $normalizedCourseNumber,
             'semester' => $this->request->getPost('semester'),
             'start_date' => $this->request->getPost('start_date') ?: null,
             'end_date' => $this->request->getPost('end_date') ?: null,
             'days_pattern' => strtoupper(trim($this->request->getPost('days_pattern') ?? '')) ?: null,
+            'start_time' => $this->request->getPost('start_time') ?: null,
+            'end_time' => $this->request->getPost('end_time') ?: null,
             'title' => $this->request->getPost('title'),
             'description' => $this->request->getPost('description'),
-            'teacher_id' => $this->request->getPost('teacher_id'),
+            'teacher_id' => $teacherId,
             'updated_at' => date('Y-m-d H:i:s')
         ];
 

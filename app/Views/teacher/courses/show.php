@@ -41,6 +41,7 @@
             <?php if (!empty($course['days_pattern'])): ?>
               <span class="badge bg-light text-dark border me-1"><?= esc($course['days_pattern']) ?></span>
             <?php endif; ?>
+
             <?php if (!empty($course['start_date']) || !empty($course['end_date'])): ?>
               <?php if (!empty($course['start_date'])): ?>
                 <?= date('M d, Y', strtotime($course['start_date'])) ?>
@@ -55,6 +56,15 @@
               <?php endif; ?>
             <?php else: ?>
               <span class="text-muted">N/A</span>
+            <?php endif; ?>
+
+            <?php if (!empty($course['start_time']) || !empty($course['end_time'])): ?>
+              <br>
+              <small class="text-muted">
+                <?= !empty($course['start_time']) ? date('h:i A', strtotime($course['start_time'])) : '?' ?>
+                &ndash;
+                <?= !empty($course['end_time']) ? date('h:i A', strtotime($course['end_time'])) : '?' ?>
+              </small>
             <?php endif; ?>
           </dd>
 

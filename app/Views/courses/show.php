@@ -48,7 +48,19 @@
                         <?php if (!empty($course['days_pattern'])): ?>
                             <div class="col-md-6">
                                 <div class="small text-muted text-uppercase">Schedule</div>
-                                <div><?= esc($course['days_pattern']) ?></div>
+                                <div>
+                                    <span class="badge bg-light text-dark border me-1">
+                                        <?= esc($course['days_pattern']) ?>
+                                    </span>
+                                    <?php if (!empty($course['start_time']) || !empty($course['end_time'])): ?>
+                                        <br>
+                                        <small class="text-muted">
+                                            <?= !empty($course['start_time']) ? date('h:i A', strtotime($course['start_time'])) : '?' ?>
+                                            &ndash;
+                                            <?= !empty($course['end_time']) ? date('h:i A', strtotime($course['end_time'])) : '?' ?>
+                                        </small>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         <?php endif; ?>
                         <?php if (!empty($course['duration_months'])): ?>

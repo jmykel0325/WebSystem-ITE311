@@ -43,14 +43,14 @@
         </div>
       </div>
       <div class="col-md-3">
-        <!-- Total Lessons - Belize Hole -->
-        <div class="card border-0 rounded-4 h-100" style="background-color:#2980b9; color:#ffffff;">
+        <!-- Total Materials - Pumpkin -->
+        <div class="card border-0 rounded-4 h-100" style="background-color:#d35400; color:#ffffff;">
           <div class="card-body d-flex align-items-center justify-content-between">
             <div>
-              <div class="small text-uppercase opacity-75">Total Lessons</div>
-              <div class="fs-3 fw-bold"><?= esc($stats['quizzes'] ?? 0) ?></div>
+              <div class="small text-uppercase opacity-75">Total Materials</div>
+              <div class="fs-3 fw-bold"><?= esc($stats['materials'] ?? 0) ?></div>
             </div>
-            <div class="fs-1 opacity-75"><i class="bi bi-book"></i></div>
+            <div class="fs-1 opacity-75"><i class="bi bi-folder2-open"></i></div>
           </div>
         </div>
       </div>

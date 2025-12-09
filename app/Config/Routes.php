@@ -46,6 +46,7 @@ $routes->group('admin', ['filter' => 'roleauth'], static function($routes) {
     $routes->get('users/edit/(:num)', 'Admin\\Users::edit/$1');
     $routes->post('users/update/(:num)', 'Admin\\Users::update/$1');
     $routes->get('users/delete/(:num)', 'Admin\\Users::delete/$1');
+    $routes->get('users/restore/(:num)', 'Admin\\Users::restore/$1');
     
     // Announcements management
     $routes->get('announcements', 'Admin\\Announcements::index');
@@ -86,6 +87,7 @@ $routes->group('teacher', ['namespace' => 'App\\Controllers\\Teacher', 'filter' 
     $routes->get('enrollments', 'Enrollments::index');
     $routes->get('enrollments/approve/(:num)', 'Enrollments::approve/$1');
     $routes->get('enrollments/unenroll/(:num)', 'Enrollments::unenroll/$1');
+    $routes->get('enrollments/reenroll/(:num)', 'Enrollments::reenroll/$1');
 });
 
 // Student pages

@@ -12,8 +12,18 @@ class Course extends BaseController
     {
         $coursesModel = new CourseModel();
 
+        // Only show non-expired courses: no end_date or end_date strictly in the future
+        $today = date('Y-m-d');
+
         $data = [
-            'courses'    => $coursesModel->orderBy('title', 'ASC')->findAll(),
+            'courses'    => $coursesModel
+                ->groupStart()
+                    ->where('end_date IS NULL', null, false)
+                    ->orWhere('end_date', '')
+                    ->orWhere('end_date >', $today)
+                ->groupEnd()
+                ->orderBy('title', 'ASC')
+                ->findAll(),
             'searchTerm' => null,
         ];
 
@@ -27,7 +37,9 @@ class Course extends BaseController
         $course = $coursesModel->find($id);
 
         if (! $course) {
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Course not found');
+            return redirect()
+                ->to('/courses')
+                ->with('error', 'The course you tried to view no longer exists.');
         }
 
         return view('courses/show', [
@@ -39,10 +51,17 @@ class Course extends BaseController
     {
         $coursesModel = new CourseModel();
 
+        // Only search among non-expired courses
+        $today   = date('Y-m-d');
+        $builder = $coursesModel
+            ->groupStart()
+                ->where('end_date IS NULL', null, false)
+                ->orWhere('end_date', '')
+                ->orWhere('end_date >', $today)
+            ->groupEnd();
+
         // Accept both GET and POST parameters, common names: q or search
         $term = trim((string) ($this->request->getVar('q') ?? $this->request->getVar('search') ?? ''));
-
-        $builder = $coursesModel;
 
         if ($term !== '') {
             // Only search within the course title and require it to START WITH the term
@@ -86,10 +105,22 @@ class Course extends BaseController
         }
 
         $courses = new CourseModel();
-        $course  = $courses->select('id, title, description, course_number')->find($courseId);
+        $course  = $courses->select('id, title, description, course_number, end_date')->find($courseId);
         if (! $course) {
             return $this->response->setStatusCode(ResponseInterface::HTTP_NOT_FOUND)
                 ->setJSON(['status' => 'error', 'ok' => false, 'message' => 'Course not found.']);
+        }
+
+        // Disallow enrollment into expired courses
+        $today = date('Y-m-d');
+        if (!empty($course['end_date']) && $course['end_date'] < $today) {
+            return $this->response->setStatusCode(ResponseInterface::HTTP_BAD_REQUEST)
+                ->setJSON([
+                    'status'  => 'error',
+                    'ok'      => false,
+                    'message' => 'This course has already expired and is no longer available for enrollment.',
+                    'csrf'    => ['name' => csrf_token(), 'hash' => csrf_hash()],
+                ]);
         }
 
         $userId      = (int) (session('user_id') ?? session('id'));

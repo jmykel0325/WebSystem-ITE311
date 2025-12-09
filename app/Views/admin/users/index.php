@@ -27,9 +27,10 @@
       </thead>
       <tbody>
         <?php if (!empty($users)): ?>
+          <?php $row = 1; ?>
           <?php foreach ($users as $u): ?>
             <tr>
-              <td><?= (int)$u['id'] ?></td>
+              <td><?= $row++ ?></td>
               <td><?= esc($u['name'] ?? ($u['first_name'] ?? '')) ?></td>
               <td><?= esc($u['email']) ?></td>
               <td>
@@ -51,7 +52,10 @@
                       <i class="bi bi-trash"></i> Delete
                     </a>
                   <?php else: ?>
-                    <span class="text-muted small">Deleted</span>
+                    <a href="<?= site_url('admin/users/restore/' . (int)$u['id']) ?>" class="btn btn-sm btn-outline-success"
+                       onclick="return confirm('Restore this deleted account?');">
+                      <i class="bi bi-arrow-counterclockwise"></i> Restore
+                    </a>
                   <?php endif; ?>
                 <?php else: ?>
                   <span class="badge bg-info text-dark small">Current admin (in use)</span>

@@ -11,8 +11,10 @@ class Dashboard extends BaseController
         $stats = [
             'users'       => (int) $db->table('users')->countAllResults(),
             'courses'     => (int) $db->table('courses')->countAllResults(),
+            'lessons'     => (int) $db->table('lessons')->countAllResults(),
             'quizzes'     => (int) $db->table('quizzes')->countAllResults(),
             'enrollments' => (int) $db->table('enrollments')->countAllResults(),
+            'materials'   => (int) $db->table('materials')->countAllResults(),
         ];
 
         return view('admin/dashboard', [

@@ -22,12 +22,14 @@ class Teacher extends BaseController
                        ->where('teacher_id', $userId)
                        ->countAllResults();
 
-        // Get quizzes count for teacher's courses (quizzes are linked through lessons)
-        $quizzes = $db->table('quizzes')
-                     ->join('lessons', 'lessons.id = quizzes.lesson_id')
-                     ->join('courses', 'courses.id = lessons.course_id')
-                     ->where('courses.teacher_id', $userId)
-                     ->countAllResults();
+        // Get quizzes count for teacher's courses (grouped by lesson + quiz title so each quiz is counted once)
+        $quizzes = $db->table('quizzes q')
+                     ->select('COUNT(DISTINCT CONCAT(q.lesson_id, "|", q.title)) AS quiz_count')
+                     ->join('lessons l', 'l.id = q.lesson_id')
+                     ->join('courses c', 'c.id = l.course_id')
+                     ->where('c.teacher_id', $userId)
+                     ->get()
+                     ->getRow('quiz_count');
 
         // Get teacher's courses with details
         $courses = $db->table('courses')
@@ -41,7 +43,7 @@ class Teacher extends BaseController
 
         $stats = [
             'my_courses' => $myCourses,
-            'quizzes' => $quizzes,
+            'quizzes' => (int) $quizzes,
         ];
 
         return view('teacher/dashboard', [

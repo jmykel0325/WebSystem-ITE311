@@ -29,6 +29,7 @@
             <thead class="table-light">
               <tr>
                 <th>Title</th>
+                <th>Schedule</th>
                 <th>Created</th>
               </tr>
             </thead>
@@ -41,6 +42,23 @@
                     <a href="<?= site_url('teacher/courses/show/' . (int)$c['id']) ?>" class="text-decoration-none text-dark fw-semibold">
                       <?= esc($c['title']) ?>
                     </a>
+                  </td>
+                  <td>
+                    <?php if (!empty($c['days_pattern'])): ?>
+                      <span class="badge bg-light text-dark border d-block mb-1">
+                        <?= esc($c['days_pattern']) ?>
+                      </span>
+                    <?php else: ?>
+                      <span class="text-muted d-block mb-1">N/A</span>
+                    <?php endif; ?>
+
+                    <?php if (!empty($c['start_time']) || !empty($c['end_time'])): ?>
+                      <small class="text-muted">
+                        <?= !empty($c['start_time']) ? date('h:i A', strtotime($c['start_time'])) : '?' ?>
+                        &ndash;
+                        <?= !empty($c['end_time']) ? date('h:i A', strtotime($c['end_time'])) : '?' ?>
+                      </small>
+                    <?php endif; ?>
                   </td>
                   <td class="course-created">
                     <small class="text-muted"><?= esc($c['created_at']) ?></small>

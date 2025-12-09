@@ -101,6 +101,18 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="school_year" class="form-label fw-bold">
+                            School Year
+                        </label>
+                        <input type="text"
+                               class="form-control"
+                               id="school_year"
+                               name="school_year"
+                               value="<?= old('school_year', $course['school_year'] ?? '') ?>"
+                               placeholder="e.g., 2025-2026">
+                    </div>
+
+                    <div class="mb-3">
                         <label for="start_date" class="form-label fw-bold">
                             <i class="bi bi-calendar-date me-2"></i>
                             Start Date
@@ -127,6 +139,34 @@
                                value="<?= old('end_date', $course['end_date'] ?? '') ?>">
                         <div class="form-text">
                             Optional: When the course ends. Set the duration of the course here if necessary.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-clock-history me-2"></i>
+                            Class Time (Teacher Schedule)
+                        </label>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <label for="start_time" class="form-label small mb-1">Start Time</label>
+                                <input type="time"
+                                       class="form-control"
+                                       id="start_time"
+                                       name="start_time"
+                                       value="<?= old('start_time', $course['start_time'] ?? '') ?>">
+                            </div>
+                            <div class="col-6">
+                                <label for="end_time" class="form-label small mb-1">End Time</label>
+                                <input type="time"
+                                       class="form-control"
+                                       id="end_time"
+                                       name="end_time"
+                                       value="<?= old('end_time', $course['end_time'] ?? '') ?>">
+                            </div>
+                        </div>
+                        <div class="form-text">
+                            Optional: Set the daily time range for this class (e.g., 09:00 to 10:30).
                         </div>
                     </div>
 

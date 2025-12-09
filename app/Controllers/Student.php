@@ -22,50 +22,61 @@ class Student extends BaseController
             return redirect()->back()->with('error', 'Access denied');
         }
 
-        $userId = session()->get('user_id');
-        $db = \Config\Database::connect();
+        $userId = (int) session()->get('user_id');
 
-        // Cutoff date for active enrollments (4 months)
-        $cutoff = date('Y-m-d H:i:s', strtotime('-4 months'));
+        // Use EnrollmentModel to fetch all approved enrollments with course data
+        $enrollmentModel = new \App\Models\EnrollmentModel();
+        $allEnrollments  = $enrollmentModel->getUserEnrollments($userId);
 
-        // Get enrolled courses count (only last 1 year)
-        $enrolled = $db->table('enrollments')
-                      ->where('user_id', $userId)
-                      ->where('status', 'approved')
-                      ->where('enrollment_date >=', $cutoff)
-                      ->countAllResults();
+        $activeEnrollments = [];
+        $now = new \DateTime('now');
 
-        // Get quizzes count from enrolled courses (quizzes are linked through lessons)
-        $quizzes = $db->table('quizzes')
-                     ->join('lessons', 'lessons.id = quizzes.lesson_id')
-                     ->join('courses', 'courses.id = lessons.course_id')
-                     ->join('enrollments', 'enrollments.course_id = courses.id')
-                     ->where('enrollments.user_id', $userId)
-                     ->where('enrollments.status', 'approved')
-                     ->where('enrollments.enrollment_date >=', $cutoff)
-                     ->countAllResults();
+        foreach ($allEnrollments as $row) {
+            if (empty($row['enrollment_date'])) {
+                $activeEnrollments[] = $row;
+                continue;
+            }
 
-        // Get enrolled courses with details (only last 1 year)
-        $enrolledCourses = $db->table('courses')
-                             ->select('courses.*, enrollments.enrollment_date, users.name as teacher_name')
-                             ->join('enrollments', 'enrollments.course_id = courses.id')
-                             ->join('users', 'users.id = courses.teacher_id', 'left')
-                             ->where('enrollments.user_id', $userId)
-                             ->where('enrollments.status', 'approved')
-                             ->where('enrollments.enrollment_date >=', $cutoff)
-                             ->orderBy('enrollments.enrollment_date', 'DESC')
-                             ->get()
-                             ->getResultArray();
+            $enrolledAt = new \DateTime($row['enrollment_date']);
+
+            // Prefer course end_date if set; otherwise fall back to enrollment + 4 months
+            if (!empty($row['end_date'])) {
+                $expiry = new \DateTime($row['end_date']);
+            } else {
+                $expiry = clone $enrolledAt;
+                $expiry->modify('+4 months');
+            }
+
+            if ($expiry >= $now) {
+                $activeEnrollments[] = $row;
+            }
+        }
+
+        // Count only active enrollments
+        $activeCount = count($activeEnrollments);
+
+        // Quizzes count based on active courses only
+        $db       = \Config\Database::connect();
+        $courseIds = array_unique(array_map(static fn($e) => (int) $e['course_id'], $activeEnrollments));
+
+        $quizzesCount = 0;
+        if (!empty($courseIds)) {
+            $quizzesCount = $db->table('quizzes q')
+                ->join('lessons l', 'l.id = q.lesson_id')
+                ->join('courses c', 'c.id = l.course_id')
+                ->whereIn('c.id', $courseIds)
+                ->countAllResults();
+        }
 
         $stats = [
-            'enrolled' => $enrolled,
-            'quizzes' => $quizzes,
+            'enrolled' => $activeCount,
+            'quizzes'  => $quizzesCount,
         ];
 
         return view('student/dashboard', [
-            'title' => 'Student Dashboard',
-            'stats' => $stats,
-            'enrolledCourses' => $enrolledCourses
+            'title'           => 'Student Dashboard',
+            'stats'           => $stats,
+            'enrolledCourses' => $activeEnrollments,
         ]);
     }
 

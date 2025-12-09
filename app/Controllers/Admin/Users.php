@@ -199,4 +199,32 @@ class Users extends BaseController
         return redirect()->to(site_url('admin/users'))
             ->with('success', 'User account marked as deleted.');
     }
+
+    public function restore($id)
+    {
+        if (!session()->get('isLoggedIn') || session()->get('role') !== 'admin') {
+            return redirect()->to('/login')->with('error', 'Access denied');
+        }
+
+        $userModel = new UserModel();
+        $user      = $userModel->find($id);
+
+        if (! $user) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('User not found');
+        }
+
+        // Only restore accounts currently marked as deleted
+        if (($user['role'] ?? '') !== 'deleted') {
+            return redirect()->back()->with('error', 'Only deleted accounts can be restored.');
+        }
+
+        // Restore to a safe default role; admin can change it later via Edit
+        $userModel->save([
+            'id'   => $id,
+            'role' => 'student',
+        ]);
+
+        return redirect()->to(site_url('admin/users'))
+            ->with('success', 'User account has been restored.');
+    }
 }

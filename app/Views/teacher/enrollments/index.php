@@ -97,9 +97,15 @@
                       <?php endif; ?>
                     </td>
                     <td class="text-end">
-                      <a href="<?= site_url('teacher/enrollments/unenroll/' . (int)$row['id']) ?>" class="btn btn-outline-danger btn-sm" onclick="return confirm('Unenroll this student from the course?');">
-                        Unenroll
-                      </a>
+                      <?php if (($row['status'] ?? 'approved') === 'approved'): ?>
+                        <a href="<?= site_url('teacher/enrollments/unenroll/' . (int)$row['id']) ?>" class="btn btn-outline-danger btn-sm" onclick="return confirm('Unenroll this student from the course?');">
+                          Unenroll
+                        </a>
+                      <?php else: ?>
+                        <a href="<?= site_url('teacher/enrollments/reenroll/' . (int)$row['id']) ?>" class="btn btn-outline-success btn-sm" onclick="return confirm('Re-enroll this student to the course?');">
+                          Re-enroll
+                        </a>
+                      <?php endif; ?>
                     </td>
                   </tr>
                 <?php endforeach; ?>

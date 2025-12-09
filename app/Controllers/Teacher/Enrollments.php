@@ -34,11 +34,11 @@ class Enrollments extends BaseController
             ->getResultArray();
 
         $approved = $db->table('enrollments e')
-            ->select('e.id, e.user_id, e.course_id, e.enrollment_date, u.name AS student_name, c.title AS course_title')
+            ->select('e.id, e.user_id, e.course_id, e.enrollment_date, e.status, u.name AS student_name, c.title AS course_title')
             ->join('courses c', 'c.id = e.course_id')
             ->join('users u', 'u.id = e.user_id')
             ->where('c.teacher_id', $teacherId)
-            ->where('e.status', 'approved')
+            ->whereIn('e.status', ['approved', 'removed'])
             ->orderBy('e.enrollment_date', 'DESC')
             ->get()
             ->getResultArray();
@@ -117,8 +117,41 @@ class Enrollments extends BaseController
             return redirect()->to('/teacher/enrollments')->with('error', 'Enrollment not found or not in your course.');
         }
 
-        $this->enrollmentModel->delete($enrollmentId);
+        // Soft-unenroll: mark status as removed so it can be restored later
+        $this->enrollmentModel->update($enrollmentId, ['status' => 'removed']);
 
         return redirect()->to('/teacher/enrollments')->with('success', 'Student unenrolled from course.');
+    }
+
+    public function reenroll($id)
+    {
+        if (session('role') !== 'teacher') {
+            return redirect()->to('/teacher/dashboard')->with('error', 'Access denied.');
+        }
+
+        $teacherId    = (int) session('user_id');
+        $enrollmentId = (int) $id;
+
+        $db = \Config\Database::connect();
+
+        $row = $db->table('enrollments e')
+            ->select('e.id')
+            ->join('courses c', 'c.id = e.course_id')
+            ->where('e.id', $enrollmentId)
+            ->where('c.teacher_id', $teacherId)
+            ->get()
+            ->getRowArray();
+
+        if (! $row) {
+            return redirect()->to('/teacher/enrollments')->with('error', 'Enrollment not found or not in your course.');
+        }
+
+        // Restore enrollment as approved and refresh enrollment_date
+        $this->enrollmentModel->update($enrollmentId, [
+            'status'          => 'approved',
+            'enrollment_date' => date('Y-m-d H:i:s'),
+        ]);
+
+        return redirect()->to('/teacher/enrollments')->with('success', 'Student re-enrolled in course.');
     }
 }

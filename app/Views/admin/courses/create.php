@@ -101,6 +101,22 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="school_year" class="form-label fw-bold">
+                            School Year
+                        </label>
+                        <input type="text"
+                               class="form-control"
+                               id="school_year"
+                               name="school_year"
+                               value="<?= old('school_year') ?>"
+                               placeholder="Automatically set from start date (e.g., 2025-2026)"
+                               readonly>
+                        <div class="form-text">
+                            Pick a <strong>Start Date</strong>; the school year will be filled in automatically.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="start_date" class="form-label fw-bold">
                             <i class="bi bi-calendar-date me-2"></i>
                             Start Date
@@ -130,19 +146,78 @@
                         </div>
                     </div>
 
-                    <div class="mb-4">
-                        <label for="days_pattern" class="form-label fw-bold">
-                            <i class="bi bi-calendar-week me-2"></i>
-                            Class Days (pattern)
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-clock-history me-2"></i>
+                            Class Time (Teacher Schedule)
                         </label>
-                        <input type="text"
-                               class="form-control"
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <label for="start_time" class="form-label small mb-1">Start Time</label>
+                                <input type="time"
+                                       class="form-control"
+                                       id="start_time"
+                                       name="start_time"
+                                       value="<?= old('start_time') ?>">
+                            </div>
+                            <div class="col-6">
+                                <label for="end_time" class="form-label small mb-1">End Time</label>
+                                <input type="time"
+                                       class="form-control"
+                                       id="end_time"
+                                       name="end_time"
+                                       value="<?= old('end_time') ?>">
+                            </div>
+                        </div>
+                        <div class="form-text">
+                            Optional: Set the daily time range for this class (e.g., 09:00 to 10:30).
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-calendar-week me-2"></i>
+                            Class Days
+                        </label>
+
+                        <?php
+                            $oldDaysPattern = old('days_pattern') ?? '';
+                            $preselectedDays = array_filter(array_map('trim', explode(',', $oldDaysPattern)));
+                            $dayOptions = [
+                                'Mon' => 'M',
+                                'Tue' => 'T',
+                                'Wed' => 'W',
+                                'Thu' => 'Th',
+                                'Fri' => 'F',
+                                'Sat' => 'Sa',
+                                'Sun' => 'Su',
+                            ];
+                        ?>
+
+                        <div class="row g-2">
+                            <?php foreach ($dayOptions as $dayLabel => $dayCode): ?>
+                                <div class="col-4 col-sm-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input class-day-checkbox"
+                                               type="checkbox"
+                                               value="<?= esc($dayCode) ?>"
+                                               id="day_<?= esc(strtolower($dayLabel)) ?>"
+                                               <?= in_array($dayCode, $preselectedDays, true) ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="day_<?= esc(strtolower($dayLabel)) ?>">
+                                            <?= esc($dayLabel) ?>
+                                        </label>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+
+                        <input type="hidden"
                                id="days_pattern"
                                name="days_pattern"
-                               value="<?= old('days_pattern') ?>"
-                               placeholder="e.g., MWF, TTh, MTWTHF">
+                               value="<?= esc($oldDaysPattern) ?>">
+
                         <div class="form-text">
-                            Optional: Short code for class days (e.g., <strong>M</strong>, <strong>TTh</strong>, <strong>MWF</strong>).
+                            Choose the days when the class meets. We will store them as a pattern (e.g., <strong>M,T,W</strong>).
                         </div>
                     </div>
 
@@ -212,6 +287,56 @@
         }, false);
     });
 })();
+
+// Auto-generate school year based on start date
+document.addEventListener('DOMContentLoaded', function () {
+    var startDateInput = document.getElementById('start_date');
+    var schoolYearInput = document.getElementById('school_year');
+
+    function updateSchoolYear() {
+        if (!startDateInput || !schoolYearInput || !startDateInput.value) {
+            return;
+        }
+
+        var date = new Date(startDateInput.value);
+        if (isNaN(date.getTime())) {
+            return;
+        }
+
+        var yearStart = date.getFullYear();
+        // Typical PH school year: starts mid-year and ends next calendar year
+        var yearEnd = yearStart + 1;
+        schoolYearInput.value = yearStart + '-' + yearEnd;
+    }
+
+    if (startDateInput) {
+        startDateInput.addEventListener('change', updateSchoolYear);
+        // Initialize on page load if value already present
+        updateSchoolYear();
+    }
+
+    // Class days: sync checkboxes to hidden pattern field
+    var dayCheckboxes = document.querySelectorAll('.class-day-checkbox');
+    var patternInput = document.getElementById('days_pattern');
+
+    function updateDaysPattern() {
+        if (!patternInput) return;
+        var selected = [];
+        dayCheckboxes.forEach(function(cb) {
+            if (cb.checked) {
+                selected.push(cb.value);
+            }
+        });
+        patternInput.value = selected.join(',');
+    }
+
+    dayCheckboxes.forEach(function(cb) {
+        cb.addEventListener('change', updateDaysPattern);
+    });
+
+    // Initialize from any preselected values
+    updateDaysPattern();
+});
 </script>
 
 <?= $this->endSection() ?>

@@ -62,10 +62,10 @@
                                id="material_file" 
                                name="material_file" 
                                required
-                               accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.zip">
+                               accept=".pdf,.ppt">
                         <div class="form-text">
                             <i class="bi bi-info-circle me-1"></i>
-                            Allowed file types: PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX, TXT, ZIP (Max size: 10MB)
+                            Allowed file types: PDF, PPT (Max size: 10MB)
                         </div>
                     </div>
 
