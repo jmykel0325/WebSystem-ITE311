@@ -33,8 +33,14 @@ class Enrollments extends BaseController
             }
 
             $enrolledAt = new \DateTime($row['enrollment_date']);
-            $expiry     = clone $enrolledAt;
-            $expiry->modify('+4 months');
+
+            // Prefer course end_date if set; otherwise fall back to enrollment + 4 months
+            if (!empty($row['end_date'])) {
+                $expiry = new \DateTime($row['end_date']);
+            } else {
+                $expiry = clone $enrolledAt;
+                $expiry->modify('+4 months');
+            }
 
             if ($expiry >= $now) {
                 $active[] = $row;

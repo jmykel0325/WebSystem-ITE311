@@ -41,10 +41,19 @@
                     <span class="badge rounded-pill text-bg-light border">
                       <i class="bi bi-calendar-check me-1"></i>
                       <?php if (!empty($c['enrollment_date'])): ?>
-                        <?php $enrolledAt = strtotime($c['enrollment_date']); ?>
-                        Enrolled: <?= esc(date('M d, Y', $enrolledAt)) ?>
+                        <?php
+                          $enrolledAtTs = strtotime($c['enrollment_date']);
+                          $expiryTs     = null;
+                          if (!empty($c['end_date'])) {
+                              $expiryTs = strtotime($c['end_date']);
+                          }
+                          if (!$expiryTs) {
+                              $expiryTs = strtotime('+4 months', $enrolledAtTs);
+                          }
+                        ?>
+                        Enrolled: <?= esc(date('M d, Y', $enrolledAtTs)) ?>
                         <span class="ms-2 text-muted">
-                          · Expires: <?= esc(date('M d, Y', strtotime('+4 months', $enrolledAt))) ?>
+                          · Expires: <?= esc(date('M d, Y', $expiryTs)) ?>
                         </span>
                       <?php endif; ?>
                     </span>
@@ -84,11 +93,19 @@
                     <span class="badge rounded-pill text-bg-light border">
                       <i class="bi bi-hourglass-bottom me-1"></i>
                       <?php if (!empty($c['enrollment_date'])): ?>
-                        <?php $enrolledAt = strtotime($c['enrollment_date']); ?>
-                        <?php $expiredAt  = strtotime('+4 months', $enrolledAt); ?>
-                        Enrolled: <?= esc(date('M d, Y', $enrolledAt)) ?>
+                        <?php
+                          $enrolledAtTs = strtotime($c['enrollment_date']);
+                          $expiryTs     = null;
+                          if (!empty($c['end_date'])) {
+                              $expiryTs = strtotime($c['end_date']);
+                          }
+                          if (!$expiryTs) {
+                              $expiryTs = strtotime('+4 months', $enrolledAtTs);
+                          }
+                        ?>
+                        Enrolled: <?= esc(date('M d, Y', $enrolledAtTs)) ?>
                         <span class="ms-2 text-muted">
-                          · Expired: <?= esc(date('M d, Y', $expiredAt)) ?>
+                          · Expired: <?= esc(date('M d, Y', $expiryTs)) ?>
                         </span>
                       <?php endif; ?>
                     </span>

@@ -31,7 +31,7 @@ class EnrollmentModel extends Model
 
     public function getUserEnrollments(int $userId): array
     {
-        return $this->select('enrollments.*, courses.id as course_id, courses.title, courses.description, courses.course_number, enrollments.enrollment_date, users.name as teacher_name, users.email as teacher_email')
+        return $this->select('enrollments.*, courses.id as course_id, courses.title, courses.description, courses.course_number, courses.start_date, courses.end_date, courses.duration_months, enrollments.enrollment_date, users.name as teacher_name, users.email as teacher_email')
                     ->join('courses', 'courses.id = enrollments.course_id', 'inner')
                     ->join('users', 'users.id = courses.teacher_id', 'left')
                     ->where('enrollments.user_id', $userId)

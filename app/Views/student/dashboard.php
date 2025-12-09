@@ -84,31 +84,40 @@
           <div class="row g-3">
             <?php foreach ($enrolledCourses as $course): ?>
               <div class="col-md-6 col-lg-4">
-                <div class="card h-100">
+                <div class="card h-100 position-relative">
                   <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                       <span class="badge bg-primary">
                         <?= !empty($course['course_number']) ? esc($course['course_number']) : 'N/A' ?>
                       </span>
                       <small class="text-muted text-end">
-                        <?php $enrolledAt = strtotime($course['enrollment_date']); ?>
+                        <?php
+                          $enrolledAt = strtotime($course['enrollment_date']);
+                          $expiryTs   = null;
+                          if (!empty($course['end_date'])) {
+                              $expiryTs = strtotime($course['end_date']);
+                          }
+                          if (!$expiryTs) {
+                              $expiryTs = strtotime('+4 months', $enrolledAt);
+                          }
+                        ?>
                         <div>
                           <i class="bi bi-calendar-check"></i>
                           Enrolled: <?= esc(date('M d, Y', $enrolledAt)) ?>
                         </div>
                         <div>
                           <i class="bi bi-hourglass-split"></i>
-                          Expires: <?= esc(date('M d, Y', strtotime('+4 months', $enrolledAt))) ?>
+                          Expires: <?= esc(date('M d, Y', $expiryTs)) ?>
                         </div>
                       </small>
                     </div>
-                    <h6 class="card-title"><?= esc($course['title']) ?></h6>
+                    <h6 class="card-title mb-1"><?= esc($course['title']) ?></h6>
                     <p class="card-text text-muted small">
                       <?= esc(substr($course['description'] ?? 'No description', 0, 80)) ?>
                       <?= strlen($course['description'] ?? '') > 80 ? '...' : '' ?>
                     </p>
                     <?php if (!empty($course['teacher_name'])): ?>
-                      <p class="card-text small">
+                      <p class="card-text small mb-2">
                         <i class="bi bi-person-circle me-1"></i>
                         <strong>Teacher:</strong> <?= esc($course['teacher_name']) ?>
                       </p>
@@ -120,6 +129,7 @@
                         View Materials
                       </a>
                     </div>
+                    <a href="<?= site_url('courses/show/' . $course['id']) ?>" class="stretched-link" aria-label="View course details"></a>
                   </div>
                 </div>
               </div>
