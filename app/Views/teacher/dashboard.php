@@ -47,7 +47,7 @@
         <i class="bi bi-lightning me-2 text-success"></i>
         <span class="fw-semibold">Quick Actions</span>
       </div>
-      <div class="d-flex flex-wrap gap-2">
+      <div class="d-flex flex-wrap gap-2 align-items-center">
         <a href="<?= site_url('teacher/courses') ?>" class="btn btn-primary d-flex align-items-center">
           <i class="bi bi-book-half me-2"></i> My Courses
         </a>
@@ -60,6 +60,22 @@
         <a href="<?= site_url('teacher/announcements') ?>" class="btn btn-outline-secondary d-flex align-items-center">
           <i class="bi bi-megaphone me-2"></i> Announcements
         </a>
+
+        <!-- Search bar for filtering My Courses -->
+        <div class="ms-auto" style="max-width: 260px; min-width: 200px;">
+          <div class="input-group input-group-sm shadow-sm" style="border-radius: 999px; overflow: hidden;">
+            <span class="input-group-text bg-white border-end-0">
+              <i class="bi bi-search text-muted"></i>
+            </span>
+            <input
+              type="text"
+              id="teacherDashboardCourseSearch"
+              class="form-control border-start-0"
+              placeholder="Search course title..."
+              autocomplete="off"
+              style="box-shadow: none;">
+          </div>
+        </div>
       </div>
     </div>
 
@@ -240,6 +256,25 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+
+  // Search/filter courses in the dashboard table
+  var searchInput = document.getElementById('teacherDashboardCourseSearch');
+  if (searchInput) {
+    searchInput.addEventListener('input', function () {
+      var term = (this.value || '').toLowerCase().trim();
+      var rows = document.querySelectorAll('.teacher-course-row');
+
+      rows.forEach(function (row) {
+        // Course Title is in the 2nd column
+        var titleEl = row.querySelector('td:nth-child(2)');
+        var titleText = (titleEl ? titleEl.textContent : '').toLowerCase().trim();
+
+        // Show all when input is empty, otherwise match titles that START with the term
+        var match = !term || titleText.startsWith(term);
+        row.style.display = match ? '' : 'none';
+      });
+    });
+  }
 });
 </script>
 <?= $this->endSection() ?>

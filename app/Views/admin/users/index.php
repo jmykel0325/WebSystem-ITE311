@@ -10,11 +10,25 @@
 </div>
 
 <div class="card">
-  <div class="card-header">
+  <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
     <strong>User List</strong>
+    <div class="ms-auto" style="max-width: 260px; min-width: 200px;">
+      <div class="input-group input-group-sm shadow-sm" style="border-radius: 999px; overflow: hidden;">
+        <span class="input-group-text bg-white border-end-0">
+          <i class="bi bi-search text-muted"></i>
+        </span>
+        <input
+          type="text"
+          id="adminUserSearch"
+          class="form-control border-start-0"
+          placeholder="Search name or email..."
+          autocomplete="off"
+          style="box-shadow: none;">
+      </div>
+    </div>
   </div>
   <div class="card-body table-responsive">
-    <table class="table table-hover align-middle">
+    <table class="table table-hover align-middle" id="adminUsersTable">
       <thead class="table-light">
         <tr>
           <th>#</th>
@@ -71,4 +85,34 @@
   </div>
 </div>
 
+<?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var searchInput = document.getElementById('adminUserSearch');
+  var table       = document.getElementById('adminUsersTable');
+  if (!searchInput || !table) return;
+
+  var tbody = table.querySelector('tbody');
+  if (!tbody) return;
+
+  searchInput.addEventListener('input', function () {
+    var term = (this.value || '').toLowerCase().trim();
+    var rows = tbody.querySelectorAll('tr');
+
+    rows.forEach(function (row) {
+      var nameCell  = row.querySelector('td:nth-child(2)');
+      var emailCell = row.querySelector('td:nth-child(3)');
+
+      var nameText  = (nameCell  ? nameCell.textContent  : '').toLowerCase().trim();
+      var emailText = (emailCell ? emailCell.textContent : '').toLowerCase().trim();
+
+      // Show all rows when search is empty; otherwise match if NAME or EMAIL starts with the term
+      var match = !term || nameText.startsWith(term) || emailText.startsWith(term);
+      row.style.display = match ? '' : 'none';
+    });
+  });
+});
+</script>
 <?= $this->endSection() ?>

@@ -60,19 +60,37 @@
 
   <div class="col-lg-6">
     <div class="card h-100">
-      <div class="card-header bg-white d-flex justify-content-between align-items-center">
+      <div class="card-header bg-white d-flex justify-content-between align-items-center flex-wrap gap-2">
         <strong>Approved Students</strong>
-        <?php if (!empty($approvedCourses)): ?>
-          <div class="d-flex align-items-center gap-2">
-            <label for="courseFilter" class="small text-muted mb-0">Course:</label>
-            <select id="courseFilter" class="form-select form-select-sm" style="min-width: 160px;">
-              <option value="">All</option>
-              <?php foreach ($approvedCourses as $course): ?>
-                <option value="<?= (int)$course['id'] ?>"><?= esc($course['title']) ?></option>
-              <?php endforeach; ?>
-            </select>
+        <div class="d-flex align-items-center gap-3 ms-auto flex-nowrap">
+          <?php if (!empty($approvedCourses)): ?>
+            <div class="d-flex align-items-center gap-2">
+              <label for="courseFilter" class="small text-muted mb-0">Course:</label>
+              <select id="courseFilter" class="form-select form-select-sm" style="min-width: 160px;">
+                <option value="">All</option>
+                <?php foreach ($approvedCourses as $course): ?>
+                  <option value="<?= (int)$course['id'] ?>"><?= esc($course['title']) ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          <?php endif; ?>
+
+          <!-- Search enrolled students -->
+          <div style="max-width: 220px; min-width: 160px;">
+            <div class="input-group input-group-sm shadow-sm" style="border-radius: 999px; overflow: hidden;">
+              <span class="input-group-text bg-white border-end-0">
+                <i class="bi bi-search text-muted"></i>
+              </span>
+              <input
+                type="text"
+                id="approvedStudentSearch"
+                class="form-control border-start-0"
+                placeholder="Search student name..."
+                autocomplete="off"
+                style="box-shadow: none;">
+            </div>
           </div>
-        <?php endif; ?>
+        </div>
       </div>
       <div class="card-body">
         <?php if (!empty($approved)): ?>
@@ -129,22 +147,42 @@
 <?= $this->section('scripts') ?>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  var filter = document.getElementById('courseFilter');
-  var tbody  = document.getElementById('approvedTableBody');
-  if (!filter || !tbody) return;
+  var filter      = document.getElementById('courseFilter');
+  var searchInput = document.getElementById('approvedStudentSearch');
+  var tbody       = document.getElementById('approvedTableBody');
+  if (!tbody) return;
 
-  filter.addEventListener('change', function () {
-    var value = this.value;
-    var rows  = tbody.querySelectorAll('tr');
+  function applyApprovedFilters() {
+    var courseValue = filter ? filter.value : '';
+    var term = (searchInput && searchInput.value ? searchInput.value : '').toLowerCase().trim();
+
+    var rows = tbody.querySelectorAll('tr');
     rows.forEach(function (row) {
       var cid = row.getAttribute('data-course-id') || '';
-      if (!value || value === cid) {
-        row.style.display = '';
-      } else {
-        row.style.display = 'none';
+
+      // Course dropdown filter
+      var courseMatch = !courseValue || courseValue === cid;
+
+      // Text search filter: match student NAME starting with the term (first letters)
+      var textMatch = true;
+      if (term) {
+        var studentCell = row.querySelector('td:nth-child(1)');
+        var studentText = (studentCell ? studentCell.textContent : '').toLowerCase().trim();
+
+        textMatch = studentText.startsWith(term);
       }
+
+      row.style.display = (courseMatch && textMatch) ? '' : 'none';
     });
-  });
+  }
+
+  if (filter) {
+    filter.addEventListener('change', applyApprovedFilters);
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', applyApprovedFilters);
+  }
 });
 </script>
 <?= $this->endSection() ?>
