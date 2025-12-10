@@ -41,6 +41,7 @@ $routes->group('admin', ['filter' => 'roleauth'], static function($routes) {
     
     // Users management
     $routes->get('users', 'Admin\\Users::index');
+    $routes->get('users/search', 'Admin\\Users::search');
     $routes->get('users/create', 'Admin\\Users::create');
     $routes->post('users/store', 'Admin\\Users::store');
     $routes->get('users/edit/(:num)', 'Admin\\Users::edit/$1');

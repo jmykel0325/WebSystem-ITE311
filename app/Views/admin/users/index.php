@@ -39,47 +39,8 @@
           <th>Actions</th>
         </tr>
       </thead>
-      <tbody>
-        <?php if (!empty($users)): ?>
-          <?php $row = 1; ?>
-          <?php foreach ($users as $u): ?>
-            <tr>
-              <td><?= $row++ ?></td>
-              <td><?= esc($u['name'] ?? ($u['first_name'] ?? '')) ?></td>
-              <td><?= esc($u['email']) ?></td>
-              <td>
-                <?php if (($u['role'] ?? '') === 'deleted'): ?>
-                  <span class="badge bg-secondary text-uppercase">DELETED</span>
-                <?php else: ?>
-                  <span class="badge bg-primary text-uppercase"><?= esc($u['role'] ?? 'user') ?></span>
-                <?php endif; ?>
-              </td>
-              <td><?= !empty($u['created_at']) ? date('M d, Y', strtotime($u['created_at'])) : '-' ?></td>
-              <td>
-                <?php if ((int)session('user_id') !== (int)$u['id'] && (string)session('email') !== (string)$u['email']): ?>
-                  <?php if (($u['role'] ?? '') !== 'deleted'): ?>
-                    <a href="<?= site_url('admin/users/edit/' . (int)$u['id']) ?>" class="btn btn-sm btn-outline-primary me-1">
-                      <i class="bi bi-pencil-square"></i> Edit
-                    </a>
-                    <a href="<?= site_url('admin/users/delete/' . (int)$u['id']) ?>" class="btn btn-sm btn-outline-danger"
-                       onclick="return confirm('Are you sure you want to mark this account as deleted?');">
-                      <i class="bi bi-trash"></i> Delete
-                    </a>
-                  <?php else: ?>
-                    <a href="<?= site_url('admin/users/restore/' . (int)$u['id']) ?>" class="btn btn-sm btn-outline-success"
-                       onclick="return confirm('Restore this deleted account?');">
-                      <i class="bi bi-arrow-counterclockwise"></i> Restore
-                    </a>
-                  <?php endif; ?>
-                <?php else: ?>
-                  <span class="badge bg-info text-dark small">Current admin (in use)</span>
-                <?php endif; ?>
-              </td>
-            </tr>
-          <?php endforeach; ?>
-        <?php else: ?>
-          <tr><td colspan="6" class="text-center text-muted">No users found.</td></tr>
-        <?php endif; ?>
+      <tbody id="adminUsersTbody">
+        <?= $this->include('admin/users/_rows'); ?>
       </tbody>
     </table>
   </div>
@@ -91,27 +52,31 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   var searchInput = document.getElementById('adminUserSearch');
-  var table       = document.getElementById('adminUsersTable');
-  if (!searchInput || !table) return;
+  var tbody       = document.getElementById('adminUsersTbody');
+  if (!searchInput || !tbody) return;
 
-  var tbody = table.querySelector('tbody');
-  if (!tbody) return;
+  var searchUrl = '<?= site_url('admin/users/search') ?>';
+  var debounceTimer = null;
+
+  function performSearch() {
+    var term = searchInput.value || '';
+    var url  = searchUrl + '?q=' + encodeURIComponent(term);
+
+    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+      .then(function (res) { return res.text(); })
+      .then(function (html) {
+        tbody.innerHTML = html;
+      })
+      .catch(function () {
+        // On error, do nothing special for now – keep old rows
+      });
+  }
 
   searchInput.addEventListener('input', function () {
-    var term = (this.value || '').toLowerCase().trim();
-    var rows = tbody.querySelectorAll('tr');
-
-    rows.forEach(function (row) {
-      var nameCell  = row.querySelector('td:nth-child(2)');
-      var emailCell = row.querySelector('td:nth-child(3)');
-
-      var nameText  = (nameCell  ? nameCell.textContent  : '').toLowerCase().trim();
-      var emailText = (emailCell ? emailCell.textContent : '').toLowerCase().trim();
-
-      // Show all rows when search is empty; otherwise match if NAME or EMAIL starts with the term
-      var match = !term || nameText.startsWith(term) || emailText.startsWith(term);
-      row.style.display = match ? '' : 'none';
-    });
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+    }
+    debounceTimer = setTimeout(performSearch, 250);
   });
 });
 </script>

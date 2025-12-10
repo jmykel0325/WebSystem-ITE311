@@ -22,6 +22,40 @@ class Users extends BaseController
         ]);
     }
 
+    /**
+     * AJAX search for users by name or email.
+     * Returns only the <tr> rows HTML to be injected into the table body.
+     */
+    public function search()
+    {
+        if (!session()->get('isLoggedIn') || session()->get('role') !== 'admin') {
+            return $this->response->setStatusCode(403)->setBody('');
+        }
+
+        $term = trim((string) $this->request->getGet('q'));
+
+        $userModel = new UserModel();
+
+        if ($term === '') {
+            $users = $userModel->orderBy('id', 'asc')->findAll();
+        } else {
+            $builder = $userModel->builder();
+            $builder
+                ->groupStart()
+                    ->like('name', $term, 'after')
+                    ->orLike('email', $term, 'after')
+                ->groupEnd()
+                ->orderBy('id', 'asc');
+
+            $users = $builder->get()->getResultArray();
+        }
+
+        // Render only the table rows using a small partial view
+        return view('admin/users/_rows', [
+            'users' => $users,
+        ]);
+    }
+
     public function create()
     {
         if (!session()->get('isLoggedIn') || session()->get('role') !== 'admin') {
