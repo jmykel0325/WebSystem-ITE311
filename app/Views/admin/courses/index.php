@@ -11,7 +11,7 @@
                         Manage Courses
                     </h4>
 
-                    <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-2 justify-content-end flex-wrap">
                         <form method="get" action="<?= site_url('admin/courses') ?>" class="d-flex align-items-center gap-2">
                             <label for="semesterFilter" class="mb-0 small me-1">Semester:</label>
                             <select id="semesterFilter" name="semester" class="form-select form-select-sm" onchange="this.form.submit()">
@@ -19,6 +19,21 @@
                                 <option value="first" <?= ($selectedSemester ?? '') === 'first' ? 'selected' : '' ?>>First Semester</option>
                                 <option value="second" <?= ($selectedSemester ?? '') === 'second' ? 'selected' : '' ?>>Second Semester</option>
                             </select>
+
+                            <div class="ms-2" style="min-width: 260px; max-width: 360px; width: 100%;">
+                                <div class="input-group input-group-sm shadow-sm" style="border-radius: 999px; overflow: hidden;">
+                                    <span class="input-group-text bg-white border-end-0">
+                                        <i class="bi bi-search text-muted"></i>
+                                    </span>
+                                    <input
+                                        type="text"
+                                        id="adminCourseSearch"
+                                        class="form-control border-start-0"
+                                        placeholder="Search course no. or title..."
+                                        autocomplete="off"
+                                        style="box-shadow: none;">
+                                </div>
+                            </div>
                         </form>
 
                         <a href="<?= site_url('admin/courses/create') ?>" class="btn btn-light btn-sm">
@@ -73,130 +88,8 @@
                                     <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <?php foreach ($courses as $course): ?>
-                                    <tr>
-                                        <td>
-                                            <strong class="badge bg-primary">
-                                                <?= !empty($course['course_number']) ? esc($course['course_number']) : 'N/A' ?>
-                                            </strong>
-                                        </td>
-                                        <td>
-                                            <?php if (!empty($course['semester'])): ?>
-                                                <span class="badge bg-secondary d-block mb-1">
-                                                    <?= $course['semester'] === 'first' ? 'First Semester' : 'Second Semester' ?>
-                                                </span>
-                                            <?php else: ?>
-                                                <span class="text-muted d-block mb-1">N/A</span>
-                                            <?php endif; ?>
-
-                                            <?php if (!empty($course['start_date']) || !empty($course['end_date'])): ?>
-                                                <small class="text-muted">
-                                                    <?php if (!empty($course['start_date'])): ?>
-                                                        <?= date('M d, Y', strtotime($course['start_date'])) ?>
-                                                    <?php else: ?>
-                                                        ?
-                                                    <?php endif; ?>
-                                                    &nbsp;–&nbsp;
-                                                    <?php if (!empty($course['end_date'])): ?>
-                                                        <?= date('M d, Y', strtotime($course['end_date'])) ?>
-                                                    <?php else: ?>
-                                                        ?
-                                                    <?php endif; ?>
-                                                </small>
-                                            <?php else: ?>
-                                                <small class="text-muted">N/A</small>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td>
-                                            <?php if (!empty($course['days_pattern'])): ?>
-                                                <span class="badge bg-light text-dark border d-block mb-1">
-                                                    <?= esc($course['days_pattern']) ?>
-                                                </span>
-                                            <?php else: ?>
-                                                <span class="text-muted d-block mb-1">N/A</span>
-                                            <?php endif; ?>
-
-                                            <?php if (!empty($course['start_time']) || !empty($course['end_time'])): ?>
-                                                <small class="text-muted">
-                                                    <?= !empty($course['start_time']) ? date('h:i A', strtotime($course['start_time'])) : '?' ?>
-                                                    &ndash;
-                                                    <?= !empty($course['end_time']) ? date('h:i A', strtotime($course['end_time'])) : '?' ?>
-                                                </small>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td>
-                                            <strong><?= esc($course['title']) ?></strong>
-                                            <?php if (!empty($course['description'])): ?>
-                                                <br>
-                                                <small class="text-muted">
-                                                    <?= esc(substr($course['description'], 0, 60)) ?>
-                                                    <?= strlen($course['description']) > 60 ? '...' : '' ?>
-                                                </small>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td>
-                                            <?php if ($course['teacher_name']): ?>
-                                                <i class="bi bi-person-circle me-1"></i>
-                                                <?= esc($course['teacher_name']) ?>
-                                                <br>
-                                                <small class="text-muted"><?= esc($course['teacher_email']) ?></small>
-                                            <?php else: ?>
-                                                <span class="text-muted">No teacher assigned</span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="badge bg-info">
-                                                <?= $course['material_count'] ?>
-                                            </span>
-                                        </td>
-                                        <td class="text-center">
-                                            <button type="button"
-                                                    class="btn btn-outline-success btn-sm btn-view-students"
-                                                    data-course-id="<?= (int)$course['id'] ?>"
-                                                    data-course-title="<?= esc($course['title']) ?>">
-                                                <?= $course['enrollment_count'] ?>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <small class="text-muted">
-                                                <?= date('M d, Y', strtotime($course['created_at'])) ?>
-                                            </small>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group" role="group">
-                                                <!-- Materials Button -->
-                                                <a href="<?= site_url('admin/course/' . $course['id'] . '/upload') ?>" 
-                                                   class="btn btn-sm btn-info"
-                                                   title="Manage Materials">
-                                                    <i class="bi bi-folder-plus"></i>
-                                                </a>
-                                                
-                                                <!-- View Materials -->
-                                                <a href="<?= site_url('materials/list/' . $course['id']) ?>" 
-                                                   class="btn btn-sm btn-secondary"
-                                                   title="View Materials">
-                                                    <i class="bi bi-eye"></i>
-                                                </a>
-                                                
-                                                <!-- Edit Button -->
-                                                <a href="<?= site_url('admin/courses/edit/' . $course['id']) ?>" 
-                                                   class="btn btn-sm btn-primary"
-                                                   title="Edit Course">
-                                                    <i class="bi bi-pencil"></i>
-                                                </a>
-                                                
-                                                <!-- Delete Button -->
-                                                <a href="<?= site_url('admin/courses/delete/' . $course['id']) ?>" 
-                                                   class="btn btn-sm btn-danger"
-                                                   onclick="return confirm('Are you sure you want to delete this course? This will also delete all materials and enrollments!')"
-                                                   title="Delete Course">
-                                                    <i class="bi bi-trash"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
+                            <tbody id="adminCoursesTbody">
+                                <?= $this->include('admin/courses/_rows'); ?>
                             </tbody>
                         </table>
                     </div>
@@ -354,6 +247,42 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
   });
+
+  // Admin Courses search (by course number or title)
+  var courseSearchInput = document.getElementById('adminCourseSearch');
+  var coursesTbody      = document.getElementById('adminCoursesTbody');
+  var semesterFilterEl  = document.getElementById('semesterFilter');
+
+  if (courseSearchInput && coursesTbody) {
+    var coursesSearchUrl = '<?= site_url('admin/courses/search') ?>';
+    var debounceTimerCourses = null;
+
+    function performCoursesSearch() {
+      var term = courseSearchInput.value || '';
+      var semesterVal = semesterFilterEl ? (semesterFilterEl.value || '') : '';
+
+      var url = coursesSearchUrl + '?q=' + encodeURIComponent(term);
+      if (semesterVal !== '') {
+        url += '&semester=' + encodeURIComponent(semesterVal);
+      }
+
+      fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(function (res) { return res.text(); })
+        .then(function (html) {
+          coursesTbody.innerHTML = html;
+        })
+        .catch(function () {
+          // keep old rows on error
+        });
+    }
+
+    courseSearchInput.addEventListener('input', function () {
+      if (debounceTimerCourses) {
+        clearTimeout(debounceTimerCourses);
+      }
+      debounceTimerCourses = setTimeout(performCoursesSearch, 250);
+    });
+  }
 });
 </script>
 <?= $this->endSection() ?>

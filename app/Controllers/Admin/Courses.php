@@ -67,6 +67,66 @@ class Courses extends BaseController
     }
 
     /**
+     * AJAX search for courses by course number or title.
+     * Returns only the <tr> rows HTML to be injected into the table body.
+     */
+    public function search()
+    {
+        if (!session()->get('isLoggedIn') || session()->get('role') !== 'admin') {
+            return $this->response->setStatusCode(403)->setBody('');
+        }
+
+        $term = trim((string) $this->request->getGet('q'));
+        $semester = $this->request->getGet('semester');
+
+        // Basic validation: limit length to avoid abuse
+        if (mb_strlen($term) > 100) {
+            $term = mb_substr($term, 0, 100);
+        }
+
+        $db = \Config\Database::connect();
+        $builder = $db->table('courses')
+                      ->select('courses.*, users.name as teacher_name, users.email as teacher_email')
+                      ->join('users', 'users.id = courses.teacher_id', 'left');
+
+        if (in_array($semester, ['first', 'second'], true)) {
+            $builder->where('courses.semester', $semester);
+        }
+
+        if ($term !== '') {
+            $builder
+                ->groupStart()
+                    ->like('courses.course_number', $term, 'after')
+                    ->orLike('courses.title', $term, 'both')
+                ->groupEnd();
+        }
+
+        $courses = $builder->orderBy('courses.created_at', 'DESC')
+                           ->get()
+                           ->getResultArray();
+
+        // Recalculate counts to keep UI consistent with index()
+        foreach ($courses as &$course) {
+            $materialCount = $db->table('materials')
+                               ->where('course_id', $course['id'])
+                               ->countAllResults();
+            $course['material_count'] = $materialCount;
+
+            $enrollmentCount = $db->table('enrollments')
+                                 ->select('COUNT(DISTINCT enrollments.id) as cnt', false)
+                                 ->where('enrollments.course_id', $course['id'])
+                                 ->where('enrollments.status', 'approved')
+                                 ->get()
+                                 ->getRow('cnt');
+            $course['enrollment_count'] = (int) $enrollmentCount;
+        }
+
+        return view('admin/courses/_rows', [
+            'courses' => $courses,
+        ]);
+    }
+
+    /**
      * Show create course form
      */
     public function create()

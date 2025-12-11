@@ -1,1 +1,0 @@
-__ci_last_regenerate|i:1765136779;csrf_test_name|s:32:"2c1ee2192aa44049771b2fad346bc86d";_ci_previous_url|s:27:"http://localhost:8080/login";user_id|s:2:"33";name|s:11:"Teacher One";email|s:19:"teacher@example.com";role|s:7:"teacher";isLoggedIn|b:1;success|s:21:"Welcome, Teacher One!";__ci_vars|a:1:{s:7:"success";s:3:"new";}

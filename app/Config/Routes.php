@@ -59,6 +59,7 @@ $routes->group('admin', ['filter' => 'roleauth'], static function($routes) {
     
     // Courses management
     $routes->get('courses', 'Admin\\Courses::index');
+    $routes->get('courses/search', 'Admin\\Courses::search');
     $routes->get('courses/create', 'Admin\\Courses::create');
     $routes->post('courses/store', 'Admin\\Courses::store');
     $routes->get('courses/edit/(:num)', 'Admin\\Courses::edit/$1');
